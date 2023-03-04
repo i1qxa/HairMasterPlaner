@@ -10,4 +10,16 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_job_list">Работы</string>
+    <string name="menu_customer_list">Список клиентов</string>
+    <string name="menu_price_register">Регистр цен</string>
+    <string name="menu_job_element_list">Услуги и материалы</string>
+    <string name="menu_job_body">Работа</string>
+    <string name="hint_job_element_name">Введите название услуги или материала</string>
+    <string name="switch_name">Услуга</string>
+    <string name="hint_unit_o_m">Укажите еденицу измерения</string>
+    <string name="btnSave_name">Сохранить</string>
+    <string name="btn_cancel_name">Отменить</string>
 </resources>

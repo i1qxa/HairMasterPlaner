@@ -3,23 +3,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_job_list">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.hairmasterplaner.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_job_list"
+        android:name="com.example.hairmasterplaner.ui.jobList.JobListFragment"
+        android:label="@string/menu_job_list"
+        tools:layout="@layout/fragment_job_list" >
+
+        <action
+            android:id="@+id/action_nav_job_list_to_nav_job_body2"
+            app:destination="@id/nav_job_body" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.hairmasterplaner.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_customer_list"
+        android:name="com.example.hairmasterplaner.ui.customerList.CustomerListFragment"
+        android:label="@string/menu_customer_list"
+        tools:layout="@layout/fragment_customer_list" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.hairmasterplaner.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_job_element_list"
+        android:name="com.example.hairmasterplaner.ui.jobElementList.JobElementFragment"
+        android:label="@string/menu_job_element_list"
+        tools:layout="@layout/fragment_job_element_list" >
+        <action
+            android:id="@+id/action_nav_job_element_list_to_jobElementItemFragment"
+            app:destination="@id/jobElementItemFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_job_body"
+        android:name="com.example.hairmasterplaner.ui.jobBodyItem.JobBodyFragment"
+        android:label="@string/menu_job_body"
+        tools:layout="@layout/fragment_job_body" />
+
+    <fragment
+        android:id="@+id/nav_price_register_list"
+        android:name="com.example.hairmasterplaner.ui.priceRegisterList.PriceRegisterListFragment"
+        android:label="@string/menu_price_register"
+        tools:layout="@layout/fragment_price_register" />
+    <dialog
+        android:id="@+id/jobElementItemFragment"
+        android:name="com.example.hairmasterplaner.ui.jobElementList.jobElementItem.JobElementItemFragment"
+        android:label="fragment_job_element_item_editing"
+        tools:layout="@layout/fragment_job_element_item_editing" >
+        <action
+            android:id="@+id/action_jobElementItemFragment_to_nav_job_element_list"
+            app:destination="@id/nav_job_element_list" />
+        <argument
+            android:name="JobElementId"
+            app:argType="integer" />
+    </dialog>
 </navigation>
