@@ -5,7 +5,7 @@ import com.example.hairmasterplaner.domain.jobElement.JobElementItem
 
 interface JobElementRepository {
 
-    suspend fun getJobElementList(): LiveData<List<JobElementItem>>
+    fun getJobElementList(): LiveData<List<JobElementItem>>
 
     suspend fun getServiceList():LiveData<List<JobElementItem>>
 

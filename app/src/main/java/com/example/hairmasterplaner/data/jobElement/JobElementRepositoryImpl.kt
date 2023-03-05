@@ -12,7 +12,7 @@ class JobElementRepositoryImpl(application: Application): JobElementRepository {
     private val mapper = JobElementMapper()
     private val dao = AppDatabase.getInstance(application).jobElementItemDBModelDao()
 
-    override suspend fun getJobElementList(): LiveData<List<JobElementItem>> {
+    override fun getJobElementList(): LiveData<List<JobElementItem>> {
         return Transformations.map(dao.getJobElementItemList()){
             mapper.mapListDBModelToListJobElementItem(it)
         }

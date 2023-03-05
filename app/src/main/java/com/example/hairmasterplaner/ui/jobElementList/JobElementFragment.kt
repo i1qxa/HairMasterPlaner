@@ -2,6 +2,7 @@ package com.example.hairmasterplaner.ui.jobElementList
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +46,7 @@ class JobElementFragment : Fragment() {
     }
 
 
-    private fun setupRVAdapter(){
+    private fun setupRVAdapter() {
         rvAdapter = JobElementRVAdapter()
         rvAdapter.onItemClickListener = {
             findNavController().navigate(
@@ -54,8 +55,8 @@ class JobElementFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerView(){
-        with(binding.rvJobElement){
+    private fun setupRecyclerView() {
+        with(binding.rvJobElement) {
             adapter = rvAdapter
             layoutManager = LinearLayoutManager(
                 context,
@@ -65,9 +66,10 @@ class JobElementFragment : Fragment() {
         }
     }
 
-    private fun observeViewModel(){
-        viewModel.listJobElement.observe(viewLifecycleOwner){
+    private fun observeViewModel() {
+        viewModel.listJobElement.observe(viewLifecycleOwner) {
             rvAdapter.submitList(it)
+            Log.i("Size", it.size.toString())
         }
     }
 
