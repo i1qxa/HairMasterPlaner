@@ -11,9 +11,7 @@
         android:label="@string/menu_job_list"
         tools:layout="@layout/fragment_job_list" >
 
-        <action
-            android:id="@+id/action_nav_job_list_to_nav_job_body2"
-            app:destination="@id/nav_job_body" />
+
     </fragment>
 
     <fragment
@@ -27,6 +25,7 @@
         android:name="com.example.hairmasterplaner.ui.jobElementList.JobElementFragment"
         android:label="@string/menu_job_element_list"
         tools:layout="@layout/fragment_job_element_list" >
+
         <action
             android:id="@+id/action_nav_job_element_list_to_jobElementItemFragment"
             app:destination="@id/jobElementItemFragment" />
@@ -48,11 +47,13 @@
         android:name="com.example.hairmasterplaner.ui.jobElementList.jobElementItem.JobElementItemFragment"
         android:label="fragment_job_element_item_editing"
         tools:layout="@layout/fragment_job_element_item_editing" >
+
+        <argument
+            android:name="jobElementItem"
+            app:argType="com.example.hairmasterplaner.domain.jobElement.JobElementItem"
+            app:nullable="true" />
         <action
             android:id="@+id/action_jobElementItemFragment_to_nav_job_element_list"
             app:destination="@id/nav_job_element_list" />
-        <argument
-            android:name="JobElementId"
-            app:argType="integer" />
     </dialog>
 </navigation>

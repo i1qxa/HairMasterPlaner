@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.R
 import com.example.hairmasterplaner.databinding.FragmentJobElementListBinding
+import com.example.hairmasterplaner.domain.jobElement.JobElementItem
 import com.example.hairmasterplaner.ui.jobElementList.jobElementItem.JobElementItemFragment
 import com.example.hairmasterplaner.ui.jobElementList.jobElementItem.JobElementItemFragmentDirections
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -31,30 +32,29 @@ class JobElementFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel =
-            ViewModelProvider(this).get(JobElementViewModel::class.java)
-
+            ViewModelProvider(this)[JobElementViewModel::class.java]
         _binding = FragmentJobElementListBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRVAdapter()
         setupRecyclerView()
         observeViewModel()
-        setupFabClickListener()
     }
 
-    private fun setupFabClickListener(){
-        val fab = requireActivity().findViewById<FloatingActionButton>(R.id.fab)
-        fab.visibility = View.VISIBLE
-        fab.setOnClickListener {
-            findNavController().navigate(JobElementFragmentDirections.actionNavJobElementListToJobElementItemFragment(-1))
+
+    private fun setupRVAdapter(){
+        rvAdapter = JobElementRVAdapter()
+        rvAdapter.onItemClickListener = {
+            findNavController().navigate(
+                JobElementFragmentDirections.actionNavJobElementListToJobElementItemFragment(it)
+            )
         }
     }
 
     private fun setupRecyclerView(){
-        rvAdapter = JobElementRVAdapter()
         with(binding.rvJobElement){
             adapter = rvAdapter
             layoutManager = LinearLayoutManager(

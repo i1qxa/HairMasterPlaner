@@ -1,8 +1,8 @@
 package com.example.hairmasterplaner
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,11 +12,13 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hairmasterplaner.databinding.ActivityMainBinding
+import com.example.hairmasterplaner.ui.jobElementList.JobElementFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,11 +28,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-
-        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -41,6 +38,15 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        binding.appBarMain.fab.setOnClickListener {
+            val currentDestinationLabel = navController.currentDestination?.label
+            val direction =
+            when(currentDestinationLabel){
+                getString(R.string.menu_job_element_list) -> JobElementFragmentDirections.actionNavJobElementListToJobElementItemFragment(null)
+                else -> TODO("Трэба допилить навигацию кнопки добавить")
+            }
+            navController.navigate(direction)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

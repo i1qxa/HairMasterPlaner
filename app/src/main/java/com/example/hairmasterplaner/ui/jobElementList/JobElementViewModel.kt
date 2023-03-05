@@ -1,6 +1,7 @@
 package com.example.hairmasterplaner.ui.jobElementList
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.hairmasterplaner.data.jobElement.JobElementRepositoryImpl
 import com.example.hairmasterplaner.domain.jobElement.JobElementItem
@@ -25,6 +26,9 @@ class JobElementViewModel(application: Application) : AndroidViewModel(applicati
     init {
         viewModelScope.launch {
             _listJobElement.postValue(repository.getJobElementList().value)
+//            repository.getJobElementList().value?.forEach {
+//                Log.i("List JobElement", it.toString())
+//            }
         }
     }
 
@@ -34,29 +38,6 @@ class JobElementViewModel(application: Application) : AndroidViewModel(applicati
 
     fun getListMaterial() {
         _listMaterial.postValue(_listJobElement.value?.filter { !it.isService })
-    }
-
-    fun addJobElement(name: String, isService: Boolean, unitOM: String?) {
-        if (name.isNotEmpty()) {
-            val newJobElement = JobElementItem(0, name.trim(), isService, unitOM)
-            viewModelScope.launch {
-                repository.addJobElementItem(newJobElement)
-            }
-        }
-    }
-
-    fun deleteJobElement(id:Int){
-        TODO("Нужно реализовать механизм удаления элемента с проверкой нахождения элемента " +
-                "в других таблицах и зачисткой регистра цен")
-    }
-
-    fun editJobElement(id:Int, name:String, isService: Boolean, unitOM: String?){
-        if (name.isNotEmpty()){
-            val newVersion = JobElementItem(id,name.trim(),isService,unitOM)
-            viewModelScope.launch {
-                repository.editJobElementItem(newVersion)
-            }
-        }
     }
 
 
