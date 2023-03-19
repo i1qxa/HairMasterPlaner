@@ -22,4 +22,6 @@
     <string name="hint_unit_o_m">Укажите еденицу измерения</string>
     <string name="btnSave_name">Сохранить</string>
     <string name="btn_cancel_name">Отменить</string>
+    <string name="switchNameServices">Услуги</string>
+    <string name="switchNameMaterials">Материалы</string>
 </resources>

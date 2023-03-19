@@ -12,25 +12,15 @@ class JobElementViewModel(application: Application) : AndroidViewModel(applicati
     private val repository = JobElementRepositoryImpl(application)
 
     private var _listJobElement = repository.getJobElementList()
-    val listJobElement: LiveData<List<JobElementItem>>
-        get() = _listJobElement
-
-    private var _listService = MutableLiveData<List<JobElementItem>>()
-    val listService: LiveData<List<JobElementItem>>
-        get() = _listService
-
-    private var _listMaterial = MutableLiveData<List<JobElementItem>>()
-    val listMaterial: LiveData<List<JobElementItem>>
-        get() = _listMaterial
+    val listJobElement : LiveData<List<JobElementItem>>
+    get() = _listJobElement
 
 
-    fun getListService() {
-        _listService.postValue(_listJobElement.value?.filter { it.isService })
+    
+    fun deleteJobElementItem(itemId: Int) {
+        viewModelScope.launch {
+            repository.deleteJobElementItem(itemId)
+        }
     }
-
-    fun getListMaterial() {
-        _listMaterial.postValue(_listJobElement.value?.filter { !it.isService })
-    }
-
 
 }

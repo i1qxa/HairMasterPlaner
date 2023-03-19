@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.hairmasterplaner.R
 import com.example.hairmasterplaner.databinding.FragmentJobElementItemEditingBinding
 
 
@@ -43,8 +44,12 @@ class JobElementItemFragment : DialogFragment() {
                 etJobElementName.setText(item?.name)
                 if (item?.isService!!) {
                     switchIsService.isChecked = true
+                    switchIsService.setText(R.string.switchNameServices)
+                    etUnitOM.visibility=View.GONE
                 } else {
                     switchIsService.isChecked = false
+                    switchIsService.setText(R.string.switchNameMaterials)
+                    etUnitOM.visibility = View.VISIBLE
                     etUnitOM.setText(item.unitOM)
                 }
             }

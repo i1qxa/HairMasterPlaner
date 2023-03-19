@@ -13,14 +13,14 @@ interface JobElementItemDBModelDao {
     @Query("SELECT * FROM JobElementItemDBModel")
     fun getJobElementItemList(): LiveData<List<JobElementItemDBModel>>
 
-    @Query("SELECT * FROM JobElementItemDBModel WHERE isService = 'true'")
-    fun getServiceList():LiveData<List<JobElementItemDBModel>>
+    @Query("SELECT * FROM JobElementItemDBModel WHERE isService = 1")
+    fun getServiceList(): LiveData<List<JobElementItemDBModel>>
 
-    @Query("SELECT * FROM JobElementItemDBModel WHERE isService = 'false'")
-    fun getMaterialList():LiveData<List<JobElementItemDBModel>>
+    @Query("SELECT * FROM JobElementItemDBModel WHERE isService = 0")
+    fun getMaterialList(): LiveData<List<JobElementItemDBModel>>
 
     @Query("SELECT * FROM JobElementItemDBModel WHERE id = :id")
-    suspend fun getJobElementItem(id:Int): JobElementItemDBModel
+    suspend fun getJobElementItem(id: Int): JobElementItemDBModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addJobElementItem(jobElementItem: JobElementItemDBModel)
@@ -29,6 +29,6 @@ interface JobElementItemDBModelDao {
     suspend fun editJobElementItem(jobElementItem: JobElementItemDBModel)
 
     @Query("DELETE FROM JobElementItemDBModel WHERE id = :id")
-    suspend fun deleteJobElementItem(id:Int)
+    suspend fun deleteJobElementItem(id: Int)
 
 }

@@ -18,13 +18,13 @@ class JobElementRepositoryImpl(application: Application): JobElementRepository {
         }
     }
 
-    override suspend fun getServiceList(): LiveData<List<JobElementItem>> {
+    override fun getServiceList(): LiveData<List<JobElementItem>> {
         return Transformations.map(dao.getServiceList()){
             mapper.mapListDBModelToListJobElementItem(it)
         }
     }
 
-    override suspend fun getMaterialList(): LiveData<List<JobElementItem>> {
+    override fun getMaterialList(): LiveData<List<JobElementItem>> {
         return Transformations.map(dao.getMaterialList()){
             mapper.mapListDBModelToListJobElementItem(it)
         }
