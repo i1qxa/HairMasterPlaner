@@ -18,7 +18,11 @@
         android:id="@+id/nav_customer_list"
         android:name="com.example.hairmasterplaner.ui.customerList.CustomerListFragment"
         android:label="@string/menu_customer_list"
-        tools:layout="@layout/fragment_customer_list" />
+        tools:layout="@layout/fragment_customer_list" >
+        <action
+            android:id="@+id/action_nav_customer_list_to_fragmentCustomerItem"
+            app:destination="@id/fragmentCustomerItem" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_job_element_list"
@@ -56,4 +60,16 @@
             android:id="@+id/action_jobElementItemFragment_to_nav_job_element_list"
             app:destination="@id/nav_job_element_list" />
     </dialog>
+    <fragment
+        android:id="@+id/fragmentCustomerItem"
+        android:name="com.example.hairmasterplaner.ui.customerList.customerItem.FragmentCustomerItem"
+        android:label="FragmentCustomerItem" >
+        <action
+            android:id="@+id/action_fragmentCustomerItem_to_nav_customer_list"
+            app:destination="@id/nav_customer_list" />
+        <argument
+            android:name="customerItem"
+            app:argType="com.example.hairmasterplaner.domain.customer.CustomerItem"
+            app:nullable="true" />
+    </fragment>
 </navigation>

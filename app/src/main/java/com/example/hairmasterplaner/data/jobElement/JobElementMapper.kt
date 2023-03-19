@@ -9,6 +9,7 @@ class JobElementMapper {
             name = jobElementItem.name,
             isService = jobElementItem.isService,
             unitOM = jobElementItem.unitOM,
+            price = jobElementItem.price,
         )
     }
 
@@ -18,6 +19,7 @@ class JobElementMapper {
             name = jobElementItemDB.name,
             isService = jobElementItemDB.isService,
             unitOM = jobElementItemDB.unitOM,
+            price = jobElementItemDB.price
         )
     }
 

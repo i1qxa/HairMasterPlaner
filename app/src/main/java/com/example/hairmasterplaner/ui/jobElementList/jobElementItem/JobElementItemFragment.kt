@@ -42,6 +42,7 @@ class JobElementItemFragment : DialogFragment() {
             val item = args.jobElementItem
             with(binding) {
                 etJobElementName.setText(item?.name)
+                etPrice.setText(item?.price.toString())
                 if (item?.isService!!) {
                     switchIsService.isChecked = true
                     switchIsService.setText(R.string.switchNameServices)
@@ -62,14 +63,16 @@ class JobElementItemFragment : DialogFragment() {
                 viewModel.addJobElement(
                     binding.etJobElementName.text.toString(),
                     binding.switchIsService.isChecked,
-                    binding.etUnitOM.text.toString()
+                    binding.etUnitOM.text.toString(),
+                    binding.etPrice.text.toString().toInt()
                 )
             } else {
                 viewModel.editJobElement(
                     args.jobElementItem!!.id,
                     binding.etJobElementName.text.toString(),
                     binding.switchIsService.isChecked,
-                    binding.etUnitOM.text.toString()
+                    binding.etUnitOM.text.toString(),
+                    binding.etPrice.text.toString().toInt()
                 )
             }
             findNavController().popBackStack()

@@ -1,13 +1,25 @@
 package com.example.hairmasterplaner.ui.customerList
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.hairmasterplaner.data.customer.CustomerRepositoryImpl
+import com.example.hairmasterplaner.domain.customer.CustomerItem
+import kotlinx.coroutines.launch
 
-class CustomerListViewModel : ViewModel() {
+class CustomerListViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is gallery Fragment"
+    private val repository = CustomerRepositoryImpl(application)
+
+    private var _customerList = repository.getCustomerList()
+    val customerList:LiveData<List<CustomerItem>>
+    get() = _customerList
+
+    fun deleteCustomerItem(itemId:Int){
+        viewModelScope.launch {
+            repository.deleteCustomerItem(itemId)
+        }
     }
-    val text: LiveData<String> = _text
+
 }

@@ -5,7 +5,7 @@ import com.example.hairmasterplaner.domain.customer.CustomerItem
 
 interface CustomerRepository {
 
-    suspend fun getCustomerList(): LiveData<List<CustomerItem>>
+    fun getCustomerList(): LiveData<List<CustomerItem>>
 
     suspend fun getCustomerItem(id: Int): CustomerItem
 

@@ -8,11 +8,13 @@ import androidx.room.PrimaryKey
 data class JobElementItemDBModel(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo
-    val id : Int,
+    val id: Int,
     @ColumnInfo
-    val name : String,
+    val name: String,
     @ColumnInfo
-    val isService : Boolean,
+    val isService: Boolean,
     @ColumnInfo
-    val unitOM : String?,
+    val unitOM: String?,
+    @ColumnInfo
+    val price: Int?,
 )

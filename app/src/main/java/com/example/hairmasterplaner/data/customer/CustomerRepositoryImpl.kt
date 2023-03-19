@@ -12,7 +12,7 @@ class CustomerRepositoryImpl(application: Application): CustomerRepository {
     private val mapper = CustomerMapper()
     private val customerItemDBModelDao = AppDatabase.getInstance(application).customerItemDBModelDao()
 
-    override suspend fun getCustomerList(): LiveData<List<CustomerItem>> =
+    override fun getCustomerList(): LiveData<List<CustomerItem>> =
         Transformations.map(customerItemDBModelDao.getCustomerList()){
             mapper.mapListDBModelToListCustomer(it)
         }

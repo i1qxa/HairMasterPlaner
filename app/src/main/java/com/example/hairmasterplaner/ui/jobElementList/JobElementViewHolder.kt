@@ -7,4 +7,7 @@ import com.example.hairmasterplaner.R
 
 class JobElementViewHolder(itemView: View):ViewHolder(itemView) {
     val tvJobElementName = itemView.findViewById<TextView>(R.id.tvJobElementName)
+    val tvId = itemView.findViewById<TextView>(R.id.tvId)
+    val tvUnitOM = itemView.findViewById<TextView>(R.id.tvUnitOm)
+    val tvPrice = itemView.findViewById<TextView>(R.id.tvPrice)
 }

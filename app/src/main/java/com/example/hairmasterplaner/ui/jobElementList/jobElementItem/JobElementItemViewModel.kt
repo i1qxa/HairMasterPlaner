@@ -11,26 +11,25 @@ import kotlinx.coroutines.launch
 class JobElementItemViewModel(application: Application):AndroidViewModel(application) {
     private val repository = JobElementRepositoryImpl(application)
 
-    fun addJobElement(name:String, isService:Boolean, unitOM:String){
+    fun addJobElement(name:String, isService:Boolean, unitOM:String, price:Int?){
         if (validateParams(name, isService, unitOM)){
             val newJobElementItem = if (isService){
-                JobElementItem(0,name.trim(),isService,null)
+                JobElementItem(0,name.trim(),isService,null,price)
             }else{
-                JobElementItem(0,name.trim(),isService,unitOM.trim())
+                JobElementItem(0,name.trim(),isService,unitOM.trim(),price)
             }
-            Log.i("New Element",newJobElementItem.toString())
             viewModelScope.launch {
                 repository.addJobElementItem(newJobElementItem)
             }
         }
     }
 
-    fun editJobElement(id:Int, name:String, isService:Boolean, unitOM:String){
+    fun editJobElement(id:Int, name:String, isService:Boolean, unitOM:String, price: Int){
         if (validateParams(name,isService,unitOM)){
             val newJobElementItem = if (isService){
-                JobElementItem(id,name.trim(),isService,null)
+                JobElementItem(id,name.trim(),isService,null, price)
             }else{
-                JobElementItem(id,name.trim(),isService,unitOM.trim())
+                JobElementItem(id,name.trim(),isService,unitOM.trim(), price)
             }
             viewModelScope.launch {
                 repository.editJobElementItem(newJobElementItem)
