@@ -11,6 +11,16 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/etPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="@string/price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etJobElementName" />
+
+        <EditText
             android:id="@+id/etJobElementName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,9 +36,12 @@
             android:id="@+id/switchIsService"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:checked="true"
             android:text="@string/switch_name"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.865"
+            app:layout_constraintStart_toEndOf="@+id/etPrice"
             app:layout_constraintTop_toBottomOf="@+id/etJobElementName" />
 
         <EditText

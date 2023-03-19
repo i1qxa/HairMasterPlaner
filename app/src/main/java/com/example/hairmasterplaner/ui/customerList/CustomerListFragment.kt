@@ -28,10 +28,6 @@ class CustomerListFragment : Fragment() {
         _binding = FragmentCustomerListBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textGallery
-        customerListViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 

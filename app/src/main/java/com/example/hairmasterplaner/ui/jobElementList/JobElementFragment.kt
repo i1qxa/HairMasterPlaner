@@ -1,7 +1,6 @@
 package com.example.hairmasterplaner.ui.jobElementList
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,19 +35,22 @@ class JobElementFragment : Fragment() {
         setupSwitchChangeListener()
         setupRVAdapter()
         setupRecyclerView()
-        observeViewModel()
+        observeServiceList()
     }
 
 
     private fun setupSwitchChangeListener(){
-        binding.switchListIsService.setOnCheckedChangeListener { compoundButton, b ->
+        binding.switchJobElementType.setOnCheckedChangeListener { compoundButton, b ->
             if (compoundButton.isChecked){
-                binding.switchListIsService.setText(R.string.switchNameServices)
+                binding.switchJobElementType.setText(R.string.switchNameServices)
+                observeServiceList()
             }
             else{
-                binding.switchListIsService.setText(R.string.switchNameMaterials)
+                binding.switchJobElementType.setText(R.string.switchNameMaterials)
+                observeMaterialList()
             }
         }
+
     }
 
     private fun setupRVAdapter() {
@@ -75,8 +77,14 @@ class JobElementFragment : Fragment() {
         }
     }
 
-    private fun observeViewModel() {
-        viewModel.listJobElement.observe(viewLifecycleOwner) {
+    private fun observeServiceList() {
+        viewModel.listService.observe(viewLifecycleOwner) {
+            rvAdapter.submitList(it)
+        }
+    }
+
+    private fun observeMaterialList(){
+        viewModel.listMaterial.observe(viewLifecycleOwner){
             rvAdapter.submitList(it)
         }
     }
