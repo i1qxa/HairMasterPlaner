@@ -26,4 +26,7 @@
     <string name="switchNameMaterials">Материалы</string>
     <string name="default_price">0 р.</string>
     <string name="price">Цена</string>
+    <string name="customer_name">Имя клиента</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="toast_msg_success_creating_customer">Клиент успешно создан</string>
 </resources>

@@ -12,5 +12,5 @@ data class CustomerItemDBModel(
     @ColumnInfo
     val name : String,
     @ColumnInfo
-    val telNumber : Int,
+    val telNumber : String,
 )

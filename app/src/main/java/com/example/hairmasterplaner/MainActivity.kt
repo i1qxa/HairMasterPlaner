@@ -12,6 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hairmasterplaner.databinding.ActivityMainBinding
+import com.example.hairmasterplaner.ui.customerList.CustomerListFragmentDirections
 import com.example.hairmasterplaner.ui.jobElementList.JobElementFragmentDirections
 
 class MainActivity : AppCompatActivity() {
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             val direction =
             when(currentDestinationLabel){
                 getString(R.string.menu_job_element_list) -> JobElementFragmentDirections.actionNavJobElementListToJobElementItemFragment(null)
+                getString(R.string.menu_customer_list) -> CustomerListFragmentDirections.actionNavCustomerListToFragmentCustomerItem(null)
                 else -> TODO("Трэба допилить навигацию кнопки добавить")
             }
             navController.navigate(direction)
@@ -50,7 +52,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
