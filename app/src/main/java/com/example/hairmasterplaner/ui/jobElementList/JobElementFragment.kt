@@ -42,11 +42,11 @@ class JobElementFragment : Fragment() {
     private fun setupSwitchChangeListener(){
         binding.switchJobElementType.setOnCheckedChangeListener { compoundButton, b ->
             if (compoundButton.isChecked){
-                binding.switchJobElementType.setText(R.string.switchNameServices)
+                //binding.switchJobElementType.setText(R.string.switchNameServices)
                 observeServiceList()
             }
             else{
-                binding.switchJobElementType.setText(R.string.switchNameMaterials)
+                //binding.switchJobElementType.setText(R.string.switchNameMaterials)
                 observeMaterialList()
             }
         }
@@ -80,12 +80,23 @@ class JobElementFragment : Fragment() {
     private fun observeServiceList() {
         viewModel.listService.observe(viewLifecycleOwner) {
             rvAdapter.submitList(it)
+            manageSwitchState(true)
         }
     }
 
     private fun observeMaterialList(){
         viewModel.listMaterial.observe(viewLifecycleOwner){
             rvAdapter.submitList(it)
+            manageSwitchState(false)
+        }
+    }
+
+    private fun manageSwitchState(isService:Boolean){
+        val switchText = if (isService) getString(R.string.switchNameServices)
+        else getString(R.string.switchNameMaterials)
+        with(binding.switchJobElementType){
+            setText(switchText)
+            isChecked = isService
         }
     }
 
