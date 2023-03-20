@@ -6,15 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.jobList.JobListFragment">
 
-    <CalendarView
-        android:id="@+id/calendarChooseDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvJobList"
@@ -23,8 +15,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDateStart" />
 
+
+
     <TextView
         android:id="@+id/tvDateStart"
+        android:layout_margin="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2023/03/20"
@@ -33,6 +28,7 @@
 
     <TextView
         android:id="@+id/tvDateEnd"
+        android:layout_margin="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2023/03/20"
@@ -43,6 +39,9 @@
         android:id="@+id/spinnerChoosePeriod"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:entries="@array/date_period_list"
         app:layout_constraintStart_toEndOf="@+id/tvDateEnd"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

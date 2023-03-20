@@ -6,16 +6,18 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
-import com.google.android.material.timepicker.TimeFormat
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+
+const val DATE_START = true
+const val DATE_END = false
 
 class JobListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = JobItemRepositoryImpl(application)
 
-    private val calendar = Calendar.getInstance().time
+    val calendarStart = Calendar.getInstance()
+
+    val calendarEnd = Calendar.getInstance()
 
     private var _dateStart = MutableLiveData<String>()
     val dateStart:LiveData<String>
@@ -25,13 +27,38 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
     val dateEnd:LiveData<String>
     get() = _dateEnd
 
+    private val currentPeriod = MutableLiveData<Int>()
+
+    private var currentTextView = DATE_START
+
     val sdf = SimpleDateFormat("yyyy/MM/dd")
-    val currentDate = sdf.format(calendar)
 
-    init {
 
-        _dateStart.value = currentDate.toString()
-        _dateEnd.value = currentDate.toString()
+    fun setupCurrentPeriod(periodPosition:Int){
+        currentPeriod.value = periodPosition
+    }
+
+    fun changeDate(year:Int, month:Int, day:Int){
+        when(currentTextView){
+            DATE_START -> setupDateStart(year,month,day)
+            else -> setupDateEnd(year,month,day)
+        }
+    }
+
+    fun setCurrentTextView(isDateStart:Boolean){
+        currentTextView = isDateStart
+    }
+
+    private fun setupDateStart(year:Int, month:Int, day:Int){
+        calendarStart.set(year,month,day)
+        _dateStart.value = sdf.format(calendarStart.timeInMillis)
+        if (calendarStart.timeInMillis>calendarEnd.timeInMillis) setupDateEnd(year,month,day)
+    }
+
+    private fun setupDateEnd(year:Int, month:Int, day:Int){
+        calendarEnd.set(year,month,day)
+        _dateEnd.value = sdf.format(calendarEnd.timeInMillis)
+        if (calendarStart.timeInMillis>calendarEnd.timeInMillis) setupDateStart(year,month,day)
     }
 
 }
