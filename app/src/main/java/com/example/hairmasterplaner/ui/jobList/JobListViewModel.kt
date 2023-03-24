@@ -6,42 +6,39 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
-import java.text.SimpleDateFormat
 
-const val DATE_START = true
-const val DATE_END = false
+const val TV_DATE_START = true
+const val TV_DATE_END = false
 
 class JobListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = JobItemRepositoryImpl(application)
 
-    val calendarStart = Calendar.getInstance()
-
-    val calendarEnd = Calendar.getInstance()
-
-    private var _dateStart = MutableLiveData<String>()
-    val dateStart:LiveData<String>
+    private var _dateStart = MutableLiveData<Date>()
+    val dateStart:LiveData<Date>
     get() = _dateStart
 
-    private var _dateEnd = MutableLiveData<String>()
-    val dateEnd:LiveData<String>
+    private var _dateEnd = MutableLiveData<Date>()
+    val dateEnd:LiveData<Date>
     get() = _dateEnd
 
-    private val currentPeriod = MutableLiveData<Int>()
+    private var currentTextView = TV_DATE_START
 
-    private var currentTextView = DATE_START
-
-    val sdf = SimpleDateFormat("yyyy/MM/dd")
-
-
-    fun setupCurrentPeriod(periodPosition:Int){
-        currentPeriod.value = periodPosition
+    init {
+        val calendar = Calendar.getInstance()
+        val currentDate = Date(
+            calendar.get(java.util.Calendar.YEAR),
+            calendar.get(java.util.Calendar.MONTH),
+            calendar.get(java.util.Calendar.DAY_OF_MONTH),
+        )
+        setupDateStart(currentDate)
+        setupDateEnd(currentDate)
     }
 
-    fun changeDate(year:Int, month:Int, day:Int){
+    fun changeDate(selectedDate: Date){
         when(currentTextView){
-            DATE_START -> setupDateStart(year,month,day)
-            else -> setupDateEnd(year,month,day)
+            TV_DATE_START -> setupDateStart(selectedDate)
+            else -> setupDateEnd(selectedDate)
         }
     }
 
@@ -49,16 +46,23 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
         currentTextView = isDateStart
     }
 
-    private fun setupDateStart(year:Int, month:Int, day:Int){
-        calendarStart.set(year,month,day)
-        _dateStart.value = sdf.format(calendarStart.timeInMillis)
-        if (calendarStart.timeInMillis>calendarEnd.timeInMillis) setupDateEnd(year,month,day)
+    //Если после изменения дата начала периода будет больше даты окончания,
+    // то дате окончания присваивается значение даты начала периода и наоборот
+    private fun setupDateStart(selectedDate:Date){
+        val dateStart = selectedDate
+        val dateEnd = dateEnd.value?:dateStart
+        _dateStart.value = selectedDate
+        if (!validateDateRange(dateStart,dateEnd)) setupDateEnd(dateStart)
     }
 
-    private fun setupDateEnd(year:Int, month:Int, day:Int){
-        calendarEnd.set(year,month,day)
-        _dateEnd.value = sdf.format(calendarEnd.timeInMillis)
-        if (calendarStart.timeInMillis>calendarEnd.timeInMillis) setupDateStart(year,month,day)
+    private fun setupDateEnd(selectedDate: Date) {
+        val dateEndValue = selectedDate
+        val dateStart = dateStart.value ?: dateEndValue
+        _dateEnd.value = dateEndValue
+        if (!validateDateRange(dateStart, selectedDate)) setupDateStart(selectedDate)
     }
 
+    private fun validateDateRange(dateStart:Date, dateEnd:Date):Boolean{
+        return dateStart.dateInMils<=dateEnd.dateInMils
+    }
 }

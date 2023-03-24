@@ -29,10 +29,7 @@
     <string name="customer_name">Имя клиента</string>
     <string name="phone_number">Номер телефона</string>
     <string name="toast_msg_success_creating_customer">Клиент успешно создан</string>
-    <string-array name="date_period_list">
-        <item>День</item>
-        <item>Неделя</item>
-        <item>Месяц</item>
-        <item>Год</item>
-    </string-array>
+    <string name="date_start_header">период с:</string>
+    <string name="date_end_header">по:</string>
+
 </resources>
