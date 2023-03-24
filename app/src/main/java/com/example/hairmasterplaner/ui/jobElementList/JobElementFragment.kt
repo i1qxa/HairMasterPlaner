@@ -35,19 +35,24 @@ class JobElementFragment : Fragment() {
         setupSwitchChangeListener()
         setupRVAdapter()
         setupRecyclerView()
-        observeServiceList()
+        observeViewModel()
     }
 
 
-    private fun setupSwitchChangeListener(){
+    private fun setupSwitchChangeListener() {
         binding.switchJobElementType.setOnCheckedChangeListener { compoundButton, b ->
-            if (compoundButton.isChecked){
-                //binding.switchJobElementType.setText(R.string.switchNameServices)
-                observeServiceList()
+            //observeViewModel()
+            if(b){
+                viewModel.listService.observe(viewLifecycleOwner){
+                    rvAdapter.submitList(it)
+                }
+                compoundButton.text = getString(R.string.switchNameServices)
             }
             else{
-                //binding.switchJobElementType.setText(R.string.switchNameMaterials)
-                observeMaterialList()
+                viewModel.listMaterial.observe(viewLifecycleOwner){
+                    rvAdapter.submitList(it)
+                }
+                compoundButton.text = getString(R.string.switchNameMaterials)
             }
         }
 
@@ -77,25 +82,26 @@ class JobElementFragment : Fragment() {
         }
     }
 
-    private fun observeServiceList() {
-        viewModel.listService.observe(viewLifecycleOwner) {
-            rvAdapter.submitList(it)
-            manageSwitchState(true)
+    private fun observeViewModel(){
+        if(binding.switchJobElementType.isChecked){
+            viewModel.listService.observe(viewLifecycleOwner){
+                rvAdapter.submitList(it)
+            }
+            binding.switchJobElementType.text = getString(R.string.switchNameServices)
+        }
+        else{
+            viewModel.listMaterial.observe(viewLifecycleOwner){
+                rvAdapter.submitList(it)
+            }
+            binding.switchJobElementType.text = getString(R.string.switchNameMaterials)
         }
     }
 
-    private fun observeMaterialList(){
-        viewModel.listMaterial.observe(viewLifecycleOwner){
-            rvAdapter.submitList(it)
-            manageSwitchState(false)
-        }
-    }
 
-    private fun manageSwitchState(isService:Boolean){
-        val switchText = if (isService) getString(R.string.switchNameServices)
-        else getString(R.string.switchNameMaterials)
-        with(binding.switchJobElementType){
-            setText(switchText)
+    private fun manageSwitchState(isService: Boolean) {
+        val switchText = if (isService) getString(R.string.switchNameServices) else getString(R.string.switchNameMaterials)
+        with(binding.switchJobElementType) {
+            text = switchText
             isChecked = isService
         }
     }
