@@ -6,7 +6,7 @@ class JobItemMapper {
     fun mapJobItemToDBModel(jobItem: JobItem): JobItemDBModel {
         return JobItemDBModel(
             id = jobItem.id,
-            date = jobItem.date,
+            dateInMils = jobItem.dateInMils,
             customerId = jobItem.customerId,
         )
     }
@@ -14,7 +14,7 @@ class JobItemMapper {
     fun mapDBModelToJobItem(jobItemDB: JobItemDBModel): JobItem {
         return JobItem(
             id = jobItemDB.id,
-            date = jobItemDB.date,
+            dateInMils = jobItemDB.dateInMils,
             customerId = jobItemDB.customerId
         )
     }

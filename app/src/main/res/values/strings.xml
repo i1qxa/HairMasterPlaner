@@ -31,5 +31,10 @@
     <string name="toast_msg_success_creating_customer">Клиент успешно создан</string>
     <string name="date_start_header">период с:</string>
     <string name="date_end_header">по:</string>
+    <string name="customer_header">Клиент</string>
+    <string name="date_header">Дата:</string>
+    <string name="hint_enter_amount">уажите количество</string>
+    <string name="hint_enter_price">укажите цену</string>
+    <string name="hint_choose_customer">Выберите клиента</string>
 
 </resources>

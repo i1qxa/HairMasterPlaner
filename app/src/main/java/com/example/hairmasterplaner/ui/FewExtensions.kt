@@ -1,12 +1,22 @@
 package com.example.hairmasterplaner.ui
 
 import android.app.Activity
+import android.icu.util.Calendar
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.material.timepicker.TimeFormat
+import java.sql.Time
+import java.util.*
 
 //Few extension functions
+fun Long.toDateTime():String{
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = this
+    TODO("Разобраться с конвертацией даты времени")
+    return calendar
+}
 fun Any?.printToLog(tag:String){
     Log.d(tag, toString())
 }

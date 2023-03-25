@@ -1,14 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.jobBodyItem.JobBodyFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/tvCustomerHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/customer_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvChooseCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_choose_customer"
+        app:layout_constraintStart_toEndOf="@+id/tvCustomerHeader"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/customer_header" />
+
+    <TextView
+        android:id="@+id/tvDateHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_header"
+        app:layout_constraintEnd_toStartOf="@+id/tvDate"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2023:02:03" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchChooseServiceOrMaterial"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/switchNameServices"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerChooseJobElementItem"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCustomerHeader" />
+
+    <Spinner
+        android:id="@+id/spinnerChooseJobElementItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/switchChooseServiceOrMaterial"
+        app:layout_constraintEnd_toStartOf="@+id/etEnterAmount"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/switchChooseServiceOrMaterial"
+        app:layout_constraintTop_toTopOf="@+id/switchChooseServiceOrMaterial" />
+
+    <EditText
+        android:id="@+id/etEnterAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_enter_amount"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/spinnerChooseJobElementItem"
+        app:layout_constraintEnd_toStartOf="@+id/etEnterPrice"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/spinnerChooseJobElementItem"
+        app:layout_constraintTop_toTopOf="@+id/spinnerChooseJobElementItem" />
+
+    <EditText
+        android:id="@+id/etEnterPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_enter_price"
+
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/etEnterAmount"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddJobBodyItem"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/etEnterAmount"
+        app:layout_constraintTop_toTopOf="@+id/etEnterAmount" />
+
+    <ImageButton
+        android:id="@+id/btnAddJobBodyItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintBottom_toBottomOf="@+id/etEnterPrice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/etEnterPrice"
+        app:layout_constraintTop_toTopOf="@+id/etEnterPrice" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvJobBodyItemsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchChooseServiceOrMaterial" />
+
+    <TextView
+        android:id="@+id/tvTotalSumm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="5985"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

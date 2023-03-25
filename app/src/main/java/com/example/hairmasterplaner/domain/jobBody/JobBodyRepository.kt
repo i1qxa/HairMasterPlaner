@@ -5,11 +5,11 @@ import com.example.hairmasterplaner.domain.jobBody.JobBodyItem
 
 interface JobBodyRepository {
 
-    suspend fun getJobBodyList(jodId:Int):LiveData<List<JobBodyItem>>
+    fun getJobBodyList(jodId:Long):LiveData<List<JobBodyItem>>
 
     suspend fun addJobBodyItem(item: JobBodyItem)
 
-    suspend fun deleteJobBodyItem(itemId:Int)
+    suspend fun deleteJobBodyItem(itemId:Long)
 
     suspend fun editJobBodyItem(item: JobBodyItem)
 

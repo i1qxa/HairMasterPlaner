@@ -5,8 +5,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class JobItem(
-    val id : Int,
-    val date : String,
+    val id : Long,
+    val dateInMils : Long,
     val customerId : Int,
 ):Parcelable{
     //Реализовать подсчет суммы заказа

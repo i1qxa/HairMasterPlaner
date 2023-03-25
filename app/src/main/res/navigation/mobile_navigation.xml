@@ -25,6 +25,10 @@
         <action
             android:id="@+id/action_nav_customer_list_to_fragmentCustomerItem"
             app:destination="@id/fragmentCustomerItem" />
+        <argument
+            android:name="chooseCustomer"
+            app:argType="boolean"
+             />
     </fragment>
 
     <fragment
@@ -47,6 +51,9 @@
             android:name="JobItemWithCustomerItem"
             app:argType="com.example.hairmasterplaner.domain.job.JobItemWithCustomer"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_nav_job_body_to_nav_customer_list"
+            app:destination="@id/nav_customer_list" />
     </fragment>
 
     <fragment
