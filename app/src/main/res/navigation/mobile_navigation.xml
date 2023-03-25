@@ -44,12 +44,9 @@
         android:label="@string/menu_job_body"
         tools:layout="@layout/fragment_job_body" >
         <argument
-            android:name="jobItem"
-            app:argType="com.example.hairmasterplaner.domain.job.JobItem"
+            android:name="JobItemWithCustomerItem"
+            app:argType="com.example.hairmasterplaner.domain.job.JobItemWithCustomer"
             app:nullable="true" />
-        <action
-            android:id="@+id/action_nav_job_body_to_nav_job_list"
-            app:destination="@id/nav_job_list" />
     </fragment>
 
     <fragment
