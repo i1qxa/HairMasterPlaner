@@ -11,11 +11,6 @@ class JobElementViewModel(application: Application) : AndroidViewModel(applicati
 
     private val repository = JobElementRepositoryImpl(application)
 
-    private var _listJobElement = repository.getJobElementList()
-    val listJobElement: LiveData<List<JobElementItem>>
-        get() = _listJobElement
-
-
     private var _listService = repository.getServiceList()
     val listService: LiveData<List<JobElementItem>>
         get() = _listService

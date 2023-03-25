@@ -9,10 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hairmasterplaner.R
 import com.example.hairmasterplaner.databinding.FragmentJobElementListBinding
+import io.ghyeok.stickyswitch.widget.StickySwitch
 
-class JobElementFragment : Fragment() {
+class JobElementFragment : Fragment(), StickySwitch.OnSelectedChangeListener {
 
     private var _binding: FragmentJobElementListBinding? = null
     private val binding get() = _binding!!
@@ -32,30 +32,35 @@ class JobElementFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupSwitchChangeListener()
         setupRVAdapter()
         setupRecyclerView()
         observeViewModel()
+        setupSwitchChangeListener()
     }
 
-
-    private fun setupSwitchChangeListener() {
-        binding.switchJobElementType.setOnCheckedChangeListener { compoundButton, b ->
-            //observeViewModel()
-            if(b){
-                viewModel.listService.observe(viewLifecycleOwner){
+    override fun onSelectedChange(direction: StickySwitch.Direction, text: String) {
+        when (direction) {
+            StickySwitch.Direction.RIGHT -> {
+                viewModel.listMaterial.observe(viewLifecycleOwner) {
                     rvAdapter.submitList(it)
                 }
-                compoundButton.text = getString(R.string.switchNameServices)
             }
-            else{
-                viewModel.listMaterial.observe(viewLifecycleOwner){
+            StickySwitch.Direction.LEFT -> {
+                viewModel.listService.observe(viewLifecycleOwner) {
                     rvAdapter.submitList(it)
                 }
-                compoundButton.text = getString(R.string.switchNameMaterials)
             }
         }
+    }
 
+    private fun observeViewModel(){
+        viewModel.listService.observe(viewLifecycleOwner){
+            rvAdapter.submitList(it)
+        }
+    }
+
+    private fun setupSwitchChangeListener(){
+        binding.switchJobElementType.onSelectedChangeListener = this
     }
 
     private fun setupRVAdapter() {
@@ -71,6 +76,11 @@ class JobElementFragment : Fragment() {
         }
     }
 
+    private fun mustDo(){
+        TODO("Нужно пофиксить баг: После добавления новой услуги или материала, " +
+                "при возвращении на фрагмент со списком услуг отображается список материалов, " +
+                "а не услуг и происходит рассинхрон с состоянием свитча")
+    }
     private fun setupRecyclerView() {
         with(binding.rvJobElement) {
             adapter = rvAdapter
@@ -82,32 +92,9 @@ class JobElementFragment : Fragment() {
         }
     }
 
-    private fun observeViewModel(){
-        if(binding.switchJobElementType.isChecked){
-            viewModel.listService.observe(viewLifecycleOwner){
-                rvAdapter.submitList(it)
-            }
-            binding.switchJobElementType.text = getString(R.string.switchNameServices)
-        }
-        else{
-            viewModel.listMaterial.observe(viewLifecycleOwner){
-                rvAdapter.submitList(it)
-            }
-            binding.switchJobElementType.text = getString(R.string.switchNameMaterials)
-        }
-    }
-
-
-    private fun manageSwitchState(isService: Boolean) {
-        val switchText = if (isService) getString(R.string.switchNameServices) else getString(R.string.switchNameMaterials)
-        with(binding.switchJobElementType) {
-            text = switchText
-            isChecked = isService
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }

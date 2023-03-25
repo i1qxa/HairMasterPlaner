@@ -58,5 +58,5 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'androidx.room:room-ktx:2.5.0'
     implementation 'android.arch.lifecycle:viewmodel:1.1.1'
-
+    implementation 'com.github.GwonHyeok:StickySwitch:0.0.16'
 }

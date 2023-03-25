@@ -12,17 +12,31 @@
         android:id="@+id/rvJobElement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchJobElementType" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
+    <io.ghyeok.stickyswitch.widget.StickySwitch
         android:id="@+id/switchJobElementType"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:checked="true"
-        android:text="@string/switchNameServices"
-        android:textAlignment="center"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:ss_animationDuration="600"
+        app:ss_animationType="curved"
+        app:ss_iconPadding="35dp"
+        app:ss_iconSize="22dp"
+        app:ss_leftIcon="@drawable/baseline_content_cut_24"
+        app:ss_leftText="@string/switchNameServices"
+        app:ss_rightIcon="@drawable/baseline_color_lens_24"
+        app:ss_rightText="@string/switchNameMaterials"
+        app:ss_selectedTextSize="14sp"
+        app:ss_sliderBackgroundColor="@color/teal_200"
+        app:ss_switchColor="@color/teal_700"
+        app:ss_textColor="@color/black"
+        app:ss_textSize="12sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

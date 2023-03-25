@@ -12,6 +12,9 @@
         tools:layout="@layout/fragment_job_list" >
 
 
+        <action
+            android:id="@+id/action_nav_job_list_to_nav_job_body"
+            app:destination="@id/nav_job_body" />
     </fragment>
 
     <fragment
@@ -39,7 +42,15 @@
         android:id="@+id/nav_job_body"
         android:name="com.example.hairmasterplaner.ui.jobBodyItem.JobBodyFragment"
         android:label="@string/menu_job_body"
-        tools:layout="@layout/fragment_job_body" />
+        tools:layout="@layout/fragment_job_body" >
+        <argument
+            android:name="jobItem"
+            app:argType="com.example.hairmasterplaner.domain.job.JobItem"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_nav_job_body_to_nav_job_list"
+            app:destination="@id/nav_job_list" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_price_register_list"

@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.hairmasterplaner.R
 import com.example.hairmasterplaner.databinding.FragmentJobElementItemEditingBinding
+import com.example.hairmasterplaner.ui.gone
+import com.example.hairmasterplaner.ui.visible
 
 
 class JobElementItemFragment : DialogFragment() {
@@ -46,11 +48,11 @@ class JobElementItemFragment : DialogFragment() {
                 if (item?.isService!!) {
                     switchIsService.isChecked = true
                     switchIsService.setText(R.string.switchNameServices)
-                    etUnitOM.visibility=View.GONE
+                    etUnitOM.gone()
                 } else {
                     switchIsService.isChecked = false
                     switchIsService.setText(R.string.switchNameMaterials)
-                    etUnitOM.visibility = View.VISIBLE
+                    etUnitOM.visible()
                     etUnitOM.setText(item.unitOM)
                 }
             }
@@ -87,10 +89,10 @@ class JobElementItemFragment : DialogFragment() {
             val etUnitOM = binding.etUnitOM
             if (compoundButton.isChecked) {
                 compoundButton.text = "Услуга"
-                etUnitOM.visibility = View.GONE
+                etUnitOM.gone()
             } else {
                 compoundButton.text = "Материал"
-                etUnitOM.visibility = View.VISIBLE
+                etUnitOM.visible()
             }
         }
     }
