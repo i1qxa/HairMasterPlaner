@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.hairmasterplaner.R
 import com.example.hairmasterplaner.databinding.FragmentPriceRegisterBinding
+import io.ghyeok.stickyswitch.widget.StickySwitch
 
-class PriceRegisterListFragment : Fragment() {
+class PriceRegisterListFragment : Fragment(),StickySwitch.OnSelectedChangeListener {
 
     private var _binding:FragmentPriceRegisterBinding? = null
 
@@ -23,8 +25,17 @@ class PriceRegisterListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.switchJobElementType.onSelectedChangeListener = this
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onSelectedChange(direction: StickySwitch.Direction, text: String) {
+        Toast.makeText(requireContext(),text,Toast.LENGTH_SHORT).show()
     }
 }

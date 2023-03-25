@@ -11,23 +11,17 @@ class JobElementViewModel(application: Application) : AndroidViewModel(applicati
 
     private val repository = JobElementRepositoryImpl(application)
 
-    private var _listJobElement = repository.getJobElementList()
-    val listJobElement : LiveData<List<JobElementItem>>
-    get() = _listJobElement
-
-
     private var _listService = repository.getServiceList()
-    val listService : LiveData<List<JobElementItem>>
-    get() = _listService
+    val listService: LiveData<List<JobElementItem>>
+        get() = _listService
 
     private var _listMaterial = repository.getMaterialList()
-    val listMaterial : LiveData<List<JobElementItem>>
-    get() = _listMaterial
-    
+    val listMaterial: LiveData<List<JobElementItem>>
+        get() = _listMaterial
+
     fun deleteJobElementItem(itemId: Int) {
         viewModelScope.launch {
             repository.deleteJobElementItem(itemId)
         }
     }
-
 }
