@@ -14,6 +14,7 @@ import com.example.hairmasterplaner.domain.job.JobItem
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 import com.example.hairmasterplaner.domain.jobBody.JobBodyItem
 import com.example.hairmasterplaner.domain.jobElement.JobElementItem
+import com.example.hairmasterplaner.ui.printToLog
 import com.example.hairmasterplaner.ui.toDateTime
 import kotlinx.coroutines.launch
 import java.util.*

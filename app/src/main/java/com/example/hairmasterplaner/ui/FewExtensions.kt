@@ -6,16 +6,47 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.material.timepicker.TimeFormat
-import java.sql.Time
-import java.util.*
 
 //Few extension functions
 fun Long.toDateTime():String{
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = this
-    TODO("Разобраться с конвертацией даты времени")
-    return calendar
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+    val hours = calendar.get(Calendar.HOUR)
+    val minutes = calendar.get(Calendar.MINUTE)
+    val answer = StringBuilder()
+    with(answer){
+        append(dayOfMonth)
+        append("/")
+        append(month.convertToNameOfMonth())
+        append("/")
+        append(year)
+        append(" ")
+        append(hours)
+        append(":")
+        append(minutes)
+    }
+    return answer.toString()
+}
+
+fun Int.convertToNameOfMonth():String{
+    return when(this){
+        0 -> "Января"
+        1 -> "Февраля"
+        2 -> "Марта"
+        3 -> "Апреля"
+        4 -> "Мая"
+        5 -> "Июня"
+        6 -> "Июля"
+        7 -> "Августа"
+        8 -> "Сентября"
+        9 -> "Октября"
+        10 -> "Ноября"
+        11 -> "Декабря"
+        else -> "Число должно быть не больше 11"
+    }
 }
 fun Any?.printToLog(tag:String){
     Log.d(tag, toString())
