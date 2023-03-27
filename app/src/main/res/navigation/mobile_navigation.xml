@@ -54,6 +54,9 @@
         <action
             android:id="@+id/action_nav_job_body_to_nav_customer_list"
             app:destination="@id/nav_customer_list" />
+        <action
+            android:id="@+id/action_nav_job_body_to_myNumKeyboardDialog"
+            app:destination="@id/myNumKeyboardDialog" />
     </fragment>
 
     <fragment
@@ -87,4 +90,16 @@
             app:argType="com.example.hairmasterplaner.domain.customer.CustomerItem"
             app:nullable="true" />
     </fragment>
+    <dialog
+        android:id="@+id/myNumKeyboardDialog"
+        android:name="com.example.hairmasterplaner.ui.myNamKeybordDialog.MyNumKeyboardDialog"
+        android:label="fragment_my_num_key_board_dialog"
+        tools:layout="@layout/fragment_my_num_key_board_dialog" >
+        <action
+            android:id="@+id/action_myNumKeyboardDialog_to_nav_job_body"
+            app:destination="@id/nav_job_body" />
+        <argument
+            android:name="digitToEdit"
+            app:argType="integer" />
+    </dialog>
 </navigation>

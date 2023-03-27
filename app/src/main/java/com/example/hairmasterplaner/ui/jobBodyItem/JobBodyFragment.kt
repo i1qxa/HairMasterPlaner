@@ -16,9 +16,12 @@ import com.example.hairmasterplaner.domain.customer.CustomerItem
 import com.example.hairmasterplaner.domain.jobElement.JobElementItem
 import com.example.hairmasterplaner.ui.customerList.CustomerListFragmentDirections
 import com.example.hairmasterplaner.ui.printToLog
+import com.example.hairmasterplaner.ui.toDateTime
 
 const val CUSTOMER_RESULT_REQUEST_KEY = "customer"
-class JobBodyFragment : Fragment(), AdapterView.OnItemSelectedListener {
+const val AMOUNT_RESULT_REQUEST_KEY = "amount"
+const val PRICE_RESULT_REQUEST_KEY = "price"
+class JobBodyFragment : Fragment(){
 
     private val args by navArgs<JobBodyFragmentArgs>()
     private lateinit var viewModel: JobBodyViewModel
@@ -37,29 +40,9 @@ class JobBodyFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initSpinner()
         setupCustomerClickListener()
         observeCustomer()
         observeResultChooseCustomer()
-    }
-
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        val item = p0?.getItemAtPosition(p2) as JobElementItem
-        item.id.toString().printToLog("JobElement")
-        item.name.printToLog("JobElement")
-    }
-
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-        TODO("Not yet implemented")
-    }
-
-    private fun initSpinner(){
-        viewModel.listService.observe(viewLifecycleOwner){
-            val adapter = MySpinnerAdapter(requireContext(),it)
-            val spinner = binding.spinnerChooseJobElementItem
-            spinner.adapter = adapter
-            spinner.onItemSelectedListener = this
-        }
     }
 
     private fun setupCustomerClickListener(){
@@ -69,8 +52,9 @@ class JobBodyFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun observeCustomer(){
-        viewModel.customer.observe(viewLifecycleOwner){
-            binding.tvChooseCustomer.text = it.name
+        viewModel.jobItemWithCustomerLD.observe(viewLifecycleOwner){
+            binding.tvChooseCustomer.text = it.customerItem.name
+            binding.tvDate.text = it.jobItem.dateInMils.toDateTime()
         }
     }
 
@@ -83,7 +67,7 @@ class JobBodyFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun parseArgs(){
         if (args.jobItemWithCustomerItem != null){
-            viewModel.setupJobIdAndCustomer(args.jobItemWithCustomerItem!!)
+            viewModel.initJobItemWithCustomer(args.jobItemWithCustomerItem!!)
         }
     }
 

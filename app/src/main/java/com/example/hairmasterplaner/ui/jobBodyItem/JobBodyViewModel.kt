@@ -5,16 +5,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.hairmasterplaner.data.customer.CustomerRepositoryImpl
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
 import com.example.hairmasterplaner.data.jobBody.JobBodyRepositoryImpl
-import com.example.hairmasterplaner.data.jobElement.JobElementRepositoryImpl
 import com.example.hairmasterplaner.domain.customer.CustomerItem
 import com.example.hairmasterplaner.domain.job.JobItem
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 import com.example.hairmasterplaner.domain.jobBody.JobBodyItem
-import com.example.hairmasterplaner.domain.jobElement.JobElementItem
-import com.example.hairmasterplaner.ui.printToLog
 import com.example.hairmasterplaner.ui.toDateTime
 import kotlinx.coroutines.launch
 import java.util.*
@@ -25,41 +21,31 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
 
     private val jobRepository = JobItemRepositoryImpl(application)
 
-    private val jobElementRepository = JobElementRepositoryImpl(application)
-
-    private var jobId: Long? = null
-
-    private var _customer = MutableLiveData<CustomerItem>()
-    val customer: LiveData<CustomerItem>
-        get() = _customer
-
     private var _jobBodyItemsList = MutableLiveData<List<JobBodyItem>>()
     val jobBodyItemsList: LiveData<List<JobBodyItem>>
         get() = _jobBodyItemsList
 
-    private var _dateOfJob = MutableLiveData<String>()
-    val dateOfJob:LiveData<String>
-    get() = _dateOfJob
+    private var _jobItemWithCustomerLD = MutableLiveData<JobItemWithCustomer>()
+    val jobItemWithCustomerLD: LiveData<JobItemWithCustomer>
+        get() = _jobItemWithCustomerLD
 
-    private var _listService = jobElementRepository.getServiceList()
-    val listService:LiveData<List<JobElementItem>>
-    get() = _listService
 
-    private var _listMaterials = jobElementRepository.getMaterialList()
-    val listMaterials:LiveData<List<JobElementItem>>
-    get() = _listMaterials
+    fun initJobItemWithCustomer(item: JobItemWithCustomer) {
+        _jobItemWithCustomerLD.value = item
+    }
 
-    fun loadJobBodyItemsList() {
-        if (jobId != null) {
-            _jobBodyItemsList.postValue(repository.getJobBodyList(jobId!!).value)
+    fun loadDataFromDB() {
+        if (_jobItemWithCustomerLD.value != null) {
+            _jobBodyItemsList.postValue(repository.getJobBodyList(_jobItemWithCustomerLD.value!!.jobItem.id).value)
         }
     }
 
+
     fun addJobBodyItem(jobElementId: Int, amount: Int?, price: Int) {
-        if (jobId != null) {
+        if (_jobItemWithCustomerLD.value != null) {
             val newJobBodyItem = JobBodyItem(
                 id = 0,
-                jobId = jobId!!,
+                jobId = _jobItemWithCustomerLD.value!!.jobItem.id,
                 jobElementItemId = jobElementId,
                 amount = amount ?: 1,
                 price = price
@@ -71,10 +57,10 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun editJobBodyItem(jobBodyItemId: Long, jobElementId: Int, amount: Int?, price: Int) {
-        if (jobId != null) {
+        if (_jobItemWithCustomerLD.value != null) {
             val newItem = JobBodyItem(
                 id = jobBodyItemId,
-                jobId = jobId!!,
+                jobId = _jobItemWithCustomerLD.value!!.jobItem.id,
                 jobElementItemId = jobElementId,
                 amount = amount ?: 1,
                 price = price
@@ -92,15 +78,14 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun addOrEditJobItem(customerItem: CustomerItem) {
-        if (jobId == null) {
-            addJobItem(customerItem)
+        if (_jobItemWithCustomerLD.value == null) {
+            addNewJobItem(customerItem)
         } else {
             editJobItem(customerItem)
         }
-
     }
 
-    private fun addJobItem(customerItem: CustomerItem) {
+    private fun addNewJobItem(customerItem: CustomerItem) {
         viewModelScope.launch {
             val date = Calendar.getInstance().timeInMillis
             val jobItem = JobItem(
@@ -109,32 +94,28 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
                 customerItem.id
             )
             jobRepository.addJobItem(jobItem)
-            jobId = jobRepository.getLastJobItem().id
-            updateCustomerAndDate(customerItem, date)
+            val lastJobItem = jobRepository.getLastJobItem()
+            updateJobItemWithCustomerLD(lastJobItem.id)
         }
     }
 
     private fun editJobItem(customerItem: CustomerItem) {
         viewModelScope.launch {
-            val oldJobItem = jobRepository.getJobItemWithCustomer(jobId!!).jobItem
+            val oldJobItem = _jobItemWithCustomerLD.value!!.jobItem
             val newJobItem = oldJobItem.copy(
                 id = oldJobItem.id,
                 dateInMils = oldJobItem.dateInMils,
                 customerId = customerItem.id
             )
             jobRepository.editJobItem(newJobItem)
-            updateCustomerAndDate(customerItem,oldJobItem.dateInMils)
+            updateJobItemWithCustomerLD(newJobItem.id)
         }
     }
 
-    fun setupJobIdAndCustomer(jobItemWithCustomer: JobItemWithCustomer) {
-        jobId = jobItemWithCustomer.jobItem.id
-        updateCustomerAndDate(jobItemWithCustomer.customerItem, jobItemWithCustomer.jobItem.dateInMils)
-    }
-
-    private fun updateCustomerAndDate(customer:CustomerItem, date:Long){
-        _customer.postValue(customer)
-        _dateOfJob.postValue(date.toDateTime())
+    private fun updateJobItemWithCustomerLD(jobId: Long) {
+        viewModelScope.launch {
+            _jobItemWithCustomerLD.postValue(jobRepository.getJobItemWithCustomer(jobId))
+        }
     }
 
 }

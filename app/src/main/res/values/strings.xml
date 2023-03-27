@@ -36,5 +36,6 @@
     <string name="hint_enter_amount">уажите количество</string>
     <string name="hint_enter_price">укажите цену</string>
     <string name="hint_choose_customer">Выберите клиента</string>
+    <string name="hint_choose_service_or_material">Выберите услугу или материал</string>
 
 </resources>
