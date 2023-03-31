@@ -43,6 +43,7 @@ class JobBodyFragment : Fragment(){
         setupCustomerClickListener()
         observeCustomer()
         observeResultChooseCustomer()
+        amountClickListener()
     }
 
     private fun setupCustomerClickListener(){
@@ -68,6 +69,12 @@ class JobBodyFragment : Fragment(){
     private fun parseArgs(){
         if (args.jobItemWithCustomerItem != null){
             viewModel.initJobItemWithCustomer(args.jobItemWithCustomerItem!!)
+        }
+    }
+
+    private fun amountClickListener(){
+        binding.tvEnterAmount.setOnClickListener {
+            findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToMyNumKeyboardDialog(12))
         }
     }
 

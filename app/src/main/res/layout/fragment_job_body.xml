@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_choose_service_or_material"
         android:maxLines="1"
-        app:layout_constraintEnd_toStartOf="@+id/etEnterAmount"
+        app:layout_constraintEnd_toStartOf="@+id/tvEnterAmount"
         app:layout_constraintHorizontal_weight="4"
         app:layout_constraintVertical_weight="1"
         app:layout_constraintHorizontal_bias="0.5"
@@ -57,12 +57,12 @@
         app:layout_constraintTop_toBottomOf="@+id/tvCustomerHeader" />
 
     <TextView
-        android:id="@+id/etEnterAmount"
+        android:id="@+id/tvEnterAmount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/hint_enter_amount"
         android:maxLines="1"
-        app:layout_constraintEnd_toStartOf="@+id/etEnterPrice"
+        app:layout_constraintEnd_toStartOf="@+id/tvEnterPrice"
         app:layout_constraintHorizontal_weight="2"
         app:layout_constraintVertical_weight="1"
         app:layout_constraintHorizontal_bias="0.5"
@@ -70,16 +70,16 @@
         app:layout_constraintTop_toBottomOf="@+id/tvCustomerHeader" />
 
     <TextView
-        android:id="@+id/etEnterPrice"
+        android:id="@+id/tvEnterPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/hint_enter_price"
         android:maxLines="1"
-        app:layout_constraintBottom_toBottomOf="@+id/etEnterAmount"
+        app:layout_constraintBottom_toBottomOf="@+id/tvEnterAmount"
         app:layout_constraintEnd_toStartOf="@+id/btnAddJobBodyItem"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toEndOf="@+id/etEnterAmount"
+        app:layout_constraintStart_toEndOf="@+id/tvEnterAmount"
         app:layout_constraintTop_toBottomOf="@+id/tvCustomerHeader"
         app:layout_constraintVertical_weight="1" />
 
@@ -94,7 +94,7 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintVertical_weight="1"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/etEnterPrice"
+        app:layout_constraintStart_toEndOf="@+id/tvEnterPrice"
         app:layout_constraintTop_toBottomOf="@+id/tvCustomerHeader" />
 
     <!--Конец добавления нового эллемента в тело работы-->

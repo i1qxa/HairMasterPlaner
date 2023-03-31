@@ -53,6 +53,8 @@ class JobElementFragment : Fragment(), StickySwitch.OnSelectedChangeListener {
         }
     }
 
+
+
     private fun observeViewModel(){
         viewModel.listService.observe(viewLifecycleOwner){
             rvAdapter.submitList(it)

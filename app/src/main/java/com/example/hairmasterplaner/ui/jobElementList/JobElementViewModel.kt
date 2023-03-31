@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import com.example.hairmasterplaner.data.jobElement.JobElementRepositoryImpl
 import com.example.hairmasterplaner.domain.jobElement.JobElementItem
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class JobElementViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -19,9 +20,14 @@ class JobElementViewModel(application: Application) : AndroidViewModel(applicati
     val listMaterial: LiveData<List<JobElementItem>>
         get() = _listMaterial
 
+
     fun deleteJobElementItem(itemId: Int) {
         viewModelScope.launch {
             repository.deleteJobElementItem(itemId)
         }
     }
+
+
+
+
 }

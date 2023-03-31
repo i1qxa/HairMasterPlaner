@@ -125,13 +125,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3"
-            app:layout_constraintEnd_toStartOf="@+id/buttonMulti"
+            app:layout_constraintEnd_toStartOf="@+id/btnMulti"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btn2"
             app:layout_constraintTop_toBottomOf="@+id/btn6" />
 
         <Button
-            android:id="@+id/buttonMulti"
+            android:id="@+id/btnMulti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="*"
@@ -178,7 +178,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btnDivision"
-            app:layout_constraintTop_toBottomOf="@+id/buttonMulti" />
+            app:layout_constraintTop_toBottomOf="@+id/btnMulti" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
