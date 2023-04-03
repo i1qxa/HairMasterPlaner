@@ -29,6 +29,10 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     val jobItemWithCustomerLD: LiveData<JobItemWithCustomer>
         get() = _jobItemWithCustomerLD
 
+    private var _amountOfNewItem = MutableLiveData<Int>()
+    val amountOfNewItem:LiveData<Int>
+    get() = _amountOfNewItem
+
 
     fun initJobItemWithCustomer(item: JobItemWithCustomer) {
         _jobItemWithCustomerLD.value = item

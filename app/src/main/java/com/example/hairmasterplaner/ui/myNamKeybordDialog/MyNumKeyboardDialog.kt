@@ -6,19 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.hairmasterplaner.databinding.FragmentMyNumKeyBoardDialogBinding
+import com.example.hairmasterplaner.ui.jobBodyItem.AMOUNT_RESULT_REQUEST_KEY
+import com.example.hairmasterplaner.ui.toast
 
 class MyNumKeyboardDialog : DialogFragment(){
 
+    private val args by navArgs<MyNumKeyboardDialogArgs>()
     private var _binding:FragmentMyNumKeyBoardDialogBinding? = null
     private val binding:FragmentMyNumKeyBoardDialogBinding
     get() = _binding!!
 
     private lateinit var viewModel: MyNumKeyboardViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +32,9 @@ class MyNumKeyboardDialog : DialogFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[MyNumKeyboardViewModel::class.java]
+        parseArgs()
         setupBtnOnClickListeners()
+        setupBtnClearLongClickListener()
         observeViewModel()
     }
 
@@ -39,6 +42,18 @@ class MyNumKeyboardDialog : DialogFragment(){
         viewModel.resultLD.observe(viewLifecycleOwner){
             binding.tvCalcScreen.text = it
         }
+        viewModel.errorToastMessage.observe(viewLifecycleOwner){
+            toast(it)
+        }
+        viewModel.shouldFinishWork.observe(viewLifecycleOwner){
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                AMOUNT_RESULT_REQUEST_KEY,it)
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun parseArgs(){
+        viewModel.setupFirstDigit(args.digitToEdit)
     }
 
     private fun setupBtnOnClickListeners(){
@@ -88,26 +103,37 @@ class MyNumKeyboardDialog : DialogFragment(){
             btnMulti.setOnClickListener {
                 onClickListener(it)
             }
+            btnClear.setOnClickListener {
+                onClickListener(it)
+            }
+        }
+    }
+
+    private fun setupBtnClearLongClickListener(){
+        binding.btnClear.setOnLongClickListener {
+            viewModel.clearAll()
+            true
         }
     }
 
     private fun onClickListener(view:View){
         when(view){
-            binding.btn0 -> viewModel.addNewValue(binding.btn0.text.toString())
-            binding.btn1 -> viewModel.addNewValue(binding.btn1.text.toString())
-            binding.btn2 -> viewModel.addNewValue(binding.btn2.text.toString())
-            binding.btn3 -> viewModel.addNewValue(binding.btn3.text.toString())
-            binding.btn4 -> viewModel.addNewValue(binding.btn4.text.toString())
-            binding.btn5 -> viewModel.addNewValue(binding.btn5.text.toString())
-            binding.btn6 -> viewModel.addNewValue(binding.btn6.text.toString())
-            binding.btn7 -> viewModel.addNewValue(binding.btn7.text.toString())
-            binding.btn8 -> viewModel.addNewValue(binding.btn8.text.toString())
-            binding.btn9 -> viewModel.addNewValue(binding.btn9.text.toString())
-            binding.btnPlus -> viewModel.addNewValue(binding.btnPlus.text.toString())
-            binding.btnMinus -> viewModel.addNewValue(binding.btnMinus.text.toString())
-            binding.btnMulti -> viewModel.addNewValue(binding.btnMulti.text.toString())
-            binding.btnDivision -> viewModel.addNewValue(binding.btnDivision.text.toString())
-            binding.btnEqual -> viewModel.addNewValue(binding.btnEqual.text.toString())
+            binding.btn0 -> viewModel.addNewValue(0)
+            binding.btn1 -> viewModel.addNewValue(1)
+            binding.btn2 -> viewModel.addNewValue(2)
+            binding.btn3 -> viewModel.addNewValue(3)
+            binding.btn4 -> viewModel.addNewValue(4)
+            binding.btn5 -> viewModel.addNewValue(5)
+            binding.btn6 -> viewModel.addNewValue(6)
+            binding.btn7 -> viewModel.addNewValue(7)
+            binding.btn8 -> viewModel.addNewValue(8)
+            binding.btn9 -> viewModel.addNewValue(9)
+            binding.btnPlus -> viewModel.addNewValue(PLUS_SIGN)
+            binding.btnMinus -> viewModel.addNewValue(MINUS_SIGN)
+            binding.btnMulti -> viewModel.addNewValue(MULTI_SIGN)
+            binding.btnDivision -> viewModel.addNewValue(DIVISION_SIGN)
+            binding.btnEqual -> viewModel.addNewValue(EQUAL_SIGN)
+            binding.btnClear -> viewModel.deleteLastChar()
         }
     }
 

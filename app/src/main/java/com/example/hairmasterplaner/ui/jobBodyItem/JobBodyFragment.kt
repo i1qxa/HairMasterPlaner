@@ -59,6 +59,15 @@ class JobBodyFragment : Fragment(){
         }
     }
 
+    private fun observeResultEditAmount(){
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>(
+            AMOUNT_RESULT_REQUEST_KEY)?.observe(viewLifecycleOwner){
+                binding.tvEnterAmount.text = it.toString()
+        }
+    }
+
+    private fun observeResultEditPrice()
+
     private fun observeResultChooseCustomer(){
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<CustomerItem>(
             CUSTOMER_RESULT_REQUEST_KEY)?.observe(viewLifecycleOwner) { result ->
