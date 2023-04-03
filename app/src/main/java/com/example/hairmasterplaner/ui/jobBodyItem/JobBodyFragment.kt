@@ -44,8 +44,29 @@ class JobBodyFragment : Fragment(){
         observeCustomer()
         observeResultChooseCustomer()
         amountClickListener()
+        observeResultEditAmount()
+        observeResultEditPrice()
+        observeViewModel()
     }
 
+    private fun observeViewModel(){
+        viewModel.amountOfNewItem.observe(viewLifecycleOwner){ amount ->
+            with(binding.tvEnterAmount){
+                text = amount.toString()
+                setOnClickListener {
+                    findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToMyNumKeyboardDialog(amount))
+                }
+            }
+        }
+        viewModel.priceOfNewItem.observe(viewLifecycleOwner){ price ->
+            with(binding.tvEnterPrice){
+                text = price.toString()
+                setOnClickListener {
+                    findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToMyNumKeyboardDialog(price))
+                }
+            }
+        }
+    }
     private fun setupCustomerClickListener(){
         binding.tvChooseCustomer.setOnClickListener {
             findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToNavCustomerList(true))
@@ -62,11 +83,16 @@ class JobBodyFragment : Fragment(){
     private fun observeResultEditAmount(){
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>(
             AMOUNT_RESULT_REQUEST_KEY)?.observe(viewLifecycleOwner){
-                binding.tvEnterAmount.text = it.toString()
+                viewModel.setupAmountOfNewItem(it)
         }
     }
 
-    private fun observeResultEditPrice()
+    private fun observeResultEditPrice(){
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>(
+            PRICE_RESULT_REQUEST_KEY)?.observe(viewLifecycleOwner){
+                viewModel.setupPriceOfNewItem(it)
+        }
+    }
 
     private fun observeResultChooseCustomer(){
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<CustomerItem>(

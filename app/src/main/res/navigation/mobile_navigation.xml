@@ -101,5 +101,8 @@
         <argument
             android:name="digitToEdit"
             app:argType="integer" />
+        <argument
+            android:name="editAmount"
+            app:argType="boolean" />
     </dialog>
 </navigation>

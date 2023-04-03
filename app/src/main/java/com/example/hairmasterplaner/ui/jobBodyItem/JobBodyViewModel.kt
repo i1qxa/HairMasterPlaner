@@ -33,6 +33,27 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     val amountOfNewItem:LiveData<Int>
     get() = _amountOfNewItem
 
+    private var _priceOfNewItem = MutableLiveData<Int>()
+    val priceOfNewItem:LiveData<Int>
+    get() = _priceOfNewItem
+
+    private var _sumOfNewItem = MutableLiveData<Int>()
+    val sumOfNewItem:LiveData<Int>
+    get() = _sumOfNewItem
+
+    fun setupAmountOfNewItem(amount:Int){
+        _amountOfNewItem.value = amount
+        calculateSumOfNewItem()
+    }
+
+    fun setupPriceOfNewItem(price:Int){
+        _priceOfNewItem.value = price
+        calculateSumOfNewItem()
+    }
+
+    private fun calculateSumOfNewItem(){
+        _sumOfNewItem.value = (_amountOfNewItem.value?:0) * (_priceOfNewItem.value?:0)
+    }
 
     fun initJobItemWithCustomer(item: JobItemWithCustomer) {
         _jobItemWithCustomerLD.value = item
