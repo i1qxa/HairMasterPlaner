@@ -5,22 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.hairmasterplaner.R
 import com.example.hairmasterplaner.databinding.FragmentJobBodyBinding
 import com.example.hairmasterplaner.domain.customer.CustomerItem
 import com.example.hairmasterplaner.domain.jobElement.JobElementItem
-import com.example.hairmasterplaner.ui.customerList.CustomerListFragmentDirections
-import com.example.hairmasterplaner.ui.printToLog
 import com.example.hairmasterplaner.ui.toDateTime
 
 const val CUSTOMER_RESULT_REQUEST_KEY = "customer"
-const val AMOUNT_RESULT_REQUEST_KEY = "amount"
-const val PRICE_RESULT_REQUEST_KEY = "price"
+const val DIGIT_EDIT_RESULT_REQUEST_KEY = "amount"
+const val JOB_ELEMENT_RESULT_REQUEST_KEY = "job_element"
 class JobBodyFragment : Fragment(){
 
     private val args by navArgs<JobBodyFragmentArgs>()
@@ -40,36 +35,65 @@ class JobBodyFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupCustomerClickListener()
-        observeCustomer()
-        observeResultChooseCustomer()
-        amountClickListener()
-        observeResultEditAmount()
-        observeResultEditPrice()
         observeViewModel()
+        observeRequestFromOtherFragments()
+        setupClickListeners()
     }
 
     private fun observeViewModel(){
-        viewModel.amountOfNewItem.observe(viewLifecycleOwner){ amount ->
-            with(binding.tvEnterAmount){
-                text = amount.toString()
-                setOnClickListener {
-                    findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToMyNumKeyboardDialog(amount))
-                }
-            }
-        }
-        viewModel.priceOfNewItem.observe(viewLifecycleOwner){ price ->
-            with(binding.tvEnterPrice){
-                text = price.toString()
-                setOnClickListener {
-                    findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToMyNumKeyboardDialog(price))
-                }
-            }
-        }
+        observeAmountOfNewItem()
+        observePriceOfNewItem()
+        observeCustomer()
+        observeJobElement()
     }
-    private fun setupCustomerClickListener(){
+
+    private fun observeRequestFromOtherFragments(){
+        observeResultChooseCustomer()
+        observeResultChooseJobElement()
+        observeResultEditDigit()
+    }
+
+    private fun setupClickListeners(){
+        setupChooseCustomerClickListener()
+        setupAmountClickListener()
+        setupPriceClickListener()
+        setupChoseJobElementClickListener()
+
+    }
+    private fun setupChooseCustomerClickListener(){
         binding.tvChooseCustomer.setOnClickListener {
             findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToNavCustomerList(true))
+        }
+    }
+
+    private fun setupChoseJobElementClickListener(){
+        binding.tvChooseJobElement.setOnClickListener {
+            findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToNavJobElementList(true))
+        }
+    }
+    private fun setupAmountClickListener(){
+        binding.tvEnterAmount.setOnClickListener {
+            viewModel.setupCurrentEditingTV(NEW_ITEM_AMOUNT)
+            val numToEdit = if(binding.tvEnterAmount.text.isNotEmpty())
+                binding.tvEnterAmount.text.toString().toInt()
+            else 0
+            findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToMyNumKeyboardDialog(numToEdit))
+        }
+    }
+
+    private fun setupPriceClickListener(){
+        binding.tvEnterPrice.setOnClickListener {
+            viewModel.setupCurrentEditingTV(NEW_ITEM_PRICE)
+            val numToEdit = if(binding.tvEnterPrice.text.isNotEmpty())
+                binding.tvEnterPrice.text.toString().toInt()
+            else 0
+            findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToMyNumKeyboardDialog(numToEdit))
+        }
+    }
+
+    private fun setupBtnAddJobBodyElementClickListener(){
+        binding.btnAddJobBodyItem.setOnClickListener {
+            viewModel.addJobBodyItem()
         }
     }
 
@@ -80,17 +104,39 @@ class JobBodyFragment : Fragment(){
         }
     }
 
-    private fun observeResultEditAmount(){
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>(
-            AMOUNT_RESULT_REQUEST_KEY)?.observe(viewLifecycleOwner){
-                viewModel.setupAmountOfNewItem(it)
+    private fun observeJobElement(){
+        viewModel.newJobElementItem.observe(viewLifecycleOwner){
+            binding.tvChooseJobElement.text = it?.name
         }
     }
 
-    private fun observeResultEditPrice(){
+    private fun observeAmountOfNewItem(){
+        viewModel.amountOfNewItem.observe(viewLifecycleOwner){ amount ->
+            with(binding.tvEnterAmount){
+                text = amount.toString()
+            }
+        }
+    }
+
+    private fun observePriceOfNewItem(){
+        viewModel.priceOfNewItem.observe(viewLifecycleOwner){ price ->
+            with(binding.tvEnterPrice){
+                text = price.toString()
+            }
+        }
+    }
+
+    private fun observeResultEditDigit(){
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>(
-            PRICE_RESULT_REQUEST_KEY)?.observe(viewLifecycleOwner){
-                viewModel.setupPriceOfNewItem(it)
+            DIGIT_EDIT_RESULT_REQUEST_KEY)?.observe(viewLifecycleOwner){ num ->
+            viewModel.updateNum(num)
+        }
+    }
+
+    private fun observeResultChooseJobElement(){
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<JobElementItem>(
+            JOB_ELEMENT_RESULT_REQUEST_KEY)?.observe(viewLifecycleOwner){ elementItem ->
+            viewModel.setupNewJobElement(elementItem)
         }
     }
 
@@ -107,11 +153,7 @@ class JobBodyFragment : Fragment(){
         }
     }
 
-    private fun amountClickListener(){
-        binding.tvEnterAmount.setOnClickListener {
-            findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToMyNumKeyboardDialog(12))
-        }
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

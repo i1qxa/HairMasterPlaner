@@ -32,10 +32,21 @@ class MyNumKeyboardViewModel : ViewModel() {
 
     fun setupFirstDigit(num:Int){
         firstNum = num
+        printExpressionToLD()
     }
     fun addNewValue(btnValue: Int) {
-        if (btnValue <= 9) setupNum(btnValue)
-        else setupSign(btnValue)
+        when (btnValue) {
+            in 0.. 9 -> setupNum(btnValue)
+            in PLUS_SIGN .. DIVISION_SIGN -> {
+                setupSign(btnValue)
+            }
+            else -> {
+                calculateResult()
+                finishWork()
+                TODO("Нужно пофиксить баг: Если пользователь выбирает число без вычислений, " +
+                        "то навигация выбрасывает пользователя с экрана JobBody ")
+            }
+        }
     }
 
     fun deleteLastChar() {
@@ -75,33 +86,25 @@ class MyNumKeyboardViewModel : ViewModel() {
     }
 
     private fun setupSign(inputSign: Int) {
-        if (firstNum != null || secondNum != null) {
-            if (inputSign != EQUAL_SIGN) {
-                if (firstNum != null && secondNum == null) {
-                    sign = inputSign
-                    printExpressionToLD()
-                } else if (validateNums() && sign != null) {
-                    calculateResult()
-                    firstNum = result
-                    secondNum = null
-                    sign = inputSign
-                    result = null
-                    printExpressionToLD()
-                }
-            } else {
-                if (validateNums()) {
-                    calculateResult()
-                    printExpressionToLD()
-                    finishWork()
-                } else {
-                    setupToastErrorMessage("Сначала необходимо ввести все данные для выражения")
-                }
-            }
-        } else setupToastErrorMessage("Сначала введите первое число")
+        if (firstNum!=null && secondNum!=null){
+            calculateResult()
+            firstNum = result
+            sign = inputSign
+            secondNum = null
+            result = null
+            printExpressionToLD()
+        }
+        else if (firstNum!=null){
+            sign = inputSign
+            printExpressionToLD()
+        }
+        else{
+            setupToastErrorMessage("Сначала необходимо указать хотябы одно число")
+        }
     }
 
     private fun calculateResult() {
-        if (validateNums()) {
+        if (firstNum!=null && secondNum!=null) {
             result = when (sign) {
                 PLUS_SIGN -> firstNum!! + secondNum!!
                 MINUS_SIGN -> firstNum!! - secondNum!!
@@ -111,6 +114,12 @@ class MyNumKeyboardViewModel : ViewModel() {
                     throw java.lang.RuntimeException("Wrong sign : $sign")
                 }
             }
+        }else if (firstNum!=null){
+            result = firstNum
+            finishWork()
+        }
+        else{
+            setupToastErrorMessage("Сначала необходимо указать хотябы одно число")
         }
     }
 
@@ -120,10 +129,6 @@ class MyNumKeyboardViewModel : ViewModel() {
             setupToastErrorMessage("Ошибка деления на ноль")
             0
         } else firstNum!! / secondNum!!
-    }
-
-    private fun validateNums(): Boolean {
-        return firstNum != null && secondNum != null
     }
 
     private fun setupToastErrorMessage(text: String) {

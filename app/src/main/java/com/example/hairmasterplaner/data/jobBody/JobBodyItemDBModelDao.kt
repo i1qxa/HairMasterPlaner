@@ -13,6 +13,9 @@ interface JobBodyItemDBModelDao {
     @Query("SELECT * FROM jobbodyitemdbmodel WHERE jobId = :jobId")
     fun getJobBodyList(jobId:Long):LiveData<List<JobBodyItemDBModel>>
 
+    @Query("SELECT * FROM jobbodyitemdbmodel WHERE jobId = :jobId")
+    fun getJobBodyWithJobElementList(jobId:Long):LiveData<List<JobBodyItemWithJobElementItemDBModel>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addJobBodyItem(item: JobBodyItemDBModel)
 

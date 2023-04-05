@@ -6,15 +6,23 @@ import androidx.lifecycle.Transformations
 import com.example.hairmasterplaner.data.AppDatabase
 import com.example.hairmasterplaner.domain.jobBody.JobBodyItem
 import com.example.hairmasterplaner.domain.jobBody.JobBodyRepository
+import com.example.hairmasterplaner.domain.jobBody.JobBodyWithJobElement
 
 class JobBodyRepositoryImpl(application: Application):JobBodyRepository {
 
     private val mapper = JobBodyMapper()
+    private val jobBodyWithJobElementMapper = JobBodyWithJobElementMapper()
     private val dao = AppDatabase.getInstance(application).jobBodyItemDBModelDao()
 
     override fun getJobBodyList(jodId: Long): LiveData<List<JobBodyItem>> {
         return Transformations.map(dao.getJobBodyList(jodId)){
             mapper.mapListDBToListJobBodyItem(it)
+        }
+    }
+
+    override fun getJobBodyWithJobElementList(jobId: Long): LiveData<List<JobBodyWithJobElement>> {
+        return Transformations.map(dao.getJobBodyWithJobElementList(jobId)){
+            jobBodyWithJobElementMapper.mapListDBToListJobBodyWithJobElement(it)
         }
     }
 

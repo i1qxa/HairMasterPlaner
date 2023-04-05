@@ -7,6 +7,8 @@ interface JobBodyRepository {
 
     fun getJobBodyList(jodId:Long):LiveData<List<JobBodyItem>>
 
+    fun getJobBodyWithJobElementList(jobId:Long):LiveData<List<JobBodyWithJobElement>>
+
     suspend fun addJobBodyItem(item: JobBodyItem)
 
     suspend fun deleteJobBodyItem(itemId:Long)

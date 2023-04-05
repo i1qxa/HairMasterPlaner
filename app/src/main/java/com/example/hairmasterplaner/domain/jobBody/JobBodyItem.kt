@@ -6,4 +6,8 @@ data class JobBodyItem(
     val jobElementItemId: Int,
     val amount:Int?,
     val price:Int,
-)
+){
+    fun getSum():Int{
+        return (amount?:0) * price
+    }
+}

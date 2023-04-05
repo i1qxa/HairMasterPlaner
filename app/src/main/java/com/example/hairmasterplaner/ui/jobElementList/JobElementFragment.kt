@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.databinding.FragmentJobElementListBinding
+import com.example.hairmasterplaner.ui.jobBodyItem.JOB_ELEMENT_RESULT_REQUEST_KEY
 import io.ghyeok.stickyswitch.widget.StickySwitch
 
 class JobElementFragment : Fragment(), StickySwitch.OnSelectedChangeListener {
@@ -18,6 +21,7 @@ class JobElementFragment : Fragment(), StickySwitch.OnSelectedChangeListener {
     private val binding get() = _binding!!
     private lateinit var rvAdapter: JobElementRVAdapter
     private lateinit var viewModel: JobElementViewModel
+    private val args by navArgs<JobElementFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,10 +71,21 @@ class JobElementFragment : Fragment(), StickySwitch.OnSelectedChangeListener {
 
     private fun setupRVAdapter() {
         rvAdapter = JobElementRVAdapter()
-        rvAdapter.onItemClickListener = {
-            findNavController().navigate(
-                JobElementFragmentDirections.actionNavJobElementListToJobElementItemFragment(it)
-            )
+        rvAdapter.onItemClickListener = { jobElementItem ->
+            if (args.chooseJobElement){
+                with(findNavController()){
+                    previousBackStackEntry?.savedStateHandle?.set(
+                        JOB_ELEMENT_RESULT_REQUEST_KEY,
+                        jobElementItem
+                    )
+                    popBackStack()
+                }
+            }
+            else{
+                findNavController().navigate(
+                    JobElementFragmentDirections.actionNavJobElementListToJobElementItemFragment(jobElementItem)
+                )
+            }
         }
         rvAdapter.onItemLongClickListener = {
             viewModel.deleteJobElementItem(it.id)

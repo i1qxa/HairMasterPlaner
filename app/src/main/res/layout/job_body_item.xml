@@ -15,14 +15,14 @@
              />
 
         <TextView
-            android:id="@+id/jobElementItemName"
+            android:id="@+id/tvJobElementItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:hint="Окрашивание" />
 
         <EditText
-            android:id="@+id/tvAmount"
+            android:id="@+id/tvAmountOfItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -38,7 +38,7 @@
             android:hint="1009" />
 
         <TextView
-            android:id="@+id/tvSumm"
+            android:id="@+id/tvSumOfItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="3"
