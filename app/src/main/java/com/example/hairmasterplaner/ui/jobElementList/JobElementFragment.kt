@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.databinding.FragmentJobElementListBinding
-import com.example.hairmasterplaner.ui.jobBodyItem.JOB_ELEMENT_RESULT_REQUEST_KEY
+import com.example.hairmasterplaner.ui.jobBodyList.JOB_ELEMENT_RESULT_REQUEST_KEY
 import io.ghyeok.stickyswitch.widget.StickySwitch
 
 class JobElementFragment : Fragment(), StickySwitch.OnSelectedChangeListener {

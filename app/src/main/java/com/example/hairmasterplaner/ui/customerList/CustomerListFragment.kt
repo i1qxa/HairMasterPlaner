@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -13,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.databinding.FragmentCustomerListBinding
-import com.example.hairmasterplaner.ui.jobBodyItem.CUSTOMER_RESULT_REQUEST_KEY
+import com.example.hairmasterplaner.ui.jobBodyList.CUSTOMER_RESULT_REQUEST_KEY
 
 class CustomerListFragment : Fragment() {
 

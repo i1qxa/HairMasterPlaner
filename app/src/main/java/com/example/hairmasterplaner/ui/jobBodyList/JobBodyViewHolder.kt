@@ -1,10 +1,9 @@
-package com.example.hairmasterplaner.ui.jobBodyItem
+package com.example.hairmasterplaner.ui.jobBodyList
 
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.R
-import com.example.hairmasterplaner.databinding.JobBodyItemBinding
 
 class JobBodyViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
     val tvOrderNumber = itemView.findViewById<TextView>(R.id.tvOrderNumber)

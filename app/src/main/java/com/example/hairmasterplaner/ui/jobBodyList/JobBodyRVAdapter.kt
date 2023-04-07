@@ -1,4 +1,4 @@
-package com.example.hairmasterplaner.ui.jobBodyItem
+package com.example.hairmasterplaner.ui.jobBodyList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +10,8 @@ import com.example.hairmasterplaner.domain.jobBody.JobBodyWithJobElement
 class JobBodyRVAdapter:ListAdapter<JobBodyWithJobElement, JobBodyViewHolder>(JobBodyDiffCallback()) {
 
     var onItemClickListener: ((JobBodyItem) -> Unit)? = null
+    var onAmountClickListener: ((JobBodyItem) -> Unit)? = null
+    var onPriceClickListener: ((JobBodyItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobBodyViewHolder {
         val layout = R.layout.job_body_item
@@ -31,6 +33,12 @@ class JobBodyRVAdapter:ListAdapter<JobBodyWithJobElement, JobBodyViewHolder>(Job
             tvAmounOfItem.text = item.jobBodyItem.amount.toString()
             tvPriceOfItem.text = item.jobBodyItem.price.toString()
             tvSumOfItem.text = item.jobBodyItem.getSum().toString()
+            tvAmounOfItem.setOnClickListener {
+                onAmountClickListener?.invoke(item.jobBodyItem)
+            }
+            tvPriceOfItem.setOnClickListener {
+                onPriceClickListener?.invoke(item.jobBodyItem)
+            }
             itemView.setOnClickListener {
                 onItemClickListener?.invoke(item.jobBodyItem)
             }

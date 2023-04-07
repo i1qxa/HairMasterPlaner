@@ -1,4 +1,4 @@
-package com.example.hairmasterplaner.ui.jobBodyItem
+package com.example.hairmasterplaner.ui.jobBodyList
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.hairmasterplaner.domain.jobBody.JobBodyWithJobElement

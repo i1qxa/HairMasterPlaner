@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/nav_job_body"
-        android:name="com.example.hairmasterplaner.ui.jobBodyItem.JobBodyFragment"
+        android:name="com.example.hairmasterplaner.ui.jobBodyList.JobBodyFragment"
         android:label="@string/menu_job_body"
         tools:layout="@layout/fragment_job_body" >
         <argument

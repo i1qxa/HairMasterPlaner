@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.hairmasterplaner.databinding.FragmentMyNumKeyBoardDialogBinding
-import com.example.hairmasterplaner.ui.jobBodyItem.DIGIT_EDIT_RESULT_REQUEST_KEY
+import com.example.hairmasterplaner.ui.jobBodyList.DIGIT_EDIT_RESULT_REQUEST_KEY
 import com.example.hairmasterplaner.ui.toast
 
 class MyNumKeyboardDialog : DialogFragment(){

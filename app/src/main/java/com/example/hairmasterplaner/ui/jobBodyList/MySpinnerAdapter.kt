@@ -1,4 +1,4 @@
-package com.example.hairmasterplaner.ui.jobBodyItem
+package com.example.hairmasterplaner.ui.jobBodyList
 
 import android.content.Context
 import android.view.LayoutInflater

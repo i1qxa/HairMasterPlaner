@@ -1,4 +1,4 @@
-package com.example.hairmasterplaner.ui.jobBodyItem
+package com.example.hairmasterplaner.ui.jobBodyList
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.databinding.FragmentJobBodyBinding
 import com.example.hairmasterplaner.domain.customer.CustomerItem
 import com.example.hairmasterplaner.domain.jobElement.JobElementItem
@@ -23,6 +25,7 @@ class JobBodyFragment : Fragment(){
     private var _binding:FragmentJobBodyBinding? = null
     private val binding
     get() = _binding!!
+    private lateinit var rvAdapter:JobBodyRVAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,9 +38,38 @@ class JobBodyFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
         observeRequestFromOtherFragments()
         setupClickListeners()
+        setupRVAdapter()
+        setupRecyclerView()
+        observeViewModel()
+    }
+
+    private fun setupRVAdapter(){
+        rvAdapter = JobBodyRVAdapter()
+        with(rvAdapter){
+            onAmountClickListener = {
+                viewModel.setupCurrentEditingTV(JOB_BODY_ITEM_AMOUNT)
+                viewModel.setupCurrentEditingJobBodyItem(it)
+                findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToMyNumKeyboardDialog((it.amount)?:0))
+            }
+            onPriceClickListener = {
+                viewModel.setupCurrentEditingTV(JOB_BODY_ITEM_PRICE)
+                viewModel.setupCurrentEditingJobBodyItem(it)
+                findNavController().navigate(JobBodyFragmentDirections.actionNavJobBodyToMyNumKeyboardDialog(it.price))
+            }
+        }
+    }
+
+    private fun setupRecyclerView(){
+        with(binding.rvJobBodyItemsList){
+            adapter = rvAdapter
+            layoutManager = LinearLayoutManager(
+                context,
+                RecyclerView.VERTICAL,
+                false
+            )
+        }
     }
 
     private fun observeViewModel(){
@@ -45,12 +77,20 @@ class JobBodyFragment : Fragment(){
         observePriceOfNewItem()
         observeCustomer()
         observeJobElement()
+        observeJobBodyList()
     }
 
     private fun observeRequestFromOtherFragments(){
         observeResultChooseCustomer()
         observeResultChooseJobElement()
         observeResultEditDigit()
+    }
+
+    private fun observeJobBodyList(){
+        viewModel.jobBodyItemsList.observe(viewLifecycleOwner){
+            var a = it
+            rvAdapter.submitList(it)
+        }
     }
 
     private fun setupClickListeners(){

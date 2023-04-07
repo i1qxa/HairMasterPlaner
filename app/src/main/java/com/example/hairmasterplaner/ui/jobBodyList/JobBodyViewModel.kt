@@ -1,4 +1,4 @@
-package com.example.hairmasterplaner.ui.jobBodyItem
+package com.example.hairmasterplaner.ui.jobBodyList
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -11,8 +11,8 @@ import com.example.hairmasterplaner.domain.customer.CustomerItem
 import com.example.hairmasterplaner.domain.job.JobItem
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 import com.example.hairmasterplaner.domain.jobBody.JobBodyItem
+import com.example.hairmasterplaner.domain.jobBody.JobBodyWithJobElement
 import com.example.hairmasterplaner.domain.jobElement.JobElementItem
-import com.example.hairmasterplaner.ui.toDateTime
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -27,8 +27,8 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
 
     private val jobRepository = JobItemRepositoryImpl(application)
 
-    private var _jobBodyItemsList = MutableLiveData<List<JobBodyItem>>()
-    val jobBodyItemsList: LiveData<List<JobBodyItem>>
+    private var _jobBodyItemsList = MutableLiveData<List<JobBodyWithJobElement>>()
+    val jobBodyItemsList: LiveData<List<JobBodyWithJobElement>>
         get() = _jobBodyItemsList
 
     private var _jobItemWithCustomerLD = MutableLiveData<JobItemWithCustomer>()
@@ -36,63 +36,81 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
         get() = _jobItemWithCustomerLD
 
     private var _amountOfNewItem = MutableLiveData<Int?>()
-    val amountOfNewItem:LiveData<Int?>
-    get() = _amountOfNewItem
+    val amountOfNewItem: LiveData<Int?>
+        get() = _amountOfNewItem
 
     private var _priceOfNewItem = MutableLiveData<Int?>()
-    val priceOfNewItem:LiveData<Int?>
-    get() = _priceOfNewItem
+    val priceOfNewItem: LiveData<Int?>
+        get() = _priceOfNewItem
 
     private var _sumOfNewItem = MutableLiveData<Int>()
-    val sumOfNewItem:LiveData<Int>
-    get() = _sumOfNewItem
+    val sumOfNewItem: LiveData<Int>
+        get() = _sumOfNewItem
 
     private var _newJobElementItem = MutableLiveData<JobElementItem?>()
-    val newJobElementItem:LiveData<JobElementItem?>
-    get() = _newJobElementItem
+    val newJobElementItem: LiveData<JobElementItem?>
+        get() = _newJobElementItem
 
-    private var currentEditingTextView:Int? = null
-    private val setOfTVCode = setOf(NEW_ITEM_AMOUNT, NEW_ITEM_PRICE, JOB_BODY_ITEM_AMOUNT, JOB_BODY_ITEM_PRICE)
+    private var currentEditingTextView: Int? = null
+    private var currentEditingJobBodyItem: JobBodyItem? = null
+    private val setOfTVCode =
+        setOf(NEW_ITEM_AMOUNT, NEW_ITEM_PRICE, JOB_BODY_ITEM_AMOUNT, JOB_BODY_ITEM_PRICE)
 
-    fun setupCurrentEditingTV(code:Int){
-        if (setOfTVCode.contains(code)){
+    fun setupCurrentEditingTV(code: Int) {
+        if (setOfTVCode.contains(code)) {
             currentEditingTextView = code
-        }
-        else throw RuntimeException("Unknown code of TextView")
+        } else throw RuntimeException("Unknown code of TextView")
     }
 
-    fun setupNewJobElement(elementItem: JobElementItem){
+    fun setupNewJobElement(elementItem: JobElementItem) {
         _newJobElementItem.value = elementItem
-        _priceOfNewItem.value = elementItem.price?:0
+        _priceOfNewItem.value = elementItem.price ?: 0
     }
 
-    fun updateNum(num:Int){
-        when(currentEditingTextView){
+    fun updateNum(num: Int) {
+        when (currentEditingTextView) {
             NEW_ITEM_AMOUNT -> _amountOfNewItem.value = num
             NEW_ITEM_PRICE -> _priceOfNewItem.value = num
-            JOB_BODY_ITEM_AMOUNT -> TODO()
-            JOB_BODY_ITEM_PRICE -> TODO()
+            JOB_BODY_ITEM_AMOUNT -> updateItemAmount(num)
+            JOB_BODY_ITEM_PRICE -> updateItemPrice(num)
         }
         currentEditingTextView = null
     }
 
-    private fun calculateSumOfNewItem(){
-        _sumOfNewItem.value = (_amountOfNewItem.value?:0) * (_priceOfNewItem.value?:0)
+    fun setupCurrentEditingJobBodyItem(item:JobBodyItem){
+        currentEditingJobBodyItem = item
+    }
+    private fun updateItemAmount(num: Int) {
+        if (currentEditingJobBodyItem != null) {
+            val newItem = currentEditingJobBodyItem?.copy(amount = num)
+            newItem?.let { editJobBodyItem(it) }
+        }
+    }
+
+    private fun updateItemPrice(num: Int) {
+        if (currentEditingJobBodyItem != null) {
+            val newItem = currentEditingJobBodyItem?.copy(price = num)
+            newItem?.let { editJobBodyItem(it) }
+        }
+    }
+
+    private fun calculateSumOfNewItem() {
+        _sumOfNewItem.value = (_amountOfNewItem.value ?: 0) * (_priceOfNewItem.value ?: 0)
     }
 
     fun initJobItemWithCustomer(item: JobItemWithCustomer) {
         _jobItemWithCustomerLD.value = item
     }
 
-    fun loadDataFromDB() {
-        if (_jobItemWithCustomerLD.value != null) {
-            _jobBodyItemsList.postValue(repository.getJobBodyList(_jobItemWithCustomerLD.value!!.jobItem.id).value)
-        }
-    }
+//    fun loadDataFromDB() {
+//        if (_jobItemWithCustomerLD.value != null) {
+//            _jobBodyItemsList.postValue(repository.getJobBodyList(_jobItemWithCustomerLD.value!!.jobItem.id).value)
+//        }
+//    }
 
 
     fun addJobBodyItem() {
-        if (_jobItemWithCustomerLD.value != null && _newJobElementItem.value!=null) {
+        if (_jobItemWithCustomerLD.value != null && _newJobElementItem.value != null) {
             val newJobBodyItem = JobBodyItem(
                 id = 0,
                 jobId = _jobItemWithCustomerLD.value!!.jobItem.id,
@@ -107,24 +125,15 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    private fun clearNewJobElementData(){
+    private fun clearNewJobElementData() {
         _newJobElementItem.value = null
         _priceOfNewItem.value = null
         _amountOfNewItem.value = null
     }
 
-    fun editJobBodyItem(jobBodyItemId: Long, jobElementId: Int, amount: Int?, price: Int) {
-        if (_jobItemWithCustomerLD.value != null) {
-            val newItem = JobBodyItem(
-                id = jobBodyItemId,
-                jobId = _jobItemWithCustomerLD.value!!.jobItem.id,
-                jobElementItemId = jobElementId,
-                amount = amount ?: 1,
-                price = price
-            )
-            viewModelScope.launch {
-                repository.editJobBodyItem(newItem)
-            }
+    fun editJobBodyItem(item: JobBodyItem) {
+        viewModelScope.launch {
+            repository.editJobBodyItem(item)
         }
     }
 
