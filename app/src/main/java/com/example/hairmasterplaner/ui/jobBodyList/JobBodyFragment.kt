@@ -88,7 +88,6 @@ class JobBodyFragment : Fragment(){
 
     private fun observeJobBodyList(){
         viewModel.jobBodyItemsList.observe(viewLifecycleOwner){
-            var a = it
             rvAdapter.submitList(it)
         }
     }

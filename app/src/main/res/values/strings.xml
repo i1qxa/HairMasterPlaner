@@ -37,5 +37,9 @@
     <string name="hint_enter_price">укажите цену</string>
     <string name="hint_choose_customer">Выберите клиента</string>
     <string name="hint_choose_service_or_material">Выберите услугу или материал</string>
+    <string name="hint_customer_name">Имя клиента</string>
+    <string name="number_in_order_header">№</string>
+    <string name="hint_sample_of_date">21.02.2023</string>
+    <string name="hint_sample_sum_of_job">5490</string>
 
 </resources>

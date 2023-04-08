@@ -9,6 +9,9 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.R
 import com.example.hairmasterplaner.databinding.FragmentJobListBinding
 
@@ -23,6 +26,8 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var dateStart: Date
 
     private lateinit var dateEnd: Date
+
+    private lateinit var rvAdapter:JobListRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,8 +45,10 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
         initTextViews()
+        setupRVAdapter()
+        setupRecyclerView()
+        observeViewModel()
     }
 
 
@@ -75,14 +82,47 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         viewModel.changeDate(Date(year, month, dayOfMonth))
     }
 
+    private fun setupRVAdapter(){
+        rvAdapter = JobListRVAdapter()
+        rvAdapter.onItemClickListener = {
+            findNavController().navigate(JobListFragmentDirections.actionNavJobListToNavJobBody(it))
+        }
+    }
+
+    private fun setupRecyclerView(){
+        with(binding.rvJobList){
+            adapter = rvAdapter
+            layoutManager = LinearLayoutManager(
+                context,
+                RecyclerView.VERTICAL,
+                false
+            )
+        }
+    }
+
     private fun observeViewModel() {
+        observeDateStart()
+        observeDateEnd()
+        observeJobList()
+    }
+
+    private fun observeDateStart(){
         viewModel.dateStart.observe(viewLifecycleOwner) {
             binding.tvDateStart.text = it.getFormattedDate()
             dateStart = it
         }
+    }
+
+    private fun observeDateEnd(){
         viewModel.dateEnd.observe(viewLifecycleOwner) {
             binding.tvDateEnd.text = it.getFormattedDate()
             dateEnd = it
+        }
+    }
+
+    private fun observeJobList(){
+        viewModel.listOfJob.observe(viewLifecycleOwner){
+            rvAdapter.submitList(it)
         }
     }
 

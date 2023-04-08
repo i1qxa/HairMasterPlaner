@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
+import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 
 const val TV_DATE_START = true
 const val TV_DATE_END = false
@@ -23,6 +24,10 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
     get() = _dateEnd
 
     private var currentTextView = TV_DATE_START
+
+    private var _listOfJob = repository.getJobListInDateRange(0,999999999999999999)
+    val listOfJob:LiveData<List<JobItemWithCustomer>>
+    get() = _listOfJob
 
     init {
         val calendar = Calendar.getInstance()
