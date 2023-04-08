@@ -26,7 +26,7 @@ class JobListRVAdapter:ListAdapter<JobItemWithCustomer, JobListViewHolder>(JobLi
         val item = getItem(position)
         with(holder){
             tvOrderNum.text = position.toString()
-            tvCustomerName.text = item.customerItem.name
+            tvCustomerName.text = item.customerItem?.name
             tvDate.text = item.jobItem.getFormattedDate()
             tvSumOfJob.text = "5490"//нужно реализовать подсчет суммы всего заказа, в идеале одной выборкой из БД
             itemView.setOnClickListener {

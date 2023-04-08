@@ -22,5 +22,5 @@ data class JobItemDBModel(
     @ColumnInfo
     val dateInMils : Long,
     @ColumnInfo
-    val customerId : Int,
+    val customerId : Int?,
 )

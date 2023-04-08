@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class JobItemWithCustomer(
     val jobItem: JobItem,
-    val customerItem: CustomerItem,
+    val customerItem: CustomerItem?,
 ):Parcelable

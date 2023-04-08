@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
 import com.example.hairmasterplaner.data.jobBody.JobBodyRepositoryImpl
@@ -43,10 +44,6 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     val priceOfNewItem: LiveData<Int?>
         get() = _priceOfNewItem
 
-    private var _sumOfNewItem = MutableLiveData<Int>()
-    val sumOfNewItem: LiveData<Int>
-        get() = _sumOfNewItem
-
     private var _newJobElementItem = MutableLiveData<JobElementItem?>()
     val newJobElementItem: LiveData<JobElementItem?>
         get() = _newJobElementItem
@@ -55,6 +52,44 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     private var currentEditingJobBodyItem: JobBodyItem? = null
     private val setOfTVCode =
         setOf(NEW_ITEM_AMOUNT, NEW_ITEM_PRICE, JOB_BODY_ITEM_AMOUNT, JOB_BODY_ITEM_PRICE)
+
+
+    fun initJobItemWithCustomer(item: JobItemWithCustomer) {
+        _jobItemWithCustomerLD.value = item
+    }
+
+    private fun addNewJobItem() {
+        viewModelScope.launch {
+            val date = Calendar.getInstance().timeInMillis
+            val jobItem = JobItem(
+                0,
+                date,
+                null
+            )
+            viewModelScope.launch {
+                jobRepository.addJobItem(jobItem)
+                _jobItemWithCustomerLD.postValue(jobRepository.getLastJobItemWithCustomer())
+            }
+        }
+    }
+
+    fun editJobItem(customerItem: CustomerItem) {
+        viewModelScope.launch {
+            val oldJobItem = _jobItemWithCustomerLD.value!!.jobItem
+            val newJobItem = oldJobItem.copy(
+                customerId = customerItem.id
+            )
+            jobRepository.editJobItem(newJobItem)
+        }
+    }
+
+    fun loadData() {
+        val jobId = _jobItemWithCustomerLD.value?.jobItem?.id
+        if(jobId!=null){
+            _jobBodyItemsList =
+                repository.getJobBodyWithJobElementList(jobId) as MutableLiveData<List<JobBodyWithJobElement>>
+        }
+    }
 
     fun setupCurrentEditingTV(code: Int) {
         if (setOfTVCode.contains(code)) {
@@ -77,9 +112,10 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
         currentEditingTextView = null
     }
 
-    fun setupCurrentEditingJobBodyItem(item:JobBodyItem){
+    fun setupCurrentEditingJobBodyItem(item: JobBodyItem) {
         currentEditingJobBodyItem = item
     }
+
     private fun updateItemAmount(num: Int) {
         if (currentEditingJobBodyItem != null) {
             val newItem = currentEditingJobBodyItem?.copy(amount = num)
@@ -93,21 +129,6 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
             newItem?.let { editJobBodyItem(it) }
         }
     }
-
-    private fun calculateSumOfNewItem() {
-        _sumOfNewItem.value = (_amountOfNewItem.value ?: 0) * (_priceOfNewItem.value ?: 0)
-    }
-
-    fun initJobItemWithCustomer(item: JobItemWithCustomer) {
-        _jobItemWithCustomerLD.value = item
-    }
-
-//    fun loadDataFromDB() {
-//        if (_jobItemWithCustomerLD.value != null) {
-//            _jobBodyItemsList.postValue(repository.getJobBodyList(_jobItemWithCustomerLD.value!!.jobItem.id).value)
-//        }
-//    }
-
 
     fun addJobBodyItem() {
         if (_jobItemWithCustomerLD.value != null && _newJobElementItem.value != null) {
@@ -127,8 +148,8 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
 
     private fun clearNewJobElementData() {
         _newJobElementItem.value = null
-        _priceOfNewItem.value = null
-        _amountOfNewItem.value = null
+        _priceOfNewItem.value = 0
+        _amountOfNewItem.value = 0
     }
 
     fun editJobBodyItem(item: JobBodyItem) {
@@ -143,45 +164,5 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun addOrEditJobItem(customerItem: CustomerItem) {
-        if (_jobItemWithCustomerLD.value == null) {
-            addNewJobItem(customerItem)
-        } else {
-            editJobItem(customerItem)
-        }
-    }
-
-    private fun addNewJobItem(customerItem: CustomerItem) {
-        viewModelScope.launch {
-            val date = Calendar.getInstance().timeInMillis
-            val jobItem = JobItem(
-                0,
-                date,
-                customerItem.id
-            )
-            jobRepository.addJobItem(jobItem)
-            val lastJobItem = jobRepository.getLastJobItem()
-            updateJobItemWithCustomerLD(lastJobItem.id)
-        }
-    }
-
-    private fun editJobItem(customerItem: CustomerItem) {
-        viewModelScope.launch {
-            val oldJobItem = _jobItemWithCustomerLD.value!!.jobItem
-            val newJobItem = oldJobItem.copy(
-                id = oldJobItem.id,
-                dateInMils = oldJobItem.dateInMils,
-                customerId = customerItem.id
-            )
-            jobRepository.editJobItem(newJobItem)
-            updateJobItemWithCustomerLD(newJobItem.id)
-        }
-    }
-
-    private fun updateJobItemWithCustomerLD(jobId: Long) {
-        viewModelScope.launch {
-            _jobItemWithCustomerLD.postValue(jobRepository.getJobItemWithCustomer(jobId))
-        }
-    }
 
 }

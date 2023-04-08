@@ -10,7 +10,7 @@ interface JobRepository {
 
     fun getJobListInDateRange(dateStart:Long, dateEnd:Long):LiveData<List<JobItemWithCustomer>>
 
-    suspend fun getLastJobItem():JobItem
+    suspend fun getLastJobItemWithCustomer():JobItemWithCustomer
 
     suspend fun getJobItemWithCustomer(id:Long): JobItemWithCustomer
 

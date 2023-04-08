@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 data class JobItem(
     val id : Long,
     val dateInMils : Long,
-    val customerId : Int,
+    val customerId : Int?,
 ):Parcelable{
     fun getFormattedDate():String{
         val calendar = Calendar.getInstance()

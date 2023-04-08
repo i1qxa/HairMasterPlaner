@@ -5,8 +5,11 @@ import android.icu.util.Calendar
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
+import com.example.hairmasterplaner.domain.job.JobItem
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
+import kotlinx.coroutines.launch
 
 const val TV_DATE_START = true
 const val TV_DATE_END = false
@@ -14,6 +17,10 @@ const val TV_DATE_END = false
 class JobListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = JobItemRepositoryImpl(application)
+
+    private var _newJob = MutableLiveData<JobItemWithCustomer?>()
+    val newJob:LiveData<JobItemWithCustomer?>
+    get() = _newJob
 
     private var _dateStart = MutableLiveData<Date>()
     val dateStart:LiveData<Date>
@@ -69,5 +76,21 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
 
     private fun validateDateRange(dateStart:Date, dateEnd:Date):Boolean{
         return dateStart.dateInMils<=dateEnd.dateInMils
+    }
+
+    fun addNewJobItem(){
+        val date = Calendar.getInstance().timeInMillis
+        val newJob = JobItem(
+            0,
+            date,
+            null
+        )
+        viewModelScope.launch {
+            repository.addJobItem(newJob)
+            _newJob.postValue(repository.getLastJobItemWithCustomer())
+        }
+    }
+    fun clearNewJob(){
+        _newJob.value = null
     }
 }
