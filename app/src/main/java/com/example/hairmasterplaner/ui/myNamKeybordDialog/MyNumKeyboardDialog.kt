@@ -59,52 +59,52 @@ class MyNumKeyboardDialog : DialogFragment(){
     private fun setupBtnOnClickListeners(){
         with(binding){
             btn0.setOnClickListener{
-                onClickListener(it)
+                viewModel.addNewValue(0)
             }
             btn1.setOnClickListener {
-                onClickListener(it)
+                viewModel.addNewValue(1)
             }
             btn2.setOnClickListener{
-                onClickListener(it)
+                viewModel.addNewValue(2)
             }
             btn3.setOnClickListener {
-                onClickListener(it)
+                viewModel.addNewValue(3)
             }
             btn4.setOnClickListener{
-                onClickListener(it)
+                viewModel.addNewValue(4)
             }
             btn5.setOnClickListener {
-                onClickListener(it)
+                viewModel.addNewValue(5)
             }
             btn6.setOnClickListener{
-                onClickListener(it)
+                viewModel.addNewValue(6)
             }
             btn7.setOnClickListener {
-                onClickListener(it)
+                viewModel.addNewValue(7)
             }
             btn8.setOnClickListener{
-                onClickListener(it)
+                viewModel.addNewValue(8)
             }
             btn9.setOnClickListener {
-                onClickListener(it)
+                viewModel.addNewValue(9)
             }
             btnDivision.setOnClickListener{
-                onClickListener(it)
+                viewModel.addNewValue(DIVISION_SIGN)
             }
             btnEqual.setOnClickListener {
-                onClickListener(it)
+                viewModel.addNewValue(EQUAL_SIGN)
             }
             btnMinus.setOnClickListener{
-                onClickListener(it)
+                viewModel.addNewValue(MINUS_SIGN)
             }
             btnPlus.setOnClickListener {
-                onClickListener(it)
+                viewModel.addNewValue(PLUS_SIGN)
             }
             btnMulti.setOnClickListener {
-                onClickListener(it)
+                viewModel.addNewValue(MULTI_SIGN)
             }
             btnClear.setOnClickListener {
-                onClickListener(it)
+                viewModel.deleteLastChar()
             }
         }
     }
@@ -113,27 +113,6 @@ class MyNumKeyboardDialog : DialogFragment(){
         binding.btnClear.setOnLongClickListener {
             viewModel.clearAll()
             true
-        }
-    }
-
-    private fun onClickListener(view:View){
-        when(view){
-            binding.btn0 -> viewModel.addNewValue(0)
-            binding.btn1 -> viewModel.addNewValue(1)
-            binding.btn2 -> viewModel.addNewValue(2)
-            binding.btn3 -> viewModel.addNewValue(3)
-            binding.btn4 -> viewModel.addNewValue(4)
-            binding.btn5 -> viewModel.addNewValue(5)
-            binding.btn6 -> viewModel.addNewValue(6)
-            binding.btn7 -> viewModel.addNewValue(7)
-            binding.btn8 -> viewModel.addNewValue(8)
-            binding.btn9 -> viewModel.addNewValue(9)
-            binding.btnPlus -> viewModel.addNewValue(PLUS_SIGN)
-            binding.btnMinus -> viewModel.addNewValue(MINUS_SIGN)
-            binding.btnMulti -> viewModel.addNewValue(MULTI_SIGN)
-            binding.btnDivision -> viewModel.addNewValue(DIVISION_SIGN)
-            binding.btnEqual -> viewModel.addNewValue(EQUAL_SIGN)
-            binding.btnClear -> viewModel.deleteLastChar()
         }
     }
 

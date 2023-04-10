@@ -43,8 +43,6 @@ class MyNumKeyboardViewModel : ViewModel() {
             else -> {
                 calculateResult()
                 finishWork()
-//                TODO("Нужно пофиксить баг: Если пользователь выбирает число без вычислений, " +
-//                        "то навигация выбрасывает пользователя с экрана JobBody ")
             }
         }
     }
@@ -116,7 +114,6 @@ class MyNumKeyboardViewModel : ViewModel() {
             }
         }else if (firstNum!=null){
             result = firstNum
-            finishWork()
         }
         else{
             setupToastErrorMessage("Сначала необходимо указать хотябы одно число")

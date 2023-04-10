@@ -1,6 +1,7 @@
 package com.example.hairmasterplaner.ui.jobList
 
 import android.app.DatePickerDialog
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hairmasterplaner.R
+import com.example.hairmasterplaner.*
 import com.example.hairmasterplaner.databinding.FragmentJobListBinding
+import com.example.hairmasterplaner.ui.printToLog
 
 class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
@@ -23,9 +25,9 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var viewModel: JobListViewModel
 
-    private lateinit var dateStart: Date
+    private var dateStart: Long = 0
 
-    private lateinit var dateEnd: Date
+    private var dateEnd: Long = 0
 
     private lateinit var rvAdapter: JobListRVAdapter
 
@@ -36,9 +38,7 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     ): View {
         viewModel =
             ViewModelProvider(this)[JobListViewModel::class.java]
-
         _binding = FragmentJobListBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -60,9 +60,9 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             DatePickerDialog(
                 requireContext(),
                 this,
-                dateStart.year,
-                dateStart.month,
-                dateStart.dayOfMonth
+                dateStart.getYear(),
+                dateStart.getMonth()-1,
+                dateStart.getDayOfMonth()
             )
                 .show()
         }
@@ -71,16 +71,16 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             DatePickerDialog(
                 requireContext(),
                 this,
-                dateEnd.year,
-                dateEnd.month,
-                dateEnd.dayOfMonth
+                dateEnd.getYear(),
+                dateEnd.getMonth()-1,
+                dateEnd.getDayOfMonth()
             )
                 .show()
         }
     }
 
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        viewModel.changeDate(Date(year, month, dayOfMonth))
+        viewModel.changeDate(year, month, dayOfMonth)
     }
 
     private fun setupRVAdapter() {
@@ -129,14 +129,14 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun observeDateStart() {
         viewModel.dateStart.observe(viewLifecycleOwner) {
-            binding.tvDateStart.text = it.getFormattedDate()
+            binding.tvDateStart.text = it.toDate()
             dateStart = it
         }
     }
 
     private fun observeDateEnd() {
         viewModel.dateEnd.observe(viewLifecycleOwner) {
-            binding.tvDateEnd.text = it.getFormattedDate()
+            binding.tvDateEnd.text = it.toDate()
             dateEnd = it
         }
     }

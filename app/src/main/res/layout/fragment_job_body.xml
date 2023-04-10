@@ -107,7 +107,7 @@
         android:paddingBottom="20dp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvChooseJobElement" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAddJobBodyItem" />
 
     <TextView
         android:id="@+id/tvTotalSum"

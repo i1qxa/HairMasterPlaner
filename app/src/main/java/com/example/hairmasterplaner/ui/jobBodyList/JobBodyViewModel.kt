@@ -117,13 +117,17 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun addJobBodyItem() {
-        if (_jobItemWithCustomerLD.value != null && _newJobElementItem.value != null) {
+        val jobId = _jobItemWithCustomerLD.value?.jobItem?.id
+        val jobElementId = _newJobElementItem.value?.id
+        val amount = _amountOfNewItem.value ?: 1
+        val price = _priceOfNewItem.value ?: 0
+        if (jobId != null && jobElementId != null) {
             val newJobBodyItem = JobBodyItem(
                 id = 0,
-                jobId = _jobItemWithCustomerLD.value!!.jobItem.id,
-                jobElementItemId = _newJobElementItem.value!!.id,
-                amount = _amountOfNewItem.value ?: 1,
-                price = _priceOfNewItem.value ?: 0
+                jobId = jobId,
+                jobElementItemId = jobElementId,
+                amount = amount,
+                price = price
             )
             viewModelScope.launch {
                 repository.addJobBodyItem(newJobBodyItem)

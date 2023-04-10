@@ -1,10 +1,10 @@
 package com.example.hairmasterplaner.ui.jobBodyList
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.databinding.FragmentJobBodyBinding
 import com.example.hairmasterplaner.domain.customer.CustomerItem
 import com.example.hairmasterplaner.domain.jobElement.JobElementItem
-import com.example.hairmasterplaner.ui.toDateTime
+import com.example.hairmasterplaner.toDateTime
 import com.example.hairmasterplaner.ui.toast
 
 const val CUSTOMER_RESULT_REQUEST_KEY = "customer"
@@ -167,7 +167,7 @@ class JobBodyFragment : Fragment() {
     private fun observeJobItem() {
         viewModel.jobItemWithCustomerLD.observe(viewLifecycleOwner) {
             binding.tvChooseCustomer.text = it.customerItem?.name
-            binding.tvDate.text = it.jobItem.dateInMils.toDateTime()
+            binding.tvDate.text = it.jobItem.dateInMils.toDateTime(true)
             viewModel.loadData()
         }
     }
