@@ -58,21 +58,6 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
         _jobItemWithCustomerLD.value = item
     }
 
-    private fun addNewJobItem() {
-        viewModelScope.launch {
-            val date = Calendar.getInstance().timeInMillis
-            val jobItem = JobItem(
-                0,
-                date,
-                null
-            )
-            viewModelScope.launch {
-                jobRepository.addJobItem(jobItem)
-                _jobItemWithCustomerLD.postValue(jobRepository.getLastJobItemWithCustomer())
-            }
-        }
-    }
-
     fun editJobItem(customerItem: CustomerItem) {
         viewModelScope.launch {
             val oldJobItem = _jobItemWithCustomerLD.value!!.jobItem
@@ -80,6 +65,7 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
                 customerId = customerItem.id
             )
             jobRepository.editJobItem(newJobItem)
+            _jobItemWithCustomerLD.value = jobRepository.getJobItemWithCustomer(newJobItem.id)
         }
     }
 
