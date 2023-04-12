@@ -15,7 +15,6 @@ interface JobItemDBModelDao {
     @Query("SELECT * FROM jobitemdbmodel WHERE dateInMils >= :dateStart AND dateInMils <= :dateEnd")
     fun getJobListInDateRange(dateStart:Long, dateEnd:Long): LiveData<List<JobItemWithCustomerDBModel>>
 
-
     @Query("SELECT * FROM jobitemdbmodel ORDER BY dateInMils DESC LIMIT 1")
     suspend fun getLastJobItemWithCustomerDBModel():JobItemWithCustomerDBModel
 

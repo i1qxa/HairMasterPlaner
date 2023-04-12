@@ -44,8 +44,6 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
     init {
         val currentDate = Calendar.getInstance().timeInMillis
         changeDate(currentDate.getYear(), currentDate.getMonth() - 1, currentDate.getDayOfMonth())
-    //setupDateStart(currentDate)
-        //setupDateEnd(currentDate)
     }
 
     fun changeDate(year: Int, month: Int, dayOfMonth: Int) {
@@ -64,30 +62,12 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
         }
         _dateStart.value = dateStart
         _dateEnd.value = dateEnd
-        dateStart.printToLog("DATE_START")
-        dateEnd.printToLog("DATE_END")
-        _listOfJob = repository.getJobListInDateRange(dateStart, dateEnd) as MutableLiveData<List<JobItemWithCustomer>>
+        _listOfJob.value = repository.getJobListInDateRange(dateStart,dateEnd).value
     }
 
     fun setCurrentTextView(isDateStart: Boolean) {
         currentTextView = isDateStart
     }
-
-    //Если после изменения дата начала периода будет больше даты окончания,
-    // то дате окончания присваивается значение даты начала периода и наоборот
-//    private fun setupDateStart(selectedDate: Long) {
-//        val dateStart = selectedDate
-//        val dateEnd = dateEnd.value ?: 0
-//        _dateStart.value = selectedDate
-//        if (!validateDateRange(dateStart, dateEnd)) setupDateEnd(dateStart)
-//    }
-//
-//    private fun setupDateEnd(selectedDate: Long) {
-//        val dateEndValue = selectedDate
-//        val dateStart = dateStart.value ?: 0
-//        _dateEnd.value = dateEndValue
-//        if (!validateDateRange(dateStart, selectedDate)) setupDateStart(selectedDate)
-//    }
 
     private fun validateDateRange(dateStart: Long, dateEnd: Long): Boolean {
         return dateStart <= dateEnd
@@ -109,4 +89,5 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
     fun clearNewJob() {
         _newJob.value = null
     }
+
 }
