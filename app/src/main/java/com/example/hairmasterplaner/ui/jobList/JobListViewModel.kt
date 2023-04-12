@@ -2,17 +2,13 @@ package com.example.hairmasterplaner.ui.jobList
 
 import android.app.Application
 import android.icu.util.Calendar
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
 import com.example.hairmasterplaner.domain.job.JobItem
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 import com.example.hairmasterplaner.getDayOfMonth
 import com.example.hairmasterplaner.getMonth
 import com.example.hairmasterplaner.getYear
-import com.example.hairmasterplaner.ui.printToLog
 import kotlinx.coroutines.launch
 
 const val TV_DATE_START = true
@@ -25,6 +21,10 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
     private var _newJob = MutableLiveData<JobItemWithCustomer?>()
     val newJob: LiveData<JobItemWithCustomer?>
         get() = _newJob
+
+    private var _dateRange = MutableLiveData(DateRange(0,0))
+    val dateRange:LiveData<DateRange>
+    get() = _dateRange
 
     private var _dateStart = MutableLiveData<Long>()
     val dateStart: LiveData<Long>
@@ -48,29 +48,21 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
 
     fun changeDate(year: Int, month: Int, dayOfMonth: Int) {
         val calendar = Calendar.getInstance()
-        calendar.set(year, month, dayOfMonth)
+        calendar.set(year, month-1, dayOfMonth)
         val dateInMils = calendar.timeInMillis
-        var dateStart = _dateStart.value?:0
-        var dateEnd = _dateEnd.value?:0
         when (currentTextView) {
-            TV_DATE_START -> dateStart = dateInMils
-            else -> dateEnd = dateInMils
+            TV_DATE_START -> _dateRange.value?.updateDateStart(dateInMils) //dateStart = dateInMils
+            else -> _dateRange.value?.updateDateEnd(dateInMils) //dateEnd = dateInMils
         }
-        if (!validateDateRange(dateStart,dateEnd)){
-            dateStart = dateInMils
-            dateEnd = dateInMils
-        }
-        _dateStart.value = dateStart
-        _dateEnd.value = dateEnd
-        _listOfJob.value = repository.getJobListInDateRange(dateStart,dateEnd).value
+        _dateRange.value = _dateRange.value
+        _listOfJob.value = repository.getJobListInDateRange(
+            _dateRange.value?.dateStart?:0 ,
+            _dateRange.value?.dateEnd?:999999999999999999)
+            .value
     }
 
     fun setCurrentTextView(isDateStart: Boolean) {
         currentTextView = isDateStart
-    }
-
-    private fun validateDateRange(dateStart: Long, dateEnd: Long): Boolean {
-        return dateStart <= dateEnd
     }
 
     fun addNewJobItem() {
@@ -89,5 +81,4 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
     fun clearNewJob() {
         _newJob.value = null
     }
-
 }

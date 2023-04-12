@@ -1,13 +1,11 @@
 package com.example.hairmasterplaner.ui.jobList
 
 import android.app.DatePickerDialog
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.AdapterView.OnItemSelectedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.*
 import com.example.hairmasterplaner.databinding.FragmentJobListBinding
-import com.example.hairmasterplaner.ui.printToLog
 
 class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
@@ -102,8 +99,7 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun observeViewModel() {
-        observeDateStart()
-        observeDateEnd()
+        observeDateRange()
         observeJobList()
         observeNewJob()
     }
@@ -127,26 +123,18 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
-    private fun observeDateStart() {
-        viewModel.dateStart.observe(viewLifecycleOwner) {
-            binding.tvDateStart.text = it.toDate()
-            dateStart = it
-        }
-    }
-
-    private fun observeDateEnd() {
-        viewModel.dateEnd.observe(viewLifecycleOwner) {
-            binding.tvDateEnd.text = it.toDate()
-            dateEnd = it
+    private fun observeDateRange() {
+        viewModel.dateRange.observe(viewLifecycleOwner){ dateRange ->
+            binding.tvDateStart.text = dateRange.dateStart.toDate()
+            dateStart = dateRange.dateStart
+            binding.tvDateEnd.text = dateRange.dateEnd.toDate()
+            dateEnd = dateRange.dateEnd
         }
     }
 
     private fun observeJobList() {
         viewModel.listOfJob.observe(viewLifecycleOwner) {
             rvAdapter.submitList(it)
-            it.forEach {
-                //it.jobItem.dateInMils.printToLog("DATE_IN_MILS")
-            }
         }
     }
 
