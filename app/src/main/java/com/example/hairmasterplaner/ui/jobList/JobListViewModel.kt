@@ -55,10 +55,20 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
             else -> _dateRange.value?.updateDateEnd(dateInMils) //dateEnd = dateInMils
         }
         _dateRange.value = _dateRange.value
-        _listOfJob.value = repository.getJobListInDateRange(
-            _dateRange.value?.dateStart?:0 ,
-            _dateRange.value?.dateEnd?:999999999999999999)
-            .value
+//        _listOfJob.value = repository.getJobListInDateRange(
+//            _dateRange.value?.dateStart?:0 ,
+//            _dateRange.value?.dateEnd?:999999999999999999)
+//            .value
+//        _listOfJob = liveData {
+//            repository.getJobListInDateRange(
+//                _dateRange.value?.dateStart?:0 ,
+//                _dateRange.value?.dateEnd?:999999999999999999)
+//                .value?.let {
+//                    emit(
+//                        it
+//                    )
+//                }
+//        } as MutableLiveData<List<JobItemWithCustomer>>
     }
 
     fun setCurrentTextView(isDateStart: Boolean) {
