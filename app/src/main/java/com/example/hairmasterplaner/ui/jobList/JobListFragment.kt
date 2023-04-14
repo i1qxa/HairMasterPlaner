@@ -133,6 +133,9 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun observeJobList() {
+//        viewModel.listOfJob.observe(viewLifecycleOwner) {
+//            rvAdapter.submitList(it)
+//        }
         viewModel.listOfJob.observe(viewLifecycleOwner) {
             rvAdapter.submitList(it)
         }
