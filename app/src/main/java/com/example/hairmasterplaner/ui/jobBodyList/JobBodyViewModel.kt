@@ -32,6 +32,14 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     val jobBodyItemsList: LiveData<List<JobBodyWithJobElement>>
         get() = _jobBodyItemsList
 
+    private var _jobBodyList = MutableLiveData<List<JobBodyWithJobElement>>()
+    val jobBodyList:LiveData<List<JobBodyWithJobElement>>
+    get() = _jobBodyList
+
+//    val jobBodyList = Transformations.switchMap(_jobItemWithCustomerLD){ jobItem ->
+//        repository.getJobBodyList(jobItem.jobItem.id)
+//    }
+
     private var _jobItemWithCustomerLD = MutableLiveData<JobItemWithCustomer>()
     val jobItemWithCustomerLD: LiveData<JobItemWithCustomer>
         get() = _jobItemWithCustomerLD
@@ -56,6 +64,7 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
 
     fun initJobItemWithCustomer(item: JobItemWithCustomer) {
         _jobItemWithCustomerLD.value = item
+        _jobBodyList = repository.getJobBodyList(item.jobItem.id) as MutableLiveData<List<JobBodyWithJobElement>>
     }
 
     fun editJobItem(customerItem: CustomerItem) {

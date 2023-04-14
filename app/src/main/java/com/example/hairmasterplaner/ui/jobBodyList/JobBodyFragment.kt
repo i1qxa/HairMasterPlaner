@@ -97,7 +97,10 @@ class JobBodyFragment : Fragment() {
     }
 
     private fun observeJobBodyList() {
-        viewModel.jobBodyItemsList.observe(viewLifecycleOwner) { itemsList ->
+//        viewModel.jobBodyItemsList.observe(viewLifecycleOwner) { itemsList ->
+//            rvAdapter.submitList(itemsList)
+//        }
+        viewModel.jobBodyList.observe(viewLifecycleOwner) { itemsList ->
             rvAdapter.submitList(itemsList)
         }
     }

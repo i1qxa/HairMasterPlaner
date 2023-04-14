@@ -30,7 +30,7 @@ class JobElementRVAdapter() :
         val item = getItem(position)
         with(holder) {
             val price = item.price?:0.0
-            tvId.text = item.id.toString()
+            tvId.text = position.toString()
             tvJobElementName.text = item.name
             tvPrice.text = "${price}р."
             if (getItemViewType(position) == ITEM_IS_MATERIAL) {

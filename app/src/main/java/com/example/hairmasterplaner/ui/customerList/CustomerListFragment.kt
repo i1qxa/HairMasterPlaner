@@ -37,6 +37,7 @@ class CustomerListFragment : Fragment() {
         setupRVAdapter()
         setupRecyclerView()
         observeViewModel()
+        setupFabClickListener()
     }
 
     private fun setupRVAdapter() {
@@ -59,6 +60,12 @@ class CustomerListFragment : Fragment() {
             onItemLongClickListener = {
                 TODO("Реализовать удаление элемента")
             }
+        }
+    }
+
+    private fun setupFabClickListener(){
+        binding.fabAddNewCustomer.setOnClickListener {
+            findNavController().navigate(CustomerListFragmentDirections.actionNavCustomerListToFragmentCustomerItem(null))
         }
     }
 
