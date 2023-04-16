@@ -28,17 +28,9 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
 
     private val jobRepository = JobItemRepositoryImpl(application)
 
-    private var _jobBodyItemsList = MutableLiveData<List<JobBodyWithJobElement>>()
-    val jobBodyItemsList: LiveData<List<JobBodyWithJobElement>>
-        get() = _jobBodyItemsList
-
     private var _jobBodyList = MutableLiveData<List<JobBodyWithJobElement>>()
     val jobBodyList:LiveData<List<JobBodyWithJobElement>>
     get() = _jobBodyList
-
-//    val jobBodyList = Transformations.switchMap(_jobItemWithCustomerLD){ jobItem ->
-//        repository.getJobBodyList(jobItem.jobItem.id)
-//    }
 
     private var _jobItemWithCustomerLD = MutableLiveData<JobItemWithCustomer>()
     val jobItemWithCustomerLD: LiveData<JobItemWithCustomer>
@@ -64,7 +56,10 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
 
     fun initJobItemWithCustomer(item: JobItemWithCustomer) {
         _jobItemWithCustomerLD.value = item
-        _jobBodyList = repository.getJobBodyList(item.jobItem.id) as MutableLiveData<List<JobBodyWithJobElement>>
+
+        repository.getJobBodyWithJobElementList(item.jobItem.id).observeForever(){ jobBodyList ->
+            _jobBodyList.value = jobBodyList
+        }
     }
 
     fun editJobItem(customerItem: CustomerItem) {
@@ -75,14 +70,6 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
             )
             jobRepository.editJobItem(newJobItem)
             _jobItemWithCustomerLD.value = jobRepository.getJobItemWithCustomer(newJobItem.id)
-        }
-    }
-
-    fun loadData() {
-        val jobId = _jobItemWithCustomerLD.value?.jobItem?.id
-        if(jobId!=null){
-            _jobBodyItemsList =
-                repository.getJobBodyWithJobElementList(jobId) as MutableLiveData<List<JobBodyWithJobElement>>
         }
     }
 
@@ -162,6 +149,4 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
             repository.deleteJobBodyItem(jobBodyItemId)
         }
     }
-
-
 }
