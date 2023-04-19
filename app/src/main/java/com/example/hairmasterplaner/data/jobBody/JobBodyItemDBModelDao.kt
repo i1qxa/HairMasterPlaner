@@ -13,6 +13,12 @@ interface JobBodyItemDBModelDao {
     @Query("SELECT * FROM jobbodyitemdbmodel WHERE jobId = :jobId")
     fun getJobBodyList(jobId:Long):LiveData<List<JobBodyItemDBModel>>
 
+    @Query("SELECT * FROM jobbodyitemdbmodel WHERE jobId = :jobId")
+    fun getJobBodyWithJobElementList(jobId:Long):LiveData<List<JobBodyItemWithJobElementItemDBModel>>
+
+    @Query("SELECT SUM(amount*price) FROM jobbodyitemdbmodel WHERE jobId = :jobId")
+    fun getSumOfJob(jobId: Long):LiveData<Int>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addJobBodyItem(item: JobBodyItemDBModel)
 

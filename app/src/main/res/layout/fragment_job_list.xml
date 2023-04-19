@@ -12,6 +12,7 @@
         android:id="@+id/rvJobList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDateStart" />
 
@@ -53,6 +54,25 @@
         app:layout_constraintStart_toEndOf="@+id/dateEndHeader"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="2023/03/20" />
+
+    <TextView
+        android:id="@+id/tvChooseCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tvDateEnd"
+        app:layout_constraintTop_toTopOf="@id/tvDateEnd"
+        android:hint="@string/tv_choose_customer"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddNewJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

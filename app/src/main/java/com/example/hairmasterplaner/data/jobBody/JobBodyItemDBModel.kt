@@ -26,7 +26,7 @@ data class JobBodyItemDBModel(
     @ColumnInfo
     val id:Long,
     @ColumnInfo
-    val jobId:Int,
+    val jobId:Long,
     @ColumnInfo
     val jobElementId: Int,
     @ColumnInfo

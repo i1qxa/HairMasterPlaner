@@ -10,15 +10,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:checked="true"
-    android:text="@string/switchNameServices"
+    android:text="@string/services"
     />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPriceItemList"
+    <EditText
+        android:id="@+id/editTextNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
-
+        android:ems="10"
+        android:inputType="number" />
 
 
 </LinearLayout>

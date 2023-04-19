@@ -10,8 +10,8 @@ import com.example.hairmasterplaner.data.jobElement.JobElementItemDBModel
 @Dao
 interface JobElementItemDBModelDao {
 
-    @Query("SELECT * FROM JobElementItemDBModel")
-    fun getJobElementItemList(): LiveData<List<JobElementItemDBModel>>
+    @Query("SELECT * FROM JobElementItemDBModel WHERE isService = :isService")
+    fun getJobElementItemList(isService:Boolean): LiveData<List<JobElementItemDBModel>>
 
     @Query("SELECT * FROM JobElementItemDBModel WHERE isService = 1")
     fun getServiceList(): LiveData<List<JobElementItemDBModel>>

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.hairmasterplaner.R
@@ -47,11 +46,11 @@ class JobElementItemFragment : DialogFragment() {
                 etPrice.setText(item?.price.toString())
                 if (item?.isService!!) {
                     switchIsService.isChecked = true
-                    switchIsService.setText(R.string.switchNameServices)
+                    switchIsService.setText(R.string.services)
                     etUnitOM.gone()
                 } else {
                     switchIsService.isChecked = false
-                    switchIsService.setText(R.string.switchNameMaterials)
+                    switchIsService.setText(R.string.materials)
                     etUnitOM.visible()
                     etUnitOM.setText(item.unitOM)
                 }

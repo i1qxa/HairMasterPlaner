@@ -2,10 +2,16 @@ package com.example.hairmasterplaner.ui.jobList
 
 import android.app.Application
 import android.icu.util.Calendar
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
+import com.example.hairmasterplaner.domain.job.DateRange
+import com.example.hairmasterplaner.domain.job.JobItem
+import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
+import com.example.hairmasterplaner.domain.jobBody.JobBodyWithJobElement
+import com.example.hairmasterplaner.getDayOfMonth
+import com.example.hairmasterplaner.getMonth
+import com.example.hairmasterplaner.getYear
+import kotlinx.coroutines.launch
 
 const val TV_DATE_START = true
 const val TV_DATE_END = false
@@ -14,55 +20,49 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
 
     private val repository = JobItemRepositoryImpl(application)
 
-    private var _dateStart = MutableLiveData<Date>()
-    val dateStart:LiveData<Date>
-    get() = _dateStart
+    private var _newJob = MutableLiveData<JobItemWithCustomer?>()
+    val newJob: LiveData<JobItemWithCustomer?>
+        get() = _newJob
 
-    private var _dateEnd = MutableLiveData<Date>()
-    val dateEnd:LiveData<Date>
-    get() = _dateEnd
+    private var _dateRange = MutableLiveData(DateRange())
+    val dateRange:LiveData<DateRange>
+    get() = _dateRange
 
     private var currentTextView = TV_DATE_START
 
-    init {
+    val listOfJob = _dateRange.switchMap { dateRange ->
+        repository.getJobListInDateRange(dateRange.dateStart, dateRange.dateEnd)
+    }
+
+    fun changeDate(year: Int, month: Int, dayOfMonth: Int) {
         val calendar = Calendar.getInstance()
-        val currentDate = Date(
-            calendar.get(java.util.Calendar.YEAR),
-            calendar.get(java.util.Calendar.MONTH),
-            calendar.get(java.util.Calendar.DAY_OF_MONTH),
-        )
-        setupDateStart(currentDate)
-        setupDateEnd(currentDate)
-    }
-
-    fun changeDate(selectedDate: Date){
-        when(currentTextView){
-            TV_DATE_START -> setupDateStart(selectedDate)
-            else -> setupDateEnd(selectedDate)
+        calendar.set(year, month-1, dayOfMonth)
+        val dateInMils = calendar.timeInMillis
+        when (currentTextView) {
+            TV_DATE_START -> _dateRange.value?.dateStart = dateInMils
+            else -> _dateRange.value?.dateEnd = dateInMils
         }
+        _dateRange.value = _dateRange.value
     }
 
-    fun setCurrentTextView(isDateStart:Boolean){
+    fun setCurrentTextView(isDateStart: Boolean) {
         currentTextView = isDateStart
     }
 
-    //Если после изменения дата начала периода будет больше даты окончания,
-    // то дате окончания присваивается значение даты начала периода и наоборот
-    private fun setupDateStart(selectedDate:Date){
-        val dateStart = selectedDate
-        val dateEnd = dateEnd.value?:dateStart
-        _dateStart.value = selectedDate
-        if (!validateDateRange(dateStart,dateEnd)) setupDateEnd(dateStart)
+    fun addNewJobItem() {
+        val date = Calendar.getInstance().timeInMillis
+        val newJob = JobItem(
+            0,
+            date,
+            null
+        )
+        viewModelScope.launch {
+            repository.addJobItem(newJob)
+            _newJob.postValue(repository.getLastJobItemWithCustomer())
+        }
     }
 
-    private fun setupDateEnd(selectedDate: Date) {
-        val dateEndValue = selectedDate
-        val dateStart = dateStart.value ?: dateEndValue
-        _dateEnd.value = dateEndValue
-        if (!validateDateRange(dateStart, selectedDate)) setupDateStart(selectedDate)
-    }
-
-    private fun validateDateRange(dateStart:Date, dateEnd:Date):Boolean{
-        return dateStart.dateInMils<=dateEnd.dateInMils
+    fun clearNewJob() {
+        _newJob.value = null
     }
 }

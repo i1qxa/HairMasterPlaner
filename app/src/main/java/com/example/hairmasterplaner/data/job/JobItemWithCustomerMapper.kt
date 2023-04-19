@@ -11,13 +11,13 @@ class JobItemWithCustomerMapper {
     fun mapDBToJobWithCustomer(dbItem: JobItemWithCustomerDBModel): JobItemWithCustomer {
         return JobItemWithCustomer(
             jobItem = jobItemMapper.mapDBModelToJobItem(dbItem.jobItemDBModel),
-            customerItem = customerMapper.mapDBModelToCustomer(dbItem.customerItemDBModel)
+            customerItem = dbItem.customerItemDBModel?.let { customerMapper.mapDBModelToCustomer(it) }
         )
     }
     fun mapJobWithCustomerToDB(item: JobItemWithCustomer): JobItemWithCustomerDBModel {
         return JobItemWithCustomerDBModel(
             jobItemDBModel = jobItemMapper.mapJobItemToDBModel(item.jobItem),
-            customerItemDBModel = customerMapper.mapCustomerToDBModel(item.customerItem)
+            customerItemDBModel = item.customerItem?.let { customerMapper.mapCustomerToDBModel(it) }
         )
     }
     fun mapListDBToListJobWithCustomer(listDB:List<JobItemWithCustomerDBModel>):List<JobItemWithCustomer>{

@@ -2,7 +2,7 @@ package com.example.hairmasterplaner.data.customer
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.example.hairmasterplaner.data.AppDatabase
 import com.example.hairmasterplaner.domain.customer.CustomerItem
 import com.example.hairmasterplaner.domain.customer.CustomerRepository
@@ -13,9 +13,13 @@ class CustomerRepositoryImpl(application: Application): CustomerRepository {
     private val customerItemDBModelDao = AppDatabase.getInstance(application).customerItemDBModelDao()
 
     override fun getCustomerList(): LiveData<List<CustomerItem>> =
-        Transformations.map(customerItemDBModelDao.getCustomerList()){
+        customerItemDBModelDao.getCustomerList().map {
             mapper.mapListDBModelToListCustomer(it)
         }
+//        Transformations.map(customerItemDBModelDao.getCustomerList()){
+//            mapper.mapListDBModelToListCustomer(it)
+//
+//        }
 
     override suspend fun getCustomerItem(id: Int): CustomerItem =
         mapper.mapDBModelToCustomer(customerItemDBModelDao.getCustomerItem(id))

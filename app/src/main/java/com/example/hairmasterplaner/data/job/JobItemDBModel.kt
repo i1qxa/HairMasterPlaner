@@ -18,9 +18,9 @@ import com.example.hairmasterplaner.data.customer.CustomerItemDBModel
 data class JobItemDBModel(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo
-    val id : Int,
+    val id : Long,
     @ColumnInfo
-    val date : String,
+    val dateInMils : Long,
     @ColumnInfo
-    val customerId : Int,
+    val customerId : Int?,
 )

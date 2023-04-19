@@ -6,16 +6,18 @@ import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 
 interface JobRepository {
 
-    suspend fun getJobListForCustomer(customerId:Int):LiveData<List<JobItemWithCustomer>>
+    fun getJobListForCustomer(customerId:Int):LiveData<List<JobItemWithCustomer>>
 
-    suspend fun getJobListInDateRange(dateStart:String, dateEnd:String):LiveData<List<JobItemWithCustomer>>
+    fun getJobListInDateRange(dateStart:Long, dateEnd:Long):LiveData<List<JobItemWithCustomer>>
 
-    suspend fun getJobItemWithCustomer(id:Int): JobItemWithCustomer
+    suspend fun getLastJobItemWithCustomer():JobItemWithCustomer
+
+    suspend fun getJobItemWithCustomer(id:Long): JobItemWithCustomer
 
     suspend fun addJobItem(jobItem: JobItem)
 
     suspend fun editJobItem(jobItem: JobItem)
 
-    suspend fun deleteJobItem(id:Int)
+    suspend fun deleteJobItem(id:Long)
 
 }

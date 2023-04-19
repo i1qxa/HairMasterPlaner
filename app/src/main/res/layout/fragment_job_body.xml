@@ -1,14 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.jobBodyItem.JobBodyFragment">
+    tools:context=".ui.jobBodyList.JobBodyFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!--Заголовки-->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/tvCustomerHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/customer_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvChooseCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_choose_customer"
+        app:layout_constraintStart_toEndOf="@+id/tvCustomerHeader"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/customer_header" />
+
+    <TextView
+        android:id="@+id/tvDateHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_header"
+        app:layout_constraintEnd_toStartOf="@+id/tvDate"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2023:02:03" />
+    <!--Конец заголовков-->
+
+    <!--Добавление нового эллемента в тело работы-->
+
+    <TextView
+        android:id="@+id/tvChooseJobElement"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_choose_service_or_material"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/tvEnterAmount"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCustomerHeader" />
+
+    <TextView
+        android:id="@+id/tvEnterAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_enter_amount"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/tvEnterPrice"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvChooseJobElement"
+        app:layout_constraintTop_toBottomOf="@+id/tvCustomerHeader" />
+
+    <TextView
+        android:id="@+id/tvEnterPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_enter_price"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="@+id/tvEnterAmount"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddJobBodyItem"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@+id/tvEnterAmount"
+        app:layout_constraintTop_toBottomOf="@+id/tvCustomerHeader"
+        app:layout_constraintVertical_weight="1" />
+
+
+
+    <ImageButton
+        android:id="@+id/btnAddJobBodyItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvEnterPrice"
+        app:layout_constraintTop_toBottomOf="@+id/tvCustomerHeader" />
+
+    <!--Конец добавления нового эллемента в тело работы-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvJobBodyItemsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="20dp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddJobBodyItem" />
+
+    <TextView
+        android:id="@+id/tvTotalSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="5985" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

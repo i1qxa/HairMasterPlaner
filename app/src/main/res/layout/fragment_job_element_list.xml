@@ -2,41 +2,58 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.jobElementList.JobElementFragment">
 
+
+    <TextView
+        android:id="@+id/tvShowService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@string/services"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/tvShowMaterial"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvShowMaterial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@string/materials"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvShowService"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvJobElement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
         android:paddingBottom="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchJobElementType" />
+        app:layout_constraintTop_toBottomOf="@+id/tvShowService" />
 
-    <io.ghyeok.stickyswitch.widget.StickySwitch
-        android:id="@+id/switchJobElementType"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddJobElementItem"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:ss_animationDuration="600"
-        app:ss_animationType="curved"
-        app:ss_iconPadding="35dp"
-        app:ss_iconSize="22dp"
-        app:ss_leftIcon="@drawable/baseline_content_cut_24"
-        app:ss_leftText="@string/switchNameServices"
-        app:ss_rightIcon="@drawable/baseline_color_lens_24"
-        app:ss_rightText="@string/switchNameMaterials"
-        app:ss_selectedTextSize="14sp"
-        app:ss_sliderBackgroundColor="@color/teal_200"
-        app:ss_switchColor="@color/teal_700"
-        app:ss_textColor="@color/black"
-        app:ss_textSize="12sp" />
+        android:clickable="true"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="15dp"
+         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

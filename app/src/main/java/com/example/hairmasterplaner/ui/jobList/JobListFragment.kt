@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.AdapterView.OnItemSelectedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.hairmasterplaner.R
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.hairmasterplaner.*
 import com.example.hairmasterplaner.databinding.FragmentJobListBinding
 
 class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
@@ -20,9 +22,11 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var viewModel: JobListViewModel
 
-    private lateinit var dateStart: Date
+    private var dateStart: Long = 0
 
-    private lateinit var dateEnd: Date
+    private var dateEnd: Long = 0
+
+    private lateinit var rvAdapter: JobListRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,17 +35,19 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     ): View {
         viewModel =
             ViewModelProvider(this)[JobListViewModel::class.java]
-
         _binding = FragmentJobListBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
+        viewModel.clearNewJob()
         initTextViews()
+        setupFabClickListener()
+        setupRVAdapter()
+        setupRecyclerView()
+        observeViewModel()
     }
 
 
@@ -51,9 +57,9 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             DatePickerDialog(
                 requireContext(),
                 this,
-                dateStart.year,
-                dateStart.month,
-                dateStart.dayOfMonth
+                dateStart.getYear(),
+                dateStart.getMonth()-1,
+                dateStart.getDayOfMonth()
             )
                 .show()
         }
@@ -62,27 +68,79 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             DatePickerDialog(
                 requireContext(),
                 this,
-                dateEnd.year,
-                dateEnd.month,
-                dateEnd.dayOfMonth
+                dateEnd.getYear(),
+                dateEnd.getMonth()-1,
+                dateEnd.getDayOfMonth()
             )
                 .show()
         }
+        binding.tvChooseCustomer.setOnClickListener {
+            
+        }
     }
 
-
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        viewModel.changeDate(Date(year, month, dayOfMonth))
+        viewModel.changeDate(year, month, dayOfMonth)
+    }
+
+    private fun setupRVAdapter() {
+        rvAdapter = JobListRVAdapter()
+        rvAdapter.onItemClickListener = {
+            findNavController().navigate(JobListFragmentDirections.actionNavJobListToNavJobBody(it))
+        }
+    }
+
+    private fun setupRecyclerView() {
+        with(binding.rvJobList) {
+            adapter = rvAdapter
+            layoutManager = LinearLayoutManager(
+                context,
+                RecyclerView.VERTICAL,
+                false
+            )
+        }
     }
 
     private fun observeViewModel() {
-        viewModel.dateStart.observe(viewLifecycleOwner) {
-            binding.tvDateStart.text = it.getFormattedDate()
-            dateStart = it
+        observeDateRange()
+        observeJobList()
+        observeNewJob()
+    }
+
+    private fun observeNewJob() {
+        viewModel.newJob.observe(viewLifecycleOwner) { jobItemWithCustomer ->
+            val newJob = jobItemWithCustomer
+            if (newJob!=null){
+                findNavController().navigate(
+                    JobListFragmentDirections.actionNavJobListToNavJobBody(
+                        newJob
+                    )
+                )
+            }
         }
-        viewModel.dateEnd.observe(viewLifecycleOwner) {
-            binding.tvDateEnd.text = it.getFormattedDate()
-            dateEnd = it
+    }
+
+    private fun setupFabClickListener() {
+        binding.fabAddNewJob.setOnClickListener {
+            viewModel.addNewJobItem()
+        }
+    }
+
+    private fun observeDateRange() {
+        viewModel.dateRange.observe(viewLifecycleOwner){ dateRange ->
+            binding.tvDateStart.text = dateRange.dateStart.toDate()
+            dateStart = dateRange.dateStart
+            binding.tvDateEnd.text = dateRange.dateEnd.toDate()
+            dateEnd = dateRange.dateEnd
+        }
+    }
+
+    private fun observeJobList() {
+//        viewModel.listOfJob.observe(viewLifecycleOwner) {
+//            rvAdapter.submitList(it)
+//        }
+        viewModel.listOfJob.observe(viewLifecycleOwner) {
+            rvAdapter.submitList(it)
         }
     }
 
@@ -90,5 +148,4 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         super.onDestroyView()
         _binding = null
     }
-
 }

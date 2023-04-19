@@ -5,7 +5,7 @@ import com.example.hairmasterplaner.domain.jobElement.JobElementItem
 
 interface JobElementRepository {
 
-    fun getJobElementList(): LiveData<List<JobElementItem>>
+    fun getJobElementList(isService:Boolean): LiveData<List<JobElementItem>>
 
     fun getServiceList():LiveData<List<JobElementItem>>
 

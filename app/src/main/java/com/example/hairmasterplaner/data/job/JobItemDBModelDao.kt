@@ -12,11 +12,14 @@ interface JobItemDBModelDao {
     @Query("SELECT * FROM jobitemdbmodel WHERE customerId = :customerId")
     fun getJobListForCustomer(customerId:Int): LiveData<List<JobItemWithCustomerDBModel>>
 
-    @Query("SELECT * FROM jobitemdbmodel WHERE date >= :dateStart AND date <= :dateEnd")
-    fun getJobListInDateRange(dateStart:String, dateEnd:String): LiveData<List<JobItemWithCustomerDBModel>>
+    @Query("SELECT * FROM jobitemdbmodel WHERE dateInMils >= :dateStart AND dateInMils <= :dateEnd")
+    fun getJobListInDateRange(dateStart:Long, dateEnd:Long): LiveData<List<JobItemWithCustomerDBModel>>
+
+    @Query("SELECT * FROM jobitemdbmodel ORDER BY dateInMils DESC LIMIT 1")
+    suspend fun getLastJobItemWithCustomerDBModel():JobItemWithCustomerDBModel
 
     @Query("SELECT * FROM jobitemdbmodel WHERE id = :id")
-    suspend fun getJobItem(id:Int): JobItemWithCustomerDBModel
+    suspend fun getJobItem(id:Long): JobItemWithCustomerDBModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addJobItem(jobItem: JobItemDBModel)
@@ -25,6 +28,6 @@ interface JobItemDBModelDao {
     suspend fun editJobItem(jobItem: JobItemDBModel)
 
     @Query("DELETE FROM jobitemdbmodel WHERE id = :id")
-    suspend fun deleteJobItem(id:Int)
+    suspend fun deleteJobItem(id:Long)
 
 }

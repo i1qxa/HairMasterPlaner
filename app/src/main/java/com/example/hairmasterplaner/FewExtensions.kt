@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 //Few extension functions
+
 fun Any?.printToLog(tag:String){
     Log.d(tag, toString())
 }
