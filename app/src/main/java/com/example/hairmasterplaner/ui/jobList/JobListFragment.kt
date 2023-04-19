@@ -74,6 +74,9 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             )
                 .show()
         }
+        binding.tvChooseCustomer.setOnClickListener {
+            
+        }
     }
 
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {

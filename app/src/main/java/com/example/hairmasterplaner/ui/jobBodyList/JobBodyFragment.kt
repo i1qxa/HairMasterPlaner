@@ -88,6 +88,7 @@ class JobBodyFragment : Fragment() {
         observeJobItem()
         observeJobElement()
         observeJobBodyList()
+        observeTotalSum()
     }
 
     private fun observeRequestFromOtherFragments() {
@@ -99,6 +100,12 @@ class JobBodyFragment : Fragment() {
     private fun observeJobBodyList() {
         viewModel.jobBodyList.observe(viewLifecycleOwner) { itemsList ->
             rvAdapter.submitList(itemsList)
+        }
+    }
+
+    private fun observeTotalSum(){
+        viewModel.totalSum.observe(viewLifecycleOwner){ totalSum ->
+            binding.tvTotalSum.text = totalSum.toString()
         }
     }
 
@@ -124,8 +131,7 @@ class JobBodyFragment : Fragment() {
         binding.tvChooseJobElement.setOnClickListener {
             findNavController().navigate(
                 JobBodyFragmentDirections.actionNavJobBodyToNavJobElementList(
-                    true
-                )
+              true  )
             )
         }
     }

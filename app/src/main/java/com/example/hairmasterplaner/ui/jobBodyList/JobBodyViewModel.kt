@@ -4,18 +4,15 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
 import com.example.hairmasterplaner.data.jobBody.JobBodyRepositoryImpl
 import com.example.hairmasterplaner.domain.customer.CustomerItem
-import com.example.hairmasterplaner.domain.job.JobItem
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 import com.example.hairmasterplaner.domain.jobBody.JobBodyItem
 import com.example.hairmasterplaner.domain.jobBody.JobBodyWithJobElement
 import com.example.hairmasterplaner.domain.jobElement.JobElementItem
 import kotlinx.coroutines.launch
-import java.util.*
 
 const val NEW_ITEM_AMOUNT = 1
 const val NEW_ITEM_PRICE = 2
@@ -48,6 +45,10 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     val newJobElementItem: LiveData<JobElementItem?>
         get() = _newJobElementItem
 
+    private val _totalSum = MutableLiveData<Int>()
+    val totalSum:LiveData<Int>
+    get() = _totalSum
+
     private var currentEditingTextView: Int? = null
     private var currentEditingJobBodyItem: JobBodyItem? = null
     private val setOfTVCode =
@@ -60,6 +61,7 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
         repository.getJobBodyWithJobElementList(item.jobItem.id).observeForever(){ jobBodyList ->
             _jobBodyList.value = jobBodyList
         }
+        _totalSum.value = repository.getSumOfJob(item.jobItem.id).value
     }
 
     fun editJobItem(customerItem: CustomerItem) {

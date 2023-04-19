@@ -41,5 +41,6 @@
     <string name="number_in_order_header">№</string>
     <string name="hint_sample_of_date">21.02.2023</string>
     <string name="hint_sample_sum_of_job">5490</string>
+    <string name="tv_choose_customer">Выберите клиента</string>
 
 </resources>

@@ -2,33 +2,30 @@ package com.example.hairmasterplaner.data.jobElement
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.example.hairmasterplaner.data.AppDatabase
 import com.example.hairmasterplaner.domain.jobElement.JobElementItem
 import com.example.hairmasterplaner.domain.jobElement.JobElementRepository
 
-class JobElementRepositoryImpl(application: Application): JobElementRepository {
+class JobElementRepositoryImpl(application: Application) : JobElementRepository {
 
     private val mapper = JobElementMapper()
     private val dao = AppDatabase.getInstance(application).jobElementItemDBModelDao()
 
-    override fun getJobElementList(): LiveData<List<JobElementItem>> {
-        return Transformations.map(dao.getJobElementItemList()){
+    override fun getJobElementList(isService:Boolean): LiveData<List<JobElementItem>> =
+        dao.getJobElementItemList(isService).map {
             mapper.mapListDBModelToListJobElementItem(it)
         }
-    }
 
-    override fun getServiceList(): LiveData<List<JobElementItem>> {
-        return Transformations.map(dao.getServiceList()){
+    override fun getServiceList(): LiveData<List<JobElementItem>> =
+        dao.getServiceList().map {
             mapper.mapListDBModelToListJobElementItem(it)
         }
-    }
 
-    override fun getMaterialList(): LiveData<List<JobElementItem>> {
-        return Transformations.map(dao.getMaterialList()){
+    override fun getMaterialList(): LiveData<List<JobElementItem>> =
+        dao.getMaterialList().map {
             mapper.mapListDBModelToListJobElementItem(it)
         }
-    }
 
     override suspend fun getJobElementItem(id: Int): JobElementItem {
         return mapper.mapDBModelToJobElementItem(dao.getJobElementItem(id))

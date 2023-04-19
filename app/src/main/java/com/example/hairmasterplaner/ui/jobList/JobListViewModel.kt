@@ -7,6 +7,7 @@ import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
 import com.example.hairmasterplaner.domain.job.DateRange
 import com.example.hairmasterplaner.domain.job.JobItem
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
+import com.example.hairmasterplaner.domain.jobBody.JobBodyWithJobElement
 import com.example.hairmasterplaner.getDayOfMonth
 import com.example.hairmasterplaner.getMonth
 import com.example.hairmasterplaner.getYear
@@ -29,7 +30,7 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
 
     private var currentTextView = TV_DATE_START
 
-    val listOfJob = Transformations.switchMap(_dateRange){ dateRange ->
+    val listOfJob = _dateRange.switchMap { dateRange ->
         repository.getJobListInDateRange(dateRange.dateStart, dateRange.dateEnd)
     }
 

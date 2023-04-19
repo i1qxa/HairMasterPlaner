@@ -15,4 +15,6 @@ interface JobBodyRepository {
 
     suspend fun editJobBodyItem(item: JobBodyItem)
 
+    fun getSumOfJob(jobId:Long):LiveData<Int>
+
 }

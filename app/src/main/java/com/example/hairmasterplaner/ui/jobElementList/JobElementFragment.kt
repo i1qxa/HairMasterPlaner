@@ -8,12 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.databinding.FragmentJobElementListBinding
 import com.example.hairmasterplaner.ui.jobBodyList.JOB_ELEMENT_RESULT_REQUEST_KEY
-import io.ghyeok.stickyswitch.widget.StickySwitch
 
 class JobElementFragment : Fragment() {
 
@@ -21,7 +19,6 @@ class JobElementFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var rvAdapter: JobElementRVAdapter
     private lateinit var viewModel: JobElementViewModel
-    private val args by navArgs<JobElementFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,7 +61,7 @@ class JobElementFragment : Fragment() {
     private fun setupRVAdapter() {
         rvAdapter = JobElementRVAdapter()
         rvAdapter.onItemClickListener = { jobElementItem ->
-            if (args.chooseJobElement) {
+            if (arguments?.containsKey("choose_job_element") == true) {
                 with(findNavController()) {
                     previousBackStackEntry?.savedStateHandle?.set(
                         JOB_ELEMENT_RESULT_REQUEST_KEY,
@@ -86,13 +83,6 @@ class JobElementFragment : Fragment() {
         }
     }
 
-    private fun mustDo() {
-        TODO(
-            "Нужно пофиксить баг: После добавления новой услуги или материала, " +
-                    "при возвращении на фрагмент со списком услуг отображается список материалов, " +
-                    "а не услуг и происходит рассинхрон с состоянием свитча"
-        )
-    }
 
     private fun setupRecyclerView() {
         with(binding.rvJobElement) {

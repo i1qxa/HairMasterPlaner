@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_nav_job_list_to_nav_job_body"
             app:destination="@id/nav_job_body" />
+        <action
+            android:id="@+id/action_nav_job_list_to_nav_customer_list"
+            app:destination="@id/nav_customer_list" />
     </fragment>
 
     <fragment
@@ -43,6 +46,7 @@
         <argument
             android:name="choose_job_element"
             app:argType="boolean"/>
+
     </fragment>
 
     <fragment
