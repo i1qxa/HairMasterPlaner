@@ -1,10 +1,7 @@
 package com.example.hairmasterplaner.ui.jobBodyList
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
 import com.example.hairmasterplaner.data.jobBody.JobBodyRepositoryImpl
 import com.example.hairmasterplaner.domain.customer.CustomerItem
@@ -45,7 +42,10 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     val newJobElementItem: LiveData<JobElementItem?>
         get() = _newJobElementItem
 
-    private val _totalSum = MutableLiveData<Int>()
+    private val _totalSum = _jobItemWithCustomerLD.switchMap { jobItemWithCustomer ->
+        repository.getSumOfJob(jobItemWithCustomer.jobItem.id)
+    }
+
     val totalSum:LiveData<Int>
     get() = _totalSum
 
@@ -61,7 +61,6 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
         repository.getJobBodyWithJobElementList(item.jobItem.id).observeForever(){ jobBodyList ->
             _jobBodyList.value = jobBodyList
         }
-        _totalSum.value = repository.getSumOfJob(item.jobItem.id).value
     }
 
     fun editJobItem(customerItem: CustomerItem) {
