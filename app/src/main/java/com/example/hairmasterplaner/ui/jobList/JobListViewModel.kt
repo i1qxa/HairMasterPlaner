@@ -2,15 +2,15 @@ package com.example.hairmasterplaner.ui.jobList
 
 import android.app.Application
 import android.icu.util.Calendar
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
 import com.example.hairmasterplaner.domain.job.DateRange
 import com.example.hairmasterplaner.domain.job.JobItem
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
-import com.example.hairmasterplaner.domain.jobBody.JobBodyWithJobElement
-import com.example.hairmasterplaner.getDayOfMonth
-import com.example.hairmasterplaner.getMonth
-import com.example.hairmasterplaner.getYear
 import kotlinx.coroutines.launch
 
 const val TV_DATE_START = true
@@ -57,8 +57,8 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
             null
         )
         viewModelScope.launch {
-            repository.addJobItem(newJob)
-            _newJob.postValue(repository.getLastJobItemWithCustomer())
+            val newJobId = repository.addJobItem(newJob)
+            _newJob.postValue(repository.getJobItemWithCustomer(newJobId))
         }
     }
 

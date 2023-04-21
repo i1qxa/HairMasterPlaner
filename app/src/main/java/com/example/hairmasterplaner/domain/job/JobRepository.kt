@@ -1,8 +1,6 @@
 package com.example.hairmasterplaner.domain.job
 
 import androidx.lifecycle.LiveData
-import com.example.hairmasterplaner.domain.job.JobItem
-import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 
 interface JobRepository {
 
@@ -14,7 +12,7 @@ interface JobRepository {
 
     suspend fun getJobItemWithCustomer(id:Long): JobItemWithCustomer
 
-    suspend fun addJobItem(jobItem: JobItem)
+    suspend fun addJobItem(jobItem: JobItem):Long
 
     suspend fun editJobItem(jobItem: JobItem)
 

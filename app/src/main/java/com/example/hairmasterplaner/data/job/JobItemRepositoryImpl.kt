@@ -35,8 +35,8 @@ class JobItemRepositoryImpl(application: Application) : JobRepository {
         return mapperJoin.mapDBToJobWithCustomer(dao.getJobItem(id))
     }
 
-    override suspend fun addJobItem(jobItem: JobItem) {
-        dao.addJobItem(mapper.mapJobItemToDBModel(jobItem))
+    override suspend fun addJobItem(jobItem: JobItem):Long {
+       return dao.addJobItem(mapper.mapJobItemToDBModel(jobItem))
     }
 
     override suspend fun editJobItem(jobItem: JobItem) {

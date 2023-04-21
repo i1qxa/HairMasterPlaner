@@ -22,7 +22,7 @@ interface JobItemDBModelDao {
     suspend fun getJobItem(id:Long): JobItemWithCustomerDBModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addJobItem(jobItem: JobItemDBModel)
+    suspend fun addJobItem(jobItem: JobItemDBModel):Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun editJobItem(jobItem: JobItemDBModel)
