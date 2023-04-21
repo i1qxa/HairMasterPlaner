@@ -8,4 +8,4 @@ import kotlinx.parcelize.Parcelize
 data class JobItemWithCustomer(
     val jobItem: JobItem,
     val customerItem: CustomerItem?,
-):Parcelable
+) : Parcelable

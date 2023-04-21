@@ -1,19 +1,19 @@
 package com.example.hairmasterplaner.ui.jobList
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
+import com.example.hairmasterplaner.domain.job.JobItemFullInfo
 
-class JobListDiffCallback:DiffUtil.ItemCallback<JobItemWithCustomer>() {
+class JobListDiffCallback:DiffUtil.ItemCallback<JobItemFullInfo>() {
     override fun areItemsTheSame(
-        oldItem: JobItemWithCustomer,
-        newItem: JobItemWithCustomer
+        oldItem: JobItemFullInfo,
+        newItem: JobItemFullInfo
     ): Boolean {
-        return oldItem.jobItem.id == newItem.jobItem.id
+        return oldItem.jobId == newItem.jobId
     }
 
     override fun areContentsTheSame(
-        oldItem: JobItemWithCustomer,
-        newItem: JobItemWithCustomer
+        oldItem: JobItemFullInfo,
+        newItem: JobItemFullInfo
     ): Boolean {
         return oldItem == newItem
     }

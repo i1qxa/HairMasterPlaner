@@ -25,18 +25,22 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
         get() = _newJob
 
     private var _dateRange = MutableLiveData(DateRange())
-    val dateRange:LiveData<DateRange>
-    get() = _dateRange
+    val dateRange: LiveData<DateRange>
+        get() = _dateRange
 
     private var currentTextView = TV_DATE_START
 
+    private val _selectedJobItem = MutableLiveData<JobItemWithCustomer?>()
+    val selectedJobItem: LiveData<JobItemWithCustomer?>
+        get() = _selectedJobItem
+
     val listOfJob = _dateRange.switchMap { dateRange ->
-        repository.getJobListInDateRange(dateRange.dateStart, dateRange.dateEnd)
+        repository.getJobFullInfoListInDateRange(dateRange.dateStart, dateRange.dateEnd)
     }
 
     fun changeDate(year: Int, month: Int, dayOfMonth: Int) {
         val calendar = Calendar.getInstance()
-        calendar.set(year, month-1, dayOfMonth)
+        calendar.set(year, month - 1, dayOfMonth)
         val dateInMils = calendar.timeInMillis
         when (currentTextView) {
             TV_DATE_START -> _dateRange.value?.dateStart = dateInMils
@@ -60,6 +64,16 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
             val newJobId = repository.addJobItem(newJob)
             _newJob.postValue(repository.getJobItemWithCustomer(newJobId))
         }
+    }
+
+    fun getNavigationData(jobId: Long) {
+        viewModelScope.launch {
+            _selectedJobItem.postValue(repository.getJobItemWithCustomer(jobId))
+        }
+    }
+
+    fun clearNavigationData(){
+        _selectedJobItem.value = null
     }
 
     fun clearNewJob() {

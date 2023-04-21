@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.hairmasterplaner.data.AppDatabase
 import com.example.hairmasterplaner.domain.job.JobItem
+import com.example.hairmasterplaner.domain.job.JobItemFullInfo
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 import com.example.hairmasterplaner.domain.job.JobRepository
 
@@ -26,6 +27,11 @@ class JobItemRepositoryImpl(application: Application) : JobRepository {
     ): LiveData<List<JobItemWithCustomer>> = dao.getJobListInDateRange(dateStart, dateEnd).map {
         mapperJoin.mapListDBToListJobWithCustomer(it)
     }
+
+    override fun getJobFullInfoListInDateRange(
+        dateStart: Long,
+        dateEnd: Long
+    ): LiveData<List<JobItemFullInfo>> = dao.getJobFullInfoListInDateRange(dateStart, dateEnd)
 
     override suspend fun getLastJobItemWithCustomer(): JobItemWithCustomer {
         return mapperJoin.mapDBToJobWithCustomer(dao.getLastJobItemWithCustomerDBModel())

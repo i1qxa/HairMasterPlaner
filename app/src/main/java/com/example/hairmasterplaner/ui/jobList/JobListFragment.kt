@@ -58,7 +58,7 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 requireContext(),
                 this,
                 dateStart.getYear(),
-                dateStart.getMonth()-1,
+                dateStart.getMonth() - 1,
                 dateStart.getDayOfMonth()
             )
                 .show()
@@ -69,13 +69,13 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 requireContext(),
                 this,
                 dateEnd.getYear(),
-                dateEnd.getMonth()-1,
+                dateEnd.getMonth() - 1,
                 dateEnd.getDayOfMonth()
             )
                 .show()
         }
         binding.tvChooseCustomer.setOnClickListener {
-            
+
         }
     }
 
@@ -85,8 +85,21 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun setupRVAdapter() {
         rvAdapter = JobListRVAdapter()
-        rvAdapter.onItemClickListener = {
-            findNavController().navigate(JobListFragmentDirections.actionNavJobListToNavJobBody(it))
+        rvAdapter.onItemClickListener = { jobId ->
+            viewModel.getNavigationData(jobId)
+        }
+    }
+
+    private fun observeSelectedJobItemWithCustomer() {
+        viewModel.selectedJobItem.observe(viewLifecycleOwner) { jobItemWithCustomer ->
+            if (jobItemWithCustomer != null) {
+                findNavController().navigate(
+                    JobListFragmentDirections.actionNavJobListToNavJobBody(
+                        jobItemWithCustomer
+                    )
+                )
+                viewModel.clearNavigationData()
+            }
         }
     }
 
@@ -105,12 +118,13 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         observeDateRange()
         observeJobList()
         observeNewJob()
+        observeSelectedJobItemWithCustomer()
     }
 
     private fun observeNewJob() {
         viewModel.newJob.observe(viewLifecycleOwner) { jobItemWithCustomer ->
             val newJob = jobItemWithCustomer
-            if (newJob!=null){
+            if (newJob != null) {
                 findNavController().navigate(
                     JobListFragmentDirections.actionNavJobListToNavJobBody(
                         newJob
@@ -127,7 +141,7 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun observeDateRange() {
-        viewModel.dateRange.observe(viewLifecycleOwner){ dateRange ->
+        viewModel.dateRange.observe(viewLifecycleOwner) { dateRange ->
             binding.tvDateStart.text = dateRange.dateStart.toDate()
             dateStart = dateRange.dateStart
             binding.tvDateEnd.text = dateRange.dateEnd.toDate()
@@ -136,9 +150,6 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun observeJobList() {
-//        viewModel.listOfJob.observe(viewLifecycleOwner) {
-//            rvAdapter.submitList(it)
-//        }
         viewModel.listOfJob.observe(viewLifecycleOwner) {
             rvAdapter.submitList(it)
         }
