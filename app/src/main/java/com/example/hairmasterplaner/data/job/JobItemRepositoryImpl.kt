@@ -21,12 +21,12 @@ class JobItemRepositoryImpl(application: Application) : JobRepository {
         }
 
 
-    override fun getJobListInDateRange(
-        dateStart: Long,
-        dateEnd: Long
-    ): LiveData<List<JobItemWithCustomer>> = dao.getJobListInDateRange(dateStart, dateEnd).map {
-        mapperJoin.mapListDBToListJobWithCustomer(it)
-    }
+//    override fun getJobListInDateRange(
+//        dateStart: Long,
+//        dateEnd: Long
+//    ): LiveData<List<JobItemWithCustomer>> = dao.getJobListInDateRange(dateStart, dateEnd).map {
+//        mapperJoin.mapListDBToListJobWithCustomer(it)
+//    }
 
     override fun getJobFullInfoListInDateRange(
         dateStart: Long,

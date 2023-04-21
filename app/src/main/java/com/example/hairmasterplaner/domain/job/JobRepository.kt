@@ -6,7 +6,7 @@ interface JobRepository {
 
     fun getJobListForCustomer(customerId:Int):LiveData<List<JobItemWithCustomer>>
 
-    fun getJobListInDateRange(dateStart:Long, dateEnd:Long):LiveData<List<JobItemWithCustomer>>
+    //fun getJobListInDateRange(dateStart:Long, dateEnd:Long):LiveData<List<JobItemWithCustomer>>
 
     fun getJobFullInfoListInDateRange(dateStart: Long, dateEnd:Long):LiveData<List<JobItemFullInfo>>
 

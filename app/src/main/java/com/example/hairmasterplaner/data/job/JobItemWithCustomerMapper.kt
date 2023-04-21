@@ -1,7 +1,6 @@
 package com.example.hairmasterplaner.data.job
 
 import com.example.hairmasterplaner.data.customer.CustomerMapper
-import com.example.hairmasterplaner.domain.job.JobItemFullInfo
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 
 class JobItemWithCustomerMapper {
@@ -16,26 +15,12 @@ class JobItemWithCustomerMapper {
         )
     }
 
-//    fun mapDBToJobItemFullInfo(dbItem: JobItemFullInfoDBModel): JobItemFullInfo {
-//        return JobItemFullInfo(
-//            jobId = jobItemMapper.mapDBModelToJobItem(dbItem.jobItemDBModel),
-//            customerItem = dbItem.customerItemDB?.let { customerMapper.mapDBModelToCustomer(it) },
-//            totalSum = dbItem.totalSumDB
-//        )
-//    }
-
     fun mapJobWithCustomerToDB(item: JobItemWithCustomer): JobItemWithCustomerDBModel {
         return JobItemWithCustomerDBModel(
             jobItemDBModel = jobItemMapper.mapJobItemToDBModel(item.jobItem),
             customerItemDBModel = item.customerItem?.let { customerMapper.mapCustomerToDBModel(it) }
         )
     }
-
-//    fun mapListDBFullInfo(listDB:List<JobItemFullInfoDBModel>):List<JobItemFullInfo>{
-//        return listDB.map {
-//            mapDBToJobItemFullInfo(it)
-//        }
-//    }
 
     fun mapListDBToListJobWithCustomer(listDB: List<JobItemWithCustomerDBModel>): List<JobItemWithCustomer> {
         return listDB.map {

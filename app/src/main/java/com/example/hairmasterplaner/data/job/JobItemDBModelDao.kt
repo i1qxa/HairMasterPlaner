@@ -14,8 +14,8 @@ interface JobItemDBModelDao {
     @Query("SELECT * FROM jobitemdbmodel WHERE customerId = :customerId")
     fun getJobListForCustomer(customerId:Int): LiveData<List<JobItemWithCustomerDBModel>>
 
-    @Query("SELECT * FROM jobitemdbmodel WHERE dateInMils >= :dateStart AND dateInMils <= :dateEnd")
-    fun getJobListInDateRange(dateStart:Long, dateEnd:Long): LiveData<List<JobItemWithCustomerDBModel>>
+//    @Query("SELECT * FROM jobitemdbmodel WHERE dateInMils >= :dateStart AND dateInMils <= :dateEnd")
+//    fun getJobListInDateRange(dateStart:Long, dateEnd:Long): LiveData<List<JobItemWithCustomerDBModel>>
 
     @Query("SELECT job.id AS jobId, job.dateInMils AS dateInMils, customer.name AS customerName, SUM(body.amount * body.price) AS totalSum " +
             "FROM jobitemdbmodel AS job " +
