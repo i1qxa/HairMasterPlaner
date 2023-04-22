@@ -1,9 +1,14 @@
 package com.example.hairmasterplaner.ui.customerList
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -11,7 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.databinding.FragmentCustomerListBinding
 import com.example.hairmasterplaner.ui.jobBodyList.CUSTOMER_RESULT_REQUEST_KEY
+import com.example.hairmasterplaner.ui.printToLog
+import com.example.hairmasterplaner.ui.toast
 
+
+const val REQUEST_CODE_READ_CONTACT = 10
 class CustomerListFragment : Fragment() {
 
     private var _binding: FragmentCustomerListBinding? = null
@@ -67,7 +76,12 @@ class CustomerListFragment : Fragment() {
         binding.fabAddNewCustomer.setOnClickListener {
             findNavController().navigate(CustomerListFragmentDirections.actionNavCustomerListToFragmentCustomerItem(null))
         }
+        binding.fabAddFromContacts.setOnClickListener {
+            findNavController().navigate(CustomerListFragmentDirections.actionNavCustomerListToAddCustomerFromContacts())
+        }
     }
+
+
 
     private fun setupRecyclerView() {
         with(binding.rvCustomerList) {

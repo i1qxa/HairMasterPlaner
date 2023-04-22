@@ -32,6 +32,9 @@
             android:name="chooseCustomer"
             app:argType="boolean"
              />
+        <action
+            android:id="@+id/action_nav_customer_list_to_addCustomerFromContacts"
+            app:destination="@id/addCustomerFromContacts" />
     </fragment>
 
     <fragment
@@ -112,4 +115,13 @@
             android:name="digitToEdit"
             app:argType="integer" />
     </dialog>
+    <fragment
+        android:id="@+id/addCustomerFromContacts"
+        android:name="com.example.hairmasterplaner.ui.customerList.addCustomerFromContacts.AddCustomerFromContacts"
+        android:label="fragment_add_customer_from_contacts"
+        tools:layout="@layout/fragment_add_customer_from_contacts" >
+        <action
+            android:id="@+id/action_addCustomerFromContacts_to_nav_customer_list"
+            app:destination="@id/nav_customer_list" />
+    </fragment>
 </navigation>
