@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.databinding.FragmentCustomerListBinding
@@ -19,7 +18,7 @@ class CustomerListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var rvAdapter: CustomerRVAdapter
     private lateinit var customerViewModel: CustomerListViewModel
-    private val args by navArgs<CustomerListFragmentArgs>()
+    private lateinit var args: Bundle
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +28,7 @@ class CustomerListFragment : Fragment() {
         customerViewModel =
             ViewModelProvider(this)[CustomerListViewModel::class.java]
         _binding = FragmentCustomerListBinding.inflate(inflater, container, false)
+        args = requireArguments()
         return binding.root
     }
 
@@ -44,7 +44,7 @@ class CustomerListFragment : Fragment() {
         rvAdapter = CustomerRVAdapter()
         with(rvAdapter) {
             onItemClickListener = {
-                if (!args.chooseCustomer) {
+                if (!args.containsKey(CUSTOMER_RESULT_REQUEST_KEY)) {
                     findNavController().navigate(
                         CustomerListFragmentDirections.actionNavCustomerListToFragmentCustomerItem(
                             it

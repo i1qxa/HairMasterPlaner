@@ -15,27 +15,13 @@ class JobItemRepositoryImpl(application: Application) : JobRepository {
     private val mapperJoin = JobItemWithCustomerMapper()
     private val dao = AppDatabase.getInstance(application).jobItemDBModelDao()
 
-    override fun getJobListForCustomer(customerId: Int): LiveData<List<JobItemWithCustomer>> =
-        dao.getJobListForCustomer(customerId).map {
-            mapperJoin.mapListDBToListJobWithCustomer(it)
-        }
-
-
-//    override fun getJobListInDateRange(
-//        dateStart: Long,
-//        dateEnd: Long
-//    ): LiveData<List<JobItemWithCustomer>> = dao.getJobListInDateRange(dateStart, dateEnd).map {
-//        mapperJoin.mapListDBToListJobWithCustomer(it)
-//    }
+    override fun getJobListForCustomer(customerId: Int): LiveData<List<JobItemFullInfo>> =
+        dao.getJobListForCustomer(customerId)
 
     override fun getJobFullInfoListInDateRange(
         dateStart: Long,
         dateEnd: Long
     ): LiveData<List<JobItemFullInfo>> = dao.getJobFullInfoListInDateRange(dateStart, dateEnd)
-
-    override suspend fun getLastJobItemWithCustomer(): JobItemWithCustomer {
-        return mapperJoin.mapDBToJobWithCustomer(dao.getLastJobItemWithCustomerDBModel())
-    }
 
     override suspend fun getJobItemWithCustomer(id: Long): JobItemWithCustomer {
         return mapperJoin.mapDBToJobWithCustomer(dao.getJobItem(id))

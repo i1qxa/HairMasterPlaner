@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.*
 import com.example.hairmasterplaner.databinding.FragmentJobListBinding
+import com.example.hairmasterplaner.domain.customer.CustomerItem
+import com.example.hairmasterplaner.ui.jobBodyList.CUSTOMER_RESULT_REQUEST_KEY
 
 class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
@@ -48,6 +50,7 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         setupRVAdapter()
         setupRecyclerView()
         observeViewModel()
+        observeResultChooseCustomer()
     }
 
 
@@ -75,12 +78,22 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 .show()
         }
         binding.tvChooseCustomer.setOnClickListener {
-
+            findNavController().navigate(JobListFragmentDirections.actionNavJobListToNavCustomerList(true))
+        }
+        binding.imgClearCustomer.setOnClickListener {
+            viewModel.clearCustomerFilter()
         }
     }
 
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         viewModel.changeDate(year, month, dayOfMonth)
+    }
+
+    private fun observeResultChooseCustomer(){
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<CustomerItem>(
+            CUSTOMER_RESULT_REQUEST_KEY)?.observe(viewLifecycleOwner){ customer ->
+            viewModel.setCustomerFilter(customer)
+        }
     }
 
     private fun setupRVAdapter() {
@@ -115,7 +128,7 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun observeViewModel() {
-        observeDateRange()
+        observeFilter()
         observeJobList()
         observeNewJob()
         observeSelectedJobItemWithCustomer()
@@ -140,12 +153,13 @@ class JobListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
-    private fun observeDateRange() {
-        viewModel.dateRange.observe(viewLifecycleOwner) { dateRange ->
-            binding.tvDateStart.text = dateRange.dateStart.toDate()
-            dateStart = dateRange.dateStart
-            binding.tvDateEnd.text = dateRange.dateEnd.toDate()
-            dateEnd = dateRange.dateEnd
+    private fun observeFilter() {
+        viewModel.jobFilter.observe(viewLifecycleOwner){ filter ->
+            binding.tvDateStart.text = filter.dateRange.dateStart.toDate()
+            dateStart = filter.dateRange.dateStart
+            binding.tvDateEnd.text = filter.dateRange.dateEnd.toDate()
+            dateEnd = filter.dateRange.dateEnd
+            binding.tvChooseCustomer.text = filter.customer?.name
         }
     }
 

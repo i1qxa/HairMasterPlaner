@@ -4,13 +4,9 @@ import androidx.lifecycle.LiveData
 
 interface JobRepository {
 
-    fun getJobListForCustomer(customerId:Int):LiveData<List<JobItemWithCustomer>>
-
-    //fun getJobListInDateRange(dateStart:Long, dateEnd:Long):LiveData<List<JobItemWithCustomer>>
+    fun getJobListForCustomer(customerId:Int):LiveData<List<JobItemFullInfo>>
 
     fun getJobFullInfoListInDateRange(dateStart: Long, dateEnd:Long):LiveData<List<JobItemFullInfo>>
-
-    suspend fun getLastJobItemWithCustomer():JobItemWithCustomer
 
     suspend fun getJobItemWithCustomer(id:Long): JobItemWithCustomer
 

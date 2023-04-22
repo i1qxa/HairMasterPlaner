@@ -5,13 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.priceRegisterList.PriceRegisterListFragment">
-<io.ghyeok.stickyswitch.widget.StickySwitch
-    android:id="@+id/switchJobElementType"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:checked="true"
-    android:text="@string/services"
-    />
 
     <EditText
         android:id="@+id/editTextNumber"

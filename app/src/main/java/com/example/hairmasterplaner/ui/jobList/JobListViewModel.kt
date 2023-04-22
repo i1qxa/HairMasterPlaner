@@ -8,7 +8,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.example.hairmasterplaner.data.job.JobItemRepositoryImpl
+import com.example.hairmasterplaner.domain.customer.CustomerItem
 import com.example.hairmasterplaner.domain.job.DateRange
+import com.example.hairmasterplaner.domain.job.JobFilter
 import com.example.hairmasterplaner.domain.job.JobItem
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 import kotlinx.coroutines.launch
@@ -28,14 +30,22 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
     val dateRange: LiveData<DateRange>
         get() = _dateRange
 
-    private var currentTextView = TV_DATE_START
+    private val _jobFilter = MutableLiveData(JobFilter(DateRange(), null))
+    val jobFilter:LiveData<JobFilter>
+        get() = _jobFilter
 
+    private var currentTextView = TV_DATE_START
     private val _selectedJobItem = MutableLiveData<JobItemWithCustomer?>()
+
     val selectedJobItem: LiveData<JobItemWithCustomer?>
         get() = _selectedJobItem
 
-    val listOfJob = _dateRange.switchMap { dateRange ->
-        repository.getJobFullInfoListInDateRange(dateRange.dateStart, dateRange.dateEnd)
+    val listOfJob = _jobFilter.switchMap { filter ->
+        if (filter.customer == null) {
+            repository.getJobFullInfoListInDateRange(filter.dateRange.dateStart, filter.dateRange.dateEnd)
+        }else{
+            repository.getJobListForCustomer(filter.customer!!.id)
+        }
     }
 
     fun changeDate(year: Int, month: Int, dayOfMonth: Int) {
@@ -47,6 +57,18 @@ class JobListViewModel(application: Application) : AndroidViewModel(application)
             else -> _dateRange.value?.dateEnd = dateInMils
         }
         _dateRange.value = _dateRange.value
+        _jobFilter.value?.dateRange = _dateRange.value!!
+        _jobFilter.value = _jobFilter.value
+    }
+
+    fun setCustomerFilter(customer:CustomerItem){
+        _jobFilter.value?.customer = customer
+        _jobFilter.value = _jobFilter.value
+    }
+
+    fun clearCustomerFilter(){
+        _jobFilter.value?.customer = null
+        _jobFilter.value = _jobFilter.value
     }
 
     fun setCurrentTextView(isDateStart: Boolean) {
