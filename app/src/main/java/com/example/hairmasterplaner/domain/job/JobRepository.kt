@@ -1,20 +1,16 @@
 package com.example.hairmasterplaner.domain.job
 
 import androidx.lifecycle.LiveData
-import com.example.hairmasterplaner.domain.job.JobItem
-import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 
 interface JobRepository {
 
-    fun getJobListForCustomer(customerId:Int):LiveData<List<JobItemWithCustomer>>
+    fun getJobListForCustomer(customerId:Int):LiveData<List<JobItemFullInfo>>
 
-    fun getJobListInDateRange(dateStart:Long, dateEnd:Long):LiveData<List<JobItemWithCustomer>>
-
-    suspend fun getLastJobItemWithCustomer():JobItemWithCustomer
+    fun getJobFullInfoListInDateRange(dateStart: Long, dateEnd:Long):LiveData<List<JobItemFullInfo>>
 
     suspend fun getJobItemWithCustomer(id:Long): JobItemWithCustomer
 
-    suspend fun addJobItem(jobItem: JobItem)
+    suspend fun addJobItem(jobItem: JobItem):Long
 
     suspend fun editJobItem(jobItem: JobItem)
 

@@ -11,5 +11,5 @@ data class JobItemWithCustomerDBModel(
         parentColumn = "customerId",
         entityColumn = "id"
     )
-    val customerItemDBModel: CustomerItemDBModel?
+    val customerItemDBModel: CustomerItemDBModel?,
 )

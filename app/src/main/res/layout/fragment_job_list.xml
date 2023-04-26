@@ -14,13 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateStart" />
+        app:layout_constraintTop_toBottomOf="@+id/tvChooseCustomer" />
 
     <TextView
         android:id="@+id/dateStartHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/date_start_header"/>
@@ -59,10 +60,18 @@
         android:id="@+id/tvChooseCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/tvDateEnd"
-        app:layout_constraintTop_toTopOf="@id/tvDateEnd"
         android:hint="@string/tv_choose_customer"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateStartHeader" />
+
+    <ImageView
+        android:id="@+id/imgClearCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@id/tvChooseCustomer"
+        app:layout_constraintStart_toEndOf="@id/tvChooseCustomer"
+        app:layout_constraintTop_toTopOf="@id/tvChooseCustomer" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddNewJob"

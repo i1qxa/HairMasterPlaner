@@ -21,32 +21,6 @@ class DateRange {
             if (field<dateStart) dateStart = value
         }
 
-//    private fun getBeginOfDay(date: Long):Long{
-//        val calendar = Calendar.getInstance()
-//        calendar.set(
-//            date.getYear(),
-//            date.getMonth(),
-//            date.getDayOfMonth(),
-//            0,
-//            0,
-//            0
-//            )
-//        return calendar.timeInMillis
-//    }
-
-//    private fun getEndOfDay(date: Long):Long{
-//        val calendar = Calendar.getInstance()
-//        calendar.set(
-//            date.getYear(),
-//            date.getMonth(),
-//            date.getDayOfMonth(),
-//            23,
-//            59,
-//            59
-//        )
-//        return calendar.timeInMillis
-//    }
-
     override fun equals(other: Any?): Boolean =
         other is DateRange && other.dateStart == dateStart && other.dateEnd == dateEnd
 
