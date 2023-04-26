@@ -8,7 +8,7 @@ import com.example.hairmasterplaner.domain.customer.CustomerItem
 import com.example.hairmasterplaner.domain.job.JobItemWithCustomer
 import com.example.hairmasterplaner.domain.jobBody.JobBodyItem
 import com.example.hairmasterplaner.domain.jobBody.JobBodyWithJobElement
-import com.example.hairmasterplaner.domain.jobElement.JobElementItem
+import com.example.hairmasterplaner.domain.services.ServiceItem
 import kotlinx.coroutines.launch
 
 const val NEW_ITEM_AMOUNT = 1
@@ -38,9 +38,9 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     val priceOfNewItem: LiveData<Int?>
         get() = _priceOfNewItem
 
-    private var _newJobElementItem = MutableLiveData<JobElementItem?>()
-    val newJobElementItem: LiveData<JobElementItem?>
-        get() = _newJobElementItem
+    private var _newServiceItem = MutableLiveData<ServiceItem?>()
+    val newServiceItem: LiveData<ServiceItem?>
+        get() = _newServiceItem
 
     private val _totalSum = _jobItemWithCustomerLD.switchMap { jobItemWithCustomer ->
         repository.getSumOfJob(jobItemWithCustomer.jobItem.id)
@@ -80,8 +80,8 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
         } else throw RuntimeException("Unknown code of TextView")
     }
 
-    fun setupNewJobElement(elementItem: JobElementItem) {
-        _newJobElementItem.value = elementItem
+    fun setupNewJobElement(elementItem: ServiceItem) {
+        _newServiceItem.value = elementItem
         _priceOfNewItem.value = elementItem.price ?: 0
     }
 
@@ -115,7 +115,7 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
 
     fun addJobBodyItem() {
         val jobId = _jobItemWithCustomerLD.value?.jobItem?.id
-        val jobElementId = _newJobElementItem.value?.id
+        val jobElementId = _newServiceItem.value?.id
         val amount = _amountOfNewItem.value ?: 1
         val price = _priceOfNewItem.value ?: 0
         if (jobId != null && jobElementId != null) {
@@ -134,7 +134,7 @@ class JobBodyViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun clearNewJobElementData() {
-        _newJobElementItem.value = null
+        _newServiceItem.value = null
         _priceOfNewItem.value = 0
         _amountOfNewItem.value = 0
     }

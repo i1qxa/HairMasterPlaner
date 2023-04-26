@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.example.hairmasterplaner.data.job.JobItemDBModel
-import com.example.hairmasterplaner.data.jobElement.JobElementItemDBModel
+import com.example.hairmasterplaner.data.services.ServiceItemDBModel
 
 @Entity(
     foreignKeys = [
@@ -15,7 +15,7 @@ import com.example.hairmasterplaner.data.jobElement.JobElementItemDBModel
             childColumns = ["jobId"]
         ),
     ForeignKey(
-        entity = JobElementItemDBModel::class,
+        entity = ServiceItemDBModel::class,
         parentColumns = ["id"],
         childColumns = ["jobElementId"]
     )

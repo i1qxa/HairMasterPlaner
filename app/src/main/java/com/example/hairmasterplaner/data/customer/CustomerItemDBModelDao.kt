@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.hairmasterplaner.data.customer.CustomerItemDBModel
+import com.example.hairmasterplaner.domain.customer.CustomerItem
 
 @Dao
 interface CustomerItemDBModelDao {
@@ -18,6 +19,9 @@ interface CustomerItemDBModelDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCustomerItem(customerItem: CustomerItemDBModel)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addListCustomer(customerList:List<CustomerItemDBModel>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun editCustomerItem(customerItem: CustomerItemDBModel)

@@ -2,7 +2,7 @@ package com.example.hairmasterplaner.data.jobBody
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.example.hairmasterplaner.data.jobElement.JobElementItemDBModel
+import com.example.hairmasterplaner.data.services.ServiceItemDBModel
 
 data class JobBodyItemWithJobElementItemDBModel(
     @Embedded
@@ -11,5 +11,5 @@ data class JobBodyItemWithJobElementItemDBModel(
         parentColumn = "jobElementId",
         entityColumn = "id"
     )
-    val jobElementItem: JobElementItemDBModel
+    val jobElementItem: ServiceItemDBModel
 )

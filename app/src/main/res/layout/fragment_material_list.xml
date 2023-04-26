@@ -4,19 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.customerList.addCustomerFromContacts.AddCustomerFromContactsFragment">
+    android:orientation="vertical"
+    tools:context=".ui.materialList.MaterialListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvContactsList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/rvListMaterial"
+       android:layout_width="0dp"
+       android:layout_height="0dp"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddContactsToCustomers"
+        android:id="@+id/fabAddMaterialItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@android:drawable/ic_input_add" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

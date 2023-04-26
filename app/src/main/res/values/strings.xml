@@ -14,10 +14,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_job_list">Работы</string>
     <string name="menu_customer_list">Список клиентов</string>
-    <string name="menu_price_register">Регистр цен</string>
-    <string name="menu_job_element_list">Услуги и материалы</string>
+    <string name="menu_material_list">Материалы</string>
+    <string name="menu_service_list">Услуги</string>
     <string name="menu_job_body">Работа</string>
-    <string name="hint_job_element_name">Введите название услуги или материала</string>
+    <string name="hint_service_item_name">Введите название услуги</string>
     <string name="switch_name">Услуга</string>
     <string name="hint_unit_o_m">Укажите еденицу измерения</string>
     <string name="btnSave_name">Сохранить</string>
@@ -42,5 +42,10 @@
     <string name="hint_sample_of_date">21.02.2023</string>
     <string name="hint_sample_sum_of_job">5490</string>
     <string name="tv_choose_customer">Выберите клиента</string>
+    <string name="toast_msg_amount_added_position"> записей было добавлено</string>
+    <string name="hint_enter_material_name">Введите название услуги</string>
+    <string name="hint_enter_purchase_price">Введите цену закупки</string>
+    <string name="hint_enter_rtl_price">Введите цену продажи</string>
+    <string name="error_material_name_should_not_be_empty">Название материала не должно быть пустым</string>
 
 </resources>

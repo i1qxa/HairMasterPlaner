@@ -1,7 +1,6 @@
 package com.example.hairmasterplaner.ui.customerList.customerItem
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.hairmasterplaner.R
 import com.example.hairmasterplaner.databinding.FragmentCustomerItemEditingBinding
-import com.example.hairmasterplaner.ui.jobElementList.jobElementItem.JobElementItemFragmentArgs
 
 class FragmentCustomerItem : DialogFragment() {
 

@@ -1,23 +1,23 @@
 package com.example.hairmasterplaner.data.jobBody
 
-import com.example.hairmasterplaner.data.jobElement.JobElementMapper
+import com.example.hairmasterplaner.data.services.ServiceMapper
 import com.example.hairmasterplaner.domain.jobBody.JobBodyWithJobElement
 
 class JobBodyWithJobElementMapper {
     private val jobBodyMapper = JobBodyMapper()
-    private val jobElementMapper = JobElementMapper()
+    private val serviceMapper = ServiceMapper()
 
     fun mapDBToJobBodyWithJobElement(itemDB:JobBodyItemWithJobElementItemDBModel):JobBodyWithJobElement{
         return JobBodyWithJobElement(
             jobBodyMapper.mapDBToJobBodyItem(itemDB.jobBodyItem),
-            jobElementMapper.mapDBModelToJobElementItem(itemDB.jobElementItem)
+            serviceMapper.mapDBToServiceItem(itemDB.jobElementItem)
         )
     }
 
     fun mapJobBodyWithJobElementToDB(item:JobBodyWithJobElement):JobBodyItemWithJobElementItemDBModel{
         return JobBodyItemWithJobElementItemDBModel(
             jobBodyMapper.mapJobBodyItemToDB(item.jobBodyItem),
-            jobElementMapper.mapJobElementItemToDBModel(item.jobElementItem)
+            serviceMapper.mapServiceItemTODB(item.serviceItem)
         )
     }
 

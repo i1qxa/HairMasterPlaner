@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.hairmasterplaner.R
-import com.example.hairmasterplaner.domain.jobElement.JobElementItem
+import com.example.hairmasterplaner.domain.services.ServiceItem
 
-class MySpinnerAdapter(context: Context, listCustomers: List<JobElementItem>) :
-    ArrayAdapter<JobElementItem>(context, 0, listCustomers) {
+class MySpinnerAdapter(context: Context, listCustomers: List<ServiceItem>) :
+    ArrayAdapter<ServiceItem>(context, 0, listCustomers) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         return initView(position,convertView,parent)
     }

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hairmasterplaner.databinding.FragmentJobBodyBinding
 import com.example.hairmasterplaner.domain.customer.CustomerItem
-import com.example.hairmasterplaner.domain.jobElement.JobElementItem
+import com.example.hairmasterplaner.domain.services.ServiceItem
 import com.example.hairmasterplaner.toDateTime
 import com.example.hairmasterplaner.ui.toast
 
@@ -178,7 +178,7 @@ class JobBodyFragment : Fragment() {
     }
 
     private fun observeJobElement() {
-        viewModel.newJobElementItem.observe(viewLifecycleOwner) {
+        viewModel.newServiceItem.observe(viewLifecycleOwner) {
             binding.tvChooseJobElement.text = it?.name
         }
     }
@@ -208,7 +208,7 @@ class JobBodyFragment : Fragment() {
     }
 
     private fun observeResultChooseJobElement() {
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<JobElementItem>(
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<ServiceItem>(
             JOB_ELEMENT_RESULT_REQUEST_KEY
         )?.observe(viewLifecycleOwner) { elementItem ->
             viewModel.setupNewJobElement(elementItem)

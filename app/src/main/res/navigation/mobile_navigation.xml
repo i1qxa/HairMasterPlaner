@@ -38,14 +38,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_job_element_list"
-        android:name="com.example.hairmasterplaner.ui.jobElementList.JobElementFragment"
-        android:label="@string/menu_job_element_list"
-        tools:layout="@layout/fragment_job_element_list" >
+        android:id="@+id/nav_service_list"
+        android:name="com.example.hairmasterplaner.ui.serviceList.ServiceListFragment"
+        android:label="@string/menu_service_list"
+        tools:layout="@layout/fragment_service_list" >
 
         <action
-            android:id="@+id/action_nav_job_element_list_to_jobElementItemFragment"
-            app:destination="@id/jobElementItemFragment" />
+            android:id="@+id/action_nav_service_list_to_ServiceItemFragment"
+            app:destination="@id/ServiceItemFragment" />
         <argument
             android:name="choose_job_element"
             app:argType="boolean"/>
@@ -69,19 +69,23 @@
             app:destination="@id/myNumKeyboardDialog" />
         <action
             android:id="@+id/action_nav_job_body_to_nav_job_element_list"
-            app:destination="@id/nav_job_element_list" />
+            app:destination="@id/nav_service_list" />
     </fragment>
 
     <fragment
-        android:id="@+id/nav_price_register_list"
-        android:name="com.example.hairmasterplaner.ui.priceRegisterList.PriceRegisterListFragment"
-        android:label="@string/menu_price_register"
-        tools:layout="@layout/fragment_price_register" />
+        android:id="@+id/nav_material_list"
+        android:name="com.example.hairmasterplaner.ui.materialList.MaterialListFragment"
+        android:label="@string/menu_material_list"
+        tools:layout="@layout/fragment_material_list" >
+        <action
+            android:id="@+id/action_nav_material_list_to_materialItemFragment"
+            app:destination="@id/materialItemFragment" />
+    </fragment>
     <dialog
-        android:id="@+id/jobElementItemFragment"
-        android:name="com.example.hairmasterplaner.ui.jobElementList.jobElementItem.JobElementItemFragment"
+        android:id="@+id/ServiceItemFragment"
+        android:name="com.example.hairmasterplaner.ui.serviceList.serviceItem.ServiceItemFragment"
         android:label="fragment_job_element_item_editing"
-        tools:layout="@layout/fragment_job_element_item_editing" >
+        tools:layout="@layout/fragment_service_item" >
 
         <argument
             android:name="jobElementItem"
@@ -89,7 +93,7 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_jobElementItemFragment_to_nav_job_element_list"
-            app:destination="@id/nav_job_element_list" />
+            app:destination="@id/nav_service_list" />
     </dialog>
     <fragment
         android:id="@+id/fragmentCustomerItem"
@@ -117,11 +121,27 @@
     </dialog>
     <fragment
         android:id="@+id/addCustomerFromContacts"
-        android:name="com.example.hairmasterplaner.ui.customerList.addCustomerFromContacts.AddCustomerFromContacts"
+        android:name="com.example.hairmasterplaner.ui.customerList.addCustomerFromContacts.AddCustomerFromContactsFragment"
         android:label="fragment_add_customer_from_contacts"
         tools:layout="@layout/fragment_add_customer_from_contacts" >
         <action
             android:id="@+id/action_addCustomerFromContacts_to_nav_customer_list"
             app:destination="@id/nav_customer_list" />
+    </fragment>
+    <fragment
+        android:id="@+id/materialItemFragment"
+        android:name="com.example.hairmasterplaner.ui.materialList.materialItem.MaterialItemFragment"
+        android:label="fragment_material_item"
+        tools:layout="@layout/fragment_material_item" >
+        <action
+            android:id="@+id/action_materialItemFragment_to_nav_material_list"
+            app:destination="@id/nav_material_list" />
+        <argument
+            android:name="materialItem"
+            app:argType="com.example.hairmasterplaner.domain.materials.MaterialItem"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_materialItemFragment_to_myNumKeyboardDialog"
+            app:destination="@id/myNumKeyboardDialog" />
     </fragment>
 </navigation>

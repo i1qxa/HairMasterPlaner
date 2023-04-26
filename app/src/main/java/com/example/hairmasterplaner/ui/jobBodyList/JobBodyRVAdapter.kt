@@ -29,7 +29,7 @@ class JobBodyRVAdapter:ListAdapter<JobBodyWithJobElement, JobBodyViewHolder>(Job
         val item = getItem(position)
         with(holder){
             tvOrderNumber.text = position.toString()
-            tvJobElementItemName.text = item.jobElementItem.name
+            tvJobElementItemName.text = item.serviceItem.name
             tvAmounOfItem.text = item.jobBodyItem.amount.toString()
             tvPriceOfItem.text = item.jobBodyItem.price.toString()
             tvSumOfItem.text = item.jobBodyItem.getSum().toString()

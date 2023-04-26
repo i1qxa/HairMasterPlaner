@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.nav_job_list,
                 R.id.nav_customer_list,
-                R.id.nav_job_element_list,
-                R.id.nav_price_register_list
+                R.id.nav_service_list,
+                R.id.nav_material_list
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

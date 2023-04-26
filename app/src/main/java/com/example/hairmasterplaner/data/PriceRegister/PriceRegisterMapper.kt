@@ -1,10 +1,10 @@
 package com.example.hairmasterplaner.data.PriceRegister
 
-import com.example.hairmasterplaner.data.jobElement.JobElementMapper
+import com.example.hairmasterplaner.data.services.ServiceMapper
 import com.example.hairmasterplaner.domain.PriceRegister.PriceRegisterItem
 
 class PriceRegisterMapper {
-    val jobElementMapper = JobElementMapper()
+    val serviceMapper = ServiceMapper()
     fun mapPriceRegisterDBToPriceRegister(priceRegisterDB: PriceRegisterItemDBModel):
             PriceRegisterItem {
         return PriceRegisterItem(

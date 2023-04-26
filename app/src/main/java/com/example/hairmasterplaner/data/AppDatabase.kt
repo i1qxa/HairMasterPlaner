@@ -10,10 +10,12 @@ import com.example.hairmasterplaner.data.job.JobItemDBModel
 import com.example.hairmasterplaner.data.job.JobItemDBModelDao
 import com.example.hairmasterplaner.data.jobBody.JobBodyItemDBModel
 import com.example.hairmasterplaner.data.jobBody.JobBodyItemDBModelDao
-import com.example.hairmasterplaner.data.jobElement.JobElementItemDBModel
-import com.example.hairmasterplaner.data.jobElement.JobElementItemDBModelDao
+import com.example.hairmasterplaner.data.services.ServiceItemDBModel
+import com.example.hairmasterplaner.data.services.ServiceDBModelDao
 import com.example.hairmasterplaner.data.PriceRegister.PriceRegisterDao
 import com.example.hairmasterplaner.data.PriceRegister.PriceRegisterItemDBModel
+import com.example.hairmasterplaner.data.materials.MaterialItemDBModel
+import com.example.hairmasterplaner.data.materials.MaterialItemDBModelDao
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.internal.synchronized
 
@@ -22,9 +24,10 @@ import kotlinx.coroutines.internal.synchronized
         CustomerItemDBModel::class,
         JobItemDBModel::class,
         JobBodyItemDBModel::class,
-        JobElementItemDBModel::class,
+        ServiceItemDBModel::class,
         PriceRegisterItemDBModel::class,
-        ],
+        MaterialItemDBModel::class,
+    ],
     version = 1, exportSchema = false
 )
 
@@ -32,8 +35,9 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun customerItemDBModelDao(): CustomerItemDBModelDao
     abstract fun jobItemDBModelDao(): JobItemDBModelDao
     abstract fun jobBodyItemDBModelDao(): JobBodyItemDBModelDao
-    abstract fun jobElementItemDBModelDao(): JobElementItemDBModelDao
+    abstract fun jobElementItemDBModelDao(): ServiceDBModelDao
     abstract fun jobElementPriceRegisterDao(): PriceRegisterDao
+    abstract fun materialItemDBModelDao(): MaterialItemDBModelDao
 
     companion object {
         private var INSTANCE: AppDatabase? = null

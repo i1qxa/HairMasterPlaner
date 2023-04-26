@@ -15,4 +15,6 @@ interface CustomerRepository {
 
     suspend fun deleteCustomerItem(id:Int)
 
+    suspend fun addListContacts(contactsList:List<ContactsItem>)
+
 }
